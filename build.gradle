@@ -59,7 +59,7 @@ idea {
 // Include Pixel.gwt.xml in the JAR without moving it
 jar {
     from(sourceSets.main.allSource) {
-        include 'com/pixelgamelibrary/Pixel.gwt.xml'
+        include 'com/pixelgamelibrary/pixelapi.gwt.xml'
     }
 }
 
