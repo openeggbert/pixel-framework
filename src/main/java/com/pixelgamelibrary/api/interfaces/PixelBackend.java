@@ -19,8 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api.interfaces;
 
-import com.pixelgamelibrary.api.Platform;
-
 /**
  *
  * @author robertvokac

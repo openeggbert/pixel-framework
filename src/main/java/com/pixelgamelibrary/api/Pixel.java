@@ -19,7 +19,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api;
 
-import com.pixelgamelibrary.api.PixelException;
 import com.pixelgamelibrary.api.interfaces.AppI;
 import com.pixelgamelibrary.api.interfaces.AssetI;
 import com.pixelgamelibrary.api.interfaces.AudioI;
@@ -89,7 +88,7 @@ public class Pixel {
 
     private static PixelBackend getBackend() {
         if (!isBackendSet()) {
-            throw new PixelException("Pixel Backend was not set");
+            throw new PixelException("Pixel Backend was not yet set");
         }
         return INSTANCE;
     }

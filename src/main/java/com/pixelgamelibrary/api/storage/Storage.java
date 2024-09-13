@@ -99,7 +99,13 @@ public interface Storage {
     
     public void flush();
     
-    default String uname() {return OPENEGGBERT;}
-    static final String OPENEGGBERT = "openeggbert";
+    default String uname() {return USER;}
+    static final String USER = "user";
 
+     /**
+      * If the size of this storage is limited, then the count of bytes is returned, otherwise 0 is returned.
+      */
+    default int sizelimitedto() {
+         return 0;
+     }
 }
