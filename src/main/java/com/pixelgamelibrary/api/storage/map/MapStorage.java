@@ -348,6 +348,9 @@ public class MapStorage implements Storage {
 
     @Override
     public boolean isdir(String name) {
+        if(name.equals(SLASH)) {
+            return true;
+        }
         // Check if the path is a directory
         return filetype(name) == MapFileType.DIRECTORY;
     }
