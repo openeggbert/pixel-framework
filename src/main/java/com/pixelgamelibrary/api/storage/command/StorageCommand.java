@@ -20,19 +20,49 @@
 package com.pixelgamelibrary.api.storage.command;
 
 /**
- *
+ * The {@code StorageCommand} interface defines the contract for commands that can be executed within
+ * a storage command-line environment. It provides methods for getting the command's name, executing
+ * the command with arguments, and managing the command-line context.
+ * 
  * @author robertvokac
  */
 public interface StorageCommand {
 
+    /**
+     * Returns the name of the command.
+     * 
+     * @return the name of the command as a {@code String}.
+     */
     public String getName();
 
+    /**
+     * Executes the command with the specified arguments and returns the result.
+     * 
+     * @param arguments the arguments to be passed to the command.
+     * @return the result of executing the command as a {@link StorageCommandResult}.
+     */
     StorageCommandResult execute(String arguments);
+
+    /**
+     * Returns the {@link StorageCommandLine} associated with this command.
+     * 
+     * @return the command-line interface associated with this command.
+     */
     StorageCommandLine getStorageCommandLine();
 
+    /**
+     * Sets the {@link StorageCommandLine} for this command.
+     * 
+     * @param storageCommandLine the command-line interface to set.
+     */
     void setStorageCommandLine(StorageCommandLine storageCommandLine);
+
+    /**
+     * Creates and returns a new, empty {@link StorageCommandResult}.
+     * 
+     * @return a new {@link StorageCommandResult} instance.
+     */
     static StorageCommandResult emptyNewResult() {
         return new StorageCommandResult();
     }
-
 }

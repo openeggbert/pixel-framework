@@ -22,39 +22,80 @@ package com.pixelgamelibrary.api.storage.command;
 import java.util.function.Function;
 
 /**
- *
+ * The {@code BaseStorageCommand} class provides a basic implementation of the {@link StorageCommand} interface.
+ * It defines a command that can be executed within a storage command-line context using a function
+ * that processes the command and its arguments.
+ * 
  * @author robertvokac
  */
-public class BaseCommand implements StorageCommand {
+public class BaseStorageCommand implements StorageCommand {
 
+    /**
+     * The command-line interface this command is associated with.
+     */
     private StorageCommandLine storageCommandLine = null;
+
+    /**
+     * The name of the command.
+     */
     private String name;
+
+    /**
+     * The function that will be applied to execute the command with its arguments.
+     */
     private final Function<String, StorageCommandResult> function;
 
-    public BaseCommand(
+    /**
+     * Constructs a new {@code BaseStorageCommand} with the specified command-line interface, name, and execution function.
+     * 
+     * @param storageCommandLineIn the command-line interface associated with this command.
+     * @param nameIn the name of the command.
+     * @param functionIn the function that defines the command's behavior when executed.
+     */
+    public BaseStorageCommand(
             StorageCommandLine storageCommandLineIn, String nameIn, Function<String, StorageCommandResult> functionIn
     ) {
         setStorageCommandLine(storageCommandLineIn);
         this.name = nameIn;
         this.function = functionIn;
-
     }
 
+    /**
+     * Sets the {@link StorageCommandLine} for this command.
+     * 
+     * @param storageCommandLineIn the command-line interface to set.
+     */
     @Override
     public final void setStorageCommandLine(StorageCommandLine storageCommandLineIn) {
         storageCommandLine = storageCommandLineIn;
     }
 
+    /**
+     * Returns the {@link StorageCommandLine} associated with this command.
+     * 
+     * @return the command-line interface.
+     */
     @Override
     public final StorageCommandLine getStorageCommandLine() {
         return storageCommandLine;
     }
 
+    /**
+     * Returns the name of this command.
+     * 
+     * @return the command name.
+     */
     @Override
     public String getName() {
         return name;
     }
 
+    /**
+     * Executes the command with the provided arguments.
+     * 
+     * @param commandWithArguments the command string including its arguments.
+     * @return the result of executing the command.
+     */
     @Override
     public StorageCommandResult execute(String commandWithArguments) {
         return function.apply(commandWithArguments);

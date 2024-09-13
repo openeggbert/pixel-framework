@@ -20,10 +20,18 @@
 package com.pixelgamelibrary.api.storage.command;
 
 /**
- *
+ * The {@code CommandLineScanner} interface defines a contract for scanning input from a command line.
+ * It provides methods to read input lines from the command line.
+ * 
  * @author robertvokac
  */
 public interface CommandLineScanner {
+
+    /**
+     * Reads the next line of input from the command line.
+     * 
+     * @return the next line of input as a {@code String}.
+     */
     String nextLine();
     
 }

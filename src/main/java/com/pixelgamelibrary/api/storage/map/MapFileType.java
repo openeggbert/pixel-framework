@@ -17,31 +17,44 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
 package com.pixelgamelibrary.api.storage.map;
 
 import com.pixelgamelibrary.api.storage.StorageException;
 
-
 /**
- *
+ * Enum representing the types of files or directories in the map.
+ * It can either be a FILE or a DIRECTORY.
+ * 
  * @author robertvokac
  */
 public enum MapFileType {
     FILE, DIRECTORY;
 
+    /**
+     * Determines the MapFileType based on the value associated with the specified key in the map.
+     * Throws a StorageException if the key is not found or if the value does not match any known type.
+     * 
+     * @param key the key whose associated value determines the file type
+     * @param map the map from which to retrieve the value
+     * @return the MapFileType corresponding to the value in the map
+     * @throws StorageException if the key is not present in the map or if the value does not match FILE or DIRECTORY
+     */
     public static MapFileType ofKey(String key, SimpleMap map) {
+        // Check if the map contains the specified key
         if (!map.contains(key)) {
             throw new StorageException("Map does not contain key: " + key);
         }
+        // Retrieve the value associated with the key
         String value = map.getString(key);
+        // Determine the MapFileType based on the value
         if (value.startsWith(FILE.name())) {
             return FILE;
         }
         if (value.startsWith(DIRECTORY.name())) {
             return DIRECTORY;
         }
+        // Throw an exception if the value does not match known types
         throw new StorageException("Unsupported MapFileType for key in the map: " + key);
-
     }
-
 }

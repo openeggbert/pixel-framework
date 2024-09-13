@@ -22,11 +22,18 @@ package com.pixelgamelibrary.api.storage;
 import com.pixelgamelibrary.api.PixelException;
 
 /**
- *
+ * StorageException is a custom exception class that extends {@link PixelException}.
+ * It represents exceptions that occur within the storage system of the Pixel Game Library.
+ * 
  * @author robertvokac
  */
 public class StorageException extends PixelException {
 
+    /**
+     * Constructs a new StorageException with the specified detail message.
+     * 
+     * @param string the detail message for this exception.
+     */
     public StorageException(String string) {
         super(string);
     }

@@ -17,6 +17,7 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
 package com.pixelgamelibrary.api.storage.map;
 
 import com.badlogic.gdx.Gdx;
@@ -28,44 +29,66 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- *
+ * Implementation of the Storage interface for managing a map-based file system.
+ * Provides methods to interact with files and directories stored in a map.
+ * 
  * @author robertvokac
  */
 public class MapStorage implements Storage {
 
     private final SimpleMap map;
-
     private final MapStorageCompression mapStorageCompression;
+
+    /**
+     * Constructs a MapStorage instance with the specified map and default compression.
+     * 
+     * @param mapIn the map to be used for storage
+     */
     public MapStorage(SimpleMap mapIn) {
         this(mapIn, MapStorageCompression.NONE);
     }
+
+    /**
+     * Constructs a MapStorage instance with the specified map and compression.
+     * 
+     * @param mapIn the map to be used for storage
+     * @param mapStorageCompressionIn the compression method to be used
+     */
     public MapStorage(SimpleMap mapIn, MapStorageCompression mapStorageCompressionIn) {
         this.map = mapIn;
         this.mapStorageCompression = mapStorageCompressionIn;
-        mkdir("/");
-        
+        mkdir("/");  // Initialize the root directory
     }
 
     private String workingDirectory = "/";
 
     @Override
     public Platform getPlatform() {
+        // Returns null as this implementation does not specify a platform
         return null;
     }
 
+    /**
+     * Converts a path to an absolute path if it is not already absolute.
+     * 
+     * @param path the path to convert
+     * @return the absolute path
+     */
     private String convertToAbsolutePathIfNeeded(String path) {
         if (path.startsWith(SLASH)) {
             return path;
         }
-
         return workingDirectory + (workingDirectory.equals("/") ? "" : SLASH) + path;
     }
     
     private static final String TWO_DOTS = "..";
-    
+    private static final String SLASH = "/";
+    private static final String EIGHT_COLONS = "::::::::";
+    private static final String BINARYFILE = "BINARYFILE";
+
     @Override
     public String cd(String path) {
-//        System.out.println("path="+path);
+        // Change directory to the specified path
         String absolutePath = path.equals(TWO_DOTS) ? getParentPath(workingDirectory) : convertToAbsolutePathIfNeeded(path);
 
         if (!exists(absolutePath)) {
@@ -82,10 +105,10 @@ public class MapStorage implements Storage {
         workingDirectory = absolutePath;
         return "";
     }
-    private static final String SLASH = "/";    
 
     @Override
     public String mkdir(String path) {
+        // Create a new directory at the specified path
         if(path.isEmpty()) {
             String msg = "Missing argument";
             logError(msg);
@@ -109,14 +132,17 @@ public class MapStorage implements Storage {
             return msg;
         }
         map.putString(absolutePath, MapFileType.DIRECTORY + EIGHT_COLONS);
-
         return "";
-
     }
-    private static final String EIGHT_COLONS = "::::::::";
 
+    /**
+     * Retrieves the parent path of the given path.
+     * 
+     * @param path the path to get the parent of
+     * @return the parent path
+     * @throws StorageException if the path is null or empty
+     */
     private static String getParentPath(String path) {
-//        System.out.println("getParentPath()");
         if (path == null) {
             throw new StorageException("Path is null");
         }
@@ -136,21 +162,24 @@ public class MapStorage implements Storage {
 
     @Override
     public String pwd() {
+        // Return the current working directory
         return workingDirectory;
     }
 
     @Override
     public int depth(String path) {
+        // Return the depth of the given path
         String absolutePath = convertToAbsolutePathIfNeeded(path);
         if (absolutePath.equals(SLASH)) {
             return 0;
         }
         String[] array = absolutePath.split(SLASH);
-        return array.length -1;
+        return array.length - 1;
     }
 
     @Override
     public List<String> ls(String path) {
+        // List all files and directories at the specified path
         int currentDepth = depth(path);
         return map
                 .keyList()
@@ -166,6 +195,7 @@ public class MapStorage implements Storage {
     }
 
     public String touch(String path, String content) {
+        // Create a new file at the specified path with optional content
         String absolutePath = convertToAbsolutePathIfNeeded(path);
         final String parentPath = getParentPath(absolutePath);
         if (!exists(parentPath)) {
@@ -184,12 +214,12 @@ public class MapStorage implements Storage {
             return msg;
         }
         map.putString(absolutePath, MapFileType.FILE + EIGHT_COLONS + content);
-
         return "";
     }
 
     @Override
     public boolean rm(String path) {
+        // Remove the file or directory at the specified path
         String absolutePath = convertToAbsolutePathIfNeeded(path);
 
         if (!map.contains(absolutePath)) {
@@ -210,6 +240,15 @@ public class MapStorage implements Storage {
         return moveOrCp(source, target, true, false);
     }
 
+    /**
+     * Moves or copies a file from the source path to the target path.
+     * 
+     * @param source the source path
+     * @param target the target path
+     * @param move whether to move the file (true) or copy it (false)
+     * @param cp whether to copy the file (true) or move it (false)
+     * @return an empty string if successful or an error message
+     */
     private String moveOrCp(String source, String target, boolean move, boolean cp) {
         if (move && cp) {
             throw new StorageException("move == true && cp == true");
@@ -258,6 +297,7 @@ public class MapStorage implements Storage {
 
     @Override
     public String readtext(String path) {
+        // Read the text content of a file at the specified path
         String absolutePath = convertToAbsolutePathIfNeeded(path);
         if (!exists(absolutePath)) {
             logError("absolutePathSource does not exist: " + absolutePath);
@@ -273,17 +313,16 @@ public class MapStorage implements Storage {
 
     @Override
     public byte[] readbin(String path) {
+        // Read binary data from a file at the specified path
         String absolutePath = convertToAbsolutePathIfNeeded(path);
-
         String text = readtext(absolutePath);
         if (!text.startsWith(BINARYFILE)) {
-            logError("File is not binary:" + absolutePath);
+            logError("File is not binary: " + absolutePath);
             return null;
         }
         text = text.substring(BINARYFILE.length());
         return Pixel.utils().decodeBase64AsByteArray(text);
     }
-    private static final String BINARYFILE = "BINARYFILE";
 
     @Override
     public String savetext(String name, String text) {
@@ -297,25 +336,30 @@ public class MapStorage implements Storage {
 
     @Override
     public boolean exists(String name) {
+        // Check if the path exists in the map
         return map.contains(convertToAbsolutePathIfNeeded(name));
     }
 
     @Override
     public boolean isfile(String name) {
+        // Check if the path is a file
         return filetype(name) == MapFileType.FILE;
     }
 
     @Override
     public boolean isdir(String name) {
+        // Check if the path is a directory
         return filetype(name) == MapFileType.DIRECTORY;
     }
 
     public MapFileType filetype(String name) {
+        // Get the file type for the given path
         return MapFileType.ofKey(convertToAbsolutePathIfNeeded(name), map);
     }
 
     @Override
     public String debug() {
+        // Return a debug string of all keys and their values
         StringBuilder sb = new StringBuilder();
         for(String key: map.keyList()) {
             sb
@@ -329,16 +373,22 @@ public class MapStorage implements Storage {
 
     @Override
     public void flush() {
+        // Flush the map to persist changes
         map.flush();
     }
 
     @Override
     public boolean rmdir(String dirname) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        // Remove directory is not supported
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
+    /**
+     * Logs an error message using the Pixel application logging mechanism.
+     * 
+     * @param msg the error message to log
+     */
     private void logError(String msg) {
         Pixel.app().error(msg);
     }
-
 }
