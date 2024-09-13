@@ -42,7 +42,7 @@ public class StorageCommandLine {
     private String hostname; // Hostname for the command line
     private Storage storage; // Storage object for interacting with files
     private boolean exited = false; // Indicates if the command line session has been exited
-    private long startNanoTime = System.nanoTime(); // Start time of the session in nanoseconds
+    long startNanoTime = System.nanoTime(); // Start time of the session in nanoseconds
 
     /**
      * Returns the command line prompt string.
@@ -60,7 +60,7 @@ public class StorageCommandLine {
      * @param argumentIndex the index of the argument to extract
      * @return the extracted argument
      */
-    private String extractArgument(String arguments, int argumentIndex) {
+    String extractArgument(String arguments, int argumentIndex) {
         if(arguments.isEmpty()) {
             return arguments;
         }
@@ -98,7 +98,7 @@ public class StorageCommandLine {
         addCommand("hostname", arguments -> provideOutput(result -> result.setOutput(hostname)));
         addCommand("test", arguments-> provideOutput(result-> result.setOutput((extractArgument(arguments, 0)))));
         addCommand("uname", arguments -> provideOutput(result -> result.setOutput(
-                "LinuxBashCommandLinePartialEmulation"
+                "LinuxBashCommandLinePartialEmulation "
                 + ((extractArgument(arguments, 0).equals("-a"))
                 ? (hostname + " 0.0.0 ("
                 + new Date().toString() + ")")
