@@ -187,6 +187,7 @@ public class MapStorageTest {
     @Test
     public void testRmFile() {
         when(mockMap.contains("/file.txt")).thenReturn(true);
+        when(mockMap.getString("/file.txt")).thenReturn("FILE::::::::Hello World");
 
         boolean result = mapStorage.rm("/file.txt");
 

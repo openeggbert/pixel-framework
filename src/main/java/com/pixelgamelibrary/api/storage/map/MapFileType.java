@@ -47,6 +47,9 @@ public enum MapFileType {
         }
         // Retrieve the value associated with the key
         String value = map.getString(key);
+        if(value == null) {
+            throw new StorageException("Value is null for key: " + key);
+        }
         // Determine the MapFileType based on the value
         if (value.startsWith(FILE.name())) {
             return FILE;

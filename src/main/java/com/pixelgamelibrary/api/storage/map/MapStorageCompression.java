@@ -24,5 +24,5 @@ package com.pixelgamelibrary.api.storage.map;
  * @author robertvokac
  */
 public enum MapStorageCompression {
-    NONE;
+    NONE, LZMA;
 }

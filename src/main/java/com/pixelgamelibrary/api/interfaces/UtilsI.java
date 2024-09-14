@@ -19,7 +19,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api.interfaces;
 
-import com.badlogic.gdx.utils.Base64Coder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -38,4 +40,10 @@ public interface UtilsI {
     }
 
     String encodeToBase64(byte[] data);
+    List<String> listSupportedCompressions();
+    byte[] compress(byte[] data, String compression, Map<String, String> arguments);
+    default byte[] compress(byte[] data, String compression) {
+        return compress(data, compression, new HashMap<>());
+    }
+    byte[] decompress(byte[] data, String compression);
 }

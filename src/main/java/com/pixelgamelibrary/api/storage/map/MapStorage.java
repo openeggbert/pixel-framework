@@ -17,10 +17,8 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
 package com.pixelgamelibrary.api.storage.map;
 
-import com.badlogic.gdx.Gdx;
 import com.pixelgamelibrary.api.Pixel;
 import com.pixelgamelibrary.api.Platform;
 import com.pixelgamelibrary.api.storage.StorageException;
@@ -31,7 +29,7 @@ import java.util.stream.Collectors;
 /**
  * Implementation of the Storage interface for managing a map-based file system.
  * Provides methods to interact with files and directories stored in a map.
- * 
+ *
  * @author robertvokac
  */
 public class MapStorage implements Storage {
@@ -40,23 +38,31 @@ public class MapStorage implements Storage {
     private final MapStorageCompression mapStorageCompression;
 
     /**
-     * Constructs a MapStorage instance with the specified map and default compression.
-     * 
+     * Constructs a MapStorage instance with the specified map and default
+     * compression.
+     *
      * @param mapIn the map to be used for storage
      */
     public MapStorage(SimpleMap mapIn) {
-        this(mapIn, MapStorageCompression.NONE);
+        this(mapIn, MapStorageCompression.LZMA);
     }
 
     /**
      * Constructs a MapStorage instance with the specified map and compression.
-     * 
+     *
      * @param mapIn the map to be used for storage
      * @param mapStorageCompressionIn the compression method to be used
      */
     public MapStorage(SimpleMap mapIn, MapStorageCompression mapStorageCompressionIn) {
         this.map = mapIn;
         this.mapStorageCompression = mapStorageCompressionIn;
+        if (map.contains("system.compression")) {
+            if (!map.getString("system.compression").equals(this.mapStorageCompression.name())) {
+                throw new StorageException("Fatal error, compression method passed to the constructor is different, than the compression method in the map (key system.compression).");
+            }
+        } else {
+            map.putString("system.compression", mapStorageCompression.name());
+        }
         mkdir("/");  // Initialize the root directory
     }
 
@@ -70,7 +76,7 @@ public class MapStorage implements Storage {
 
     /**
      * Converts a path to an absolute path if it is not already absolute.
-     * 
+     *
      * @param path the path to convert
      * @return the absolute path
      */
@@ -80,7 +86,7 @@ public class MapStorage implements Storage {
         }
         return workingDirectory + (workingDirectory.equals("/") ? "" : SLASH) + path;
     }
-    
+
     private static final String TWO_DOTS = "..";
     private static final String SLASH = "/";
     private static final String EIGHT_COLONS = "::::::::";
@@ -108,8 +114,13 @@ public class MapStorage implements Storage {
 
     @Override
     public String mkdir(String path) {
+        if (path.equals("system")) {
+            String msg = "Creating directory system is not allowed";
+            logError(msg);
+            return msg;
+        }
         // Create a new directory at the specified path
-        if(path.isEmpty()) {
+        if (path.isEmpty()) {
             String msg = "Missing argument";
             logError(msg);
             return msg;
@@ -137,7 +148,7 @@ public class MapStorage implements Storage {
 
     /**
      * Retrieves the parent path of the given path.
-     * 
+     *
      * @param path the path to get the parent of
      * @return the parent path
      * @throws StorageException if the path is null or empty
@@ -219,8 +230,14 @@ public class MapStorage implements Storage {
 
     @Override
     public boolean rm(String path) {
-        // Remove the file or directory at the specified path
         String absolutePath = convertToAbsolutePathIfNeeded(path);
+        
+        if (map.contains(absolutePath) && isdir(path)) {
+            logError("Removing directories is not yet supported");
+            return false;
+        }
+        // Remove the file or directory at the specified path
+        
 
         if (!map.contains(absolutePath)) {
             logError("Cannot remove file, because it does not exist: " + absolutePath);
@@ -242,7 +259,7 @@ public class MapStorage implements Storage {
 
     /**
      * Moves or copies a file from the source path to the target path.
-     * 
+     *
      * @param source the source path
      * @param target the target path
      * @param move whether to move the file (true) or copy it (false)
@@ -321,7 +338,11 @@ public class MapStorage implements Storage {
             return null;
         }
         text = text.substring(BINARYFILE.length());
-        return Pixel.utils().decodeBase64AsByteArray(text);
+        byte[] data = Pixel.utils().decodeBase64AsByteArray(text);
+        if (this.mapStorageCompression != MapStorageCompression.NONE) {
+            data = Pixel.utils().decompress(data, mapStorageCompression.name());
+        }
+        return data;
     }
 
     @Override
@@ -331,6 +352,9 @@ public class MapStorage implements Storage {
 
     @Override
     public String savebin(String name, byte[] data) {
+        if (this.mapStorageCompression != MapStorageCompression.NONE) {
+            data = Pixel.utils().compress(data, mapStorageCompression.name());
+        }
         return savetext(name, BINARYFILE + Pixel.utils().encodeToBase64(data));
     }
 
@@ -348,7 +372,7 @@ public class MapStorage implements Storage {
 
     @Override
     public boolean isdir(String name) {
-        if(name.equals(SLASH)) {
+        if (name.equals(SLASH)) {
             return true;
         }
         // Check if the path is a directory
@@ -364,7 +388,7 @@ public class MapStorage implements Storage {
     public String debug() {
         // Return a debug string of all keys and their values
         StringBuilder sb = new StringBuilder();
-        for(String key: map.keyList()) {
+        for (String key : map.keyList()) {
             sb
                     .append(key)
                     .append("=")
@@ -383,12 +407,12 @@ public class MapStorage implements Storage {
     @Override
     public boolean rmdir(String dirname) {
         // Remove directory is not supported
-        throw new UnsupportedOperationException("Not supported yet."); 
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /**
      * Logs an error message using the Pixel application logging mechanism.
-     * 
+     *
      * @param msg the error message to log
      */
     private void logError(String msg) {
