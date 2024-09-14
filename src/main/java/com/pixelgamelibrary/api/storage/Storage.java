@@ -31,6 +31,8 @@ import java.util.List;
  */
 public interface Storage {
 
+    public String SLASH = "/";
+
     /**
      * Returns the platform associated with this storage.
      * 
@@ -118,7 +120,15 @@ public interface Storage {
      * @param path the path to calculate depth for.
      * @return the depth of the path.
      */
-    public int depth(String path);
+    default int depth(String path) {
+        // Return the depth of the given path
+        String absolutePath = convertToAbsolutePathIfNeeded(path);
+        if (absolutePath.equals(SLASH)) {
+            return 0;
+        }
+        String[] array = absolutePath.split(SLASH);
+        return array.length - 1;
+    }
 
     /**
      * Returns the depth of the current working directory in the directory tree.
@@ -266,6 +276,7 @@ public interface Storage {
     static final String USER = "user";
     
     default FileHandle file(String path) {
+        path = convertToAbsolutePathIfNeeded(path);
         return new FileHandleImpl(this, path);
     }
     default FileHandle file() {
@@ -275,4 +286,18 @@ public interface Storage {
     FileType type(String path);
     
     RegularFileType getRegularFileType(String path);
+    
+     
+    /**
+     * Converts a path to an absolute path if it is not already absolute.
+     *
+     * @param path the path to convert
+     * @return the absolute path
+     */
+    default String convertToAbsolutePathIfNeeded(String path) {
+        if (path.startsWith(SLASH)) {
+            return path;
+        }
+        return printWorkingDirectory() + (printWorkingDirectory().equals("/") ? "" : SLASH) + path;
+    }
 }

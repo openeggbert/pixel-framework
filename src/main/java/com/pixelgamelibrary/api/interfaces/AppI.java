@@ -38,7 +38,11 @@ public interface AppI {
     }
     void exit();
     void log(String msg);
+    void warn(String msg);
     void error(String msg);
     void debug(String msg);
+    void setAppName(String appName);
+    String getAppName();
+    boolean isAppNameSet();
     
 }

@@ -76,19 +76,6 @@ public class MapStorage implements Storage {
         return null;
     }
 
-    /**
-     * Converts a path to an absolute path if it is not already absolute.
-     *
-     * @param path the path to convert
-     * @return the absolute path
-     */
-    private String convertToAbsolutePathIfNeeded(String path) {
-        if (path.startsWith(SLASH)) {
-            return path;
-        }
-        return workingDirectory + (workingDirectory.equals("/") ? "" : SLASH) + path;
-    }
-
     private static final String TWO_DOTS = "..";
     private static final String SLASH = "/";
     private static final String EIGHT_COLONS = "::::::::";
@@ -177,17 +164,6 @@ public class MapStorage implements Storage {
     public String printWorkingDirectory() {
         // Return the current working directory
         return workingDirectory;
-    }
-
-    @Override
-    public int depth(String path) {
-        // Return the depth of the given path
-        String absolutePath = convertToAbsolutePathIfNeeded(path);
-        if (absolutePath.equals(SLASH)) {
-            return 0;
-        }
-        String[] array = absolutePath.split(SLASH);
-        return array.length - 1;
     }
 
     @Override
