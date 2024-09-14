@@ -19,9 +19,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api.interfaces;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  *
@@ -46,4 +48,8 @@ public interface UtilsI {
         return compress(data, compression, new HashMap<>());
     }
     byte[] decompress(byte[] data, String compression);
+    default Stream<String> splitStringToLinesAsStream(String string) {
+        return Arrays.asList(string.split("\\r?\\n")).stream();
+    }
+
 }
