@@ -21,6 +21,8 @@ package com.pixelgamelibrary.api.storage.map;
 
 import com.pixelgamelibrary.api.Pixel;
 import com.pixelgamelibrary.api.Platform;
+import com.pixelgamelibrary.api.storage.FileType;
+import com.pixelgamelibrary.api.storage.RegularFileType;
 import com.pixelgamelibrary.api.storage.StorageException;
 import com.pixelgamelibrary.api.storage.Storage;
 import java.util.List;
@@ -63,7 +65,7 @@ public class MapStorage implements Storage {
         } else {
             map.putString("system.compression", mapStorageCompression.name());
         }
-        mkdir("/");  // Initialize the root directory
+        createDirectory("/");  // Initialize the root directory
     }
 
     private String workingDirectory = "/";
@@ -93,7 +95,7 @@ public class MapStorage implements Storage {
     private static final String BINARYFILE = "BINARYFILE";
 
     @Override
-    public String cd(String path) {
+    public String changeDirectory(String path) {
         // Change directory to the specified path
         String absolutePath = path.equals(TWO_DOTS) ? getParentPath(workingDirectory) : convertToAbsolutePathIfNeeded(path);
 
@@ -102,7 +104,7 @@ public class MapStorage implements Storage {
             logError(msg);
             return msg;
         }
-        if (!isdir(absolutePath)) {
+        if (!isDirectory(absolutePath)) {
             final String msg = "Path is not directory: " + absolutePath;
             logError(msg);
             return msg;
@@ -113,7 +115,7 @@ public class MapStorage implements Storage {
     }
 
     @Override
-    public String mkdir(String path) {
+    public String createDirectory(String path) {
         if (path.equals("system")) {
             String msg = "Creating directory system is not allowed";
             logError(msg);
@@ -132,7 +134,7 @@ public class MapStorage implements Storage {
             logError(msg);
             return msg;
         }
-        if (!path.equals(SLASH) && !isdir(parentPath)) {
+        if (!path.equals(SLASH) && !isDirectory(parentPath)) {
             var msg = "Cannot create new directory, because parent path is not directory: " + parentPath;
             logError(msg);
             return msg;
@@ -142,7 +144,7 @@ public class MapStorage implements Storage {
             logError(msg);
             return msg;
         }
-        map.putString(absolutePath, MapFileType.DIRECTORY + EIGHT_COLONS);
+        map.putString(absolutePath, FileType.DIRECTORY + EIGHT_COLONS);
         return "";
     }
 
@@ -172,7 +174,7 @@ public class MapStorage implements Storage {
     }
 
     @Override
-    public String pwd() {
+    public String printWorkingDirectory() {
         // Return the current working directory
         return workingDirectory;
     }
@@ -189,7 +191,7 @@ public class MapStorage implements Storage {
     }
 
     @Override
-    public List<String> ls(String path) {
+    public List<String> list(String path) {
         // List all files and directories at the specified path
         int currentDepth = depth(path);
         return map
@@ -214,7 +216,7 @@ public class MapStorage implements Storage {
             logError(msg);
             return msg;
         }
-        if (!isdir(parentPath)) {
+        if (!isDirectory(parentPath)) {
             var msg = "Cannot create new file, because parent path is not directory: " + parentPath;
             logError(msg);
             return msg;
@@ -224,15 +226,15 @@ public class MapStorage implements Storage {
             logError(msg);
             return msg;
         }
-        map.putString(absolutePath, MapFileType.FILE + EIGHT_COLONS + content);
+        map.putString(absolutePath, FileType.FILE + EIGHT_COLONS + content);
         return "";
     }
 
     @Override
-    public boolean rm(String path) {
+    public boolean remove(String path) {
         String absolutePath = convertToAbsolutePathIfNeeded(path);
         
-        if (map.contains(absolutePath) && isdir(path)) {
+        if (map.contains(absolutePath) && isDirectory(path)) {
             logError("Removing directories is not yet supported");
             return false;
         }
@@ -248,12 +250,12 @@ public class MapStorage implements Storage {
     }
 
     @Override
-    public String cp(String source, String target) {
+    public String copy(String source, String target) {
         return moveOrCp(source, target, false, true);
     }
 
     @Override
-    public String mv(String source, String target) {
+    public String move(String source, String target) {
         return moveOrCp(source, target, true, false);
     }
 
@@ -282,7 +284,7 @@ public class MapStorage implements Storage {
             logError(msg);
             return msg;
         }
-        if (isdir(absolutePathSource)) {
+        if (isDirectory(absolutePathSource)) {
             final String msg = "absolutePathSource is directory: " + absolutePathSource;
             logError(msg);
             return msg;
@@ -292,7 +294,7 @@ public class MapStorage implements Storage {
             logError(msg);
             return msg;
         }
-        if (!isdir(targetParentPath)) {
+        if (!isDirectory(targetParentPath)) {
             final String msg = "targetParentPath is not directory: " + absolutePathSource;
             logError(msg);
             return msg;
@@ -313,14 +315,14 @@ public class MapStorage implements Storage {
     }
 
     @Override
-    public String readtext(String path) {
+    public String readString(String path) {
         // Read the text content of a file at the specified path
         String absolutePath = convertToAbsolutePathIfNeeded(path);
         if (!exists(absolutePath)) {
             logError("absolutePathSource does not exist: " + absolutePath);
             return null;
         }
-        if (isdir(absolutePath)) {
+        if (isDirectory(absolutePath)) {
             logError("absolutePathSource is directory: " + absolutePath);
             return null;
         }
@@ -329,10 +331,10 @@ public class MapStorage implements Storage {
     }
 
     @Override
-    public byte[] readbin(String path) {
+    public byte[] readBytes(String path) {
         // Read binary data from a file at the specified path
         String absolutePath = convertToAbsolutePathIfNeeded(path);
-        String text = readtext(absolutePath);
+        String text = readString(absolutePath);
         if (!text.startsWith(BINARYFILE)) {
             logError("File is not binary: " + absolutePath);
             return null;
@@ -346,16 +348,16 @@ public class MapStorage implements Storage {
     }
 
     @Override
-    public String savetext(String name, String text) {
+    public String writeString(String name, String text) {
         return touch(name, text);
     }
 
     @Override
-    public String savebin(String name, byte[] data) {
+    public String writeBytes(String name, byte[] data) {
         if (this.mapStorageCompression != MapStorageCompression.NONE) {
             data = Pixel.utils().compress(data, mapStorageCompression.name());
         }
-        return savetext(name, BINARYFILE + Pixel.utils().encodeToBase64(data));
+        return writeString(name, BINARYFILE + Pixel.utils().encodeToBase64(data));
     }
 
     @Override
@@ -365,21 +367,22 @@ public class MapStorage implements Storage {
     }
 
     @Override
-    public boolean isfile(String name) {
+    public boolean isFile(String name) {
         // Check if the path is a file
-        return filetype(name) == MapFileType.FILE;
+        return type(name) == FileType.FILE;
     }
 
     @Override
-    public boolean isdir(String name) {
+    public boolean isDirectory(String name) {
         if (name.equals(SLASH)) {
             return true;
         }
         // Check if the path is a directory
-        return filetype(name) == MapFileType.DIRECTORY;
+        return type(name) == FileType.DIRECTORY;
     }
 
-    public MapFileType filetype(String name) {
+    @Override
+    public FileType type(String name) {
         // Get the file type for the given path
         return MapFileType.ofKey(convertToAbsolutePathIfNeeded(name), map);
     }
@@ -405,7 +408,7 @@ public class MapStorage implements Storage {
     }
 
     @Override
-    public boolean rmdir(String dirname) {
+    public boolean removeDirectory(String dirname) {
         // Remove directory is not supported
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -417,5 +420,15 @@ public class MapStorage implements Storage {
      */
     private void logError(String msg) {
         Pixel.app().error(msg);
+    }
+
+    @Override
+    public RegularFileType getRegularFileType(String path) {
+        if(isDirectory(path)) {
+            throw new UnsupportedOperationException("Cannot find out RegularFileType, because this is a directory: " + path);
+        };
+        String text = readString(path);
+        
+        return text.startsWith(BINARYFILE) ? RegularFileType.BINARY :  RegularFileType.TEXT;
     }
 }

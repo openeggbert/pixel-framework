@@ -107,7 +107,7 @@ public class MapStorageTest {
         when(mockMap.contains("/")).thenReturn(true); // Simulate no directory exists
         when(mockMap.contains("/newDir")).thenReturn(false); // Simulate no directory exists
 
-        String result = mapStorage.mkdir("/newDir");
+        String result = mapStorage.createDirectory("/newDir");
 
         assertEquals("", result); // Success should return an empty string
         verify(mockMap).putString("/newDir", "DIRECTORY::::::::");
@@ -118,7 +118,7 @@ public class MapStorageTest {
         when(mockMap.contains("/")).thenReturn(true); // Root irectory already exists
         when(mockMap.contains("/newDir")).thenReturn(true); // Directory already exists
 
-        String result = mapStorage.mkdir("/newDir");
+        String result = mapStorage.createDirectory("/newDir");
 
         assertEquals("Cannot create new directory, because path already exists: /newDir", result);
     }
@@ -130,7 +130,7 @@ public class MapStorageTest {
         when(mockMap.getString("/")).thenReturn("DIRECTORY::::::::");
         when(mockMap.getString("/newDir")).thenReturn("DIRECTORY::::::::");
 
-        String result = mapStorage.cd("/newDir");
+        String result = mapStorage.changeDirectory("/newDir");
 
         assertEquals("", result); // Success should return an empty string
     }
@@ -139,7 +139,7 @@ public class MapStorageTest {
     public void testCdPathDoesNotExist() {
         when(mockMap.contains("/nonExistent")).thenReturn(false);
 
-        String result = mapStorage.cd("/nonExistent");
+        String result = mapStorage.changeDirectory("/nonExistent");
 
         assertEquals("Path does not exist: /nonExistent", result);
     }
@@ -170,7 +170,7 @@ public class MapStorageTest {
         when(mockMap.contains("/file.txt")).thenReturn(true);
         when(mockMap.getString("/file.txt")).thenReturn("FILE::::::::Hello World");
 
-        String content = mapStorage.readtext("/file.txt");
+        String content = mapStorage.readString("/file.txt");
 
         assertEquals("Hello World", content);
     }
@@ -179,7 +179,7 @@ public class MapStorageTest {
     public void testReadTextFileDoesNotExist() {
         when(mockMap.contains("/file.txt")).thenReturn(false);
 
-        String content = mapStorage.readtext("/file.txt");
+        String content = mapStorage.readString("/file.txt");
 
         assertNull(content);
     }
@@ -189,7 +189,7 @@ public class MapStorageTest {
         when(mockMap.contains("/file.txt")).thenReturn(true);
         when(mockMap.getString("/file.txt")).thenReturn("FILE::::::::Hello World");
 
-        boolean result = mapStorage.rm("/file.txt");
+        boolean result = mapStorage.remove("/file.txt");
 
         assertTrue(result); // File successfully removed
         verify(mockMap).remove("/file.txt");
@@ -199,7 +199,7 @@ public class MapStorageTest {
     public void testRmFileDoesNotExist() {
         when(mockMap.contains("/file.txt")).thenReturn(false);
 
-        boolean result = mapStorage.rm("/file.txt");
+        boolean result = mapStorage.remove("/file.txt");
 
         assertFalse(result); // File does not exist, so removal fails
     }
@@ -215,7 +215,7 @@ public class MapStorageTest {
     public void testLs() {
         when(mockMap.keyList()).thenReturn(List.of("/dir/file1", "/dir/file2", "/dir/subdir/file3"));
 
-        List<String> files = mapStorage.ls("/dir");
+        List<String> files = mapStorage.list("/dir");
 
         assertEquals(2, files.size());
         assertTrue(files.contains("/dir/file1"));

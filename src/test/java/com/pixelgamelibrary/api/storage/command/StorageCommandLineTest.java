@@ -19,8 +19,8 @@ class StorageCommandLineTest {
     @BeforeEach
     void setUp() {
         mockStorage = mock(Storage.class);
-        when(mockStorage.pwd()).thenReturn("/mock/path");
-        when(mockStorage.ls()).thenReturn(Arrays.asList("file1.txt", "file2.txt"));
+        when(mockStorage.printWorkingDirectory()).thenReturn("/mock/path");
+        when(mockStorage.list()).thenReturn(Arrays.asList("file1.txt", "file2.txt"));
         commandLine = new StorageCommandLine("user", "hostname", mockStorage);
     }
 
@@ -97,14 +97,14 @@ class StorageCommandLineTest {
 
     @Test
     void testExecuteMkdirCommand() {
-        when(mockStorage.mkdirmore(any())).thenReturn("");
+        when(mockStorage.createDirectories(any())).thenReturn("");
         StorageCommandResult result = commandLine.execute("mkdir newDir");
         assertEquals("New directory was successfully created", result.getOutput().trim());
     }
 
     @Test
     void testExecuteCdCommand() {
-        when(mockStorage.cd(any())).thenReturn("");
+        when(mockStorage.changeDirectory(any())).thenReturn("");
         StorageCommandResult result = commandLine.execute("cd newDir");
         assertEquals("Changing working directory was successfully created", result.getOutput().trim());
     }
@@ -118,14 +118,14 @@ class StorageCommandLineTest {
 
     @Test
     void testExecuteReadtextCommand() {
-        when(mockStorage.readtext(any())).thenReturn("file content");
+        when(mockStorage.readString(any())).thenReturn("file content");
         StorageCommandResult result = commandLine.execute("readtext file.txt");
         assertEquals("Text file was successfully loaded\n\nfile content", result.getOutput().trim());
     }
 
     @Test
     void testExecuteSavetextCommand() {
-        when(mockStorage.savetext(any(), any())).thenReturn("");
+        when(mockStorage.writeString(any(), any())).thenReturn("");
         StorageCommandResult result = commandLine.execute("savetext file.txt content");
         assertEquals("Text file was successfully saved", result.getOutput().trim());
     }

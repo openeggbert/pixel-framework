@@ -44,7 +44,7 @@ public interface Storage {
      * @param path the path to change to.
      * @return a result message or an empty string if successful.
      */
-    public String cd(String path);
+    public String changeDirectory(String path);
 
     /**
      * Changes the directory to the default "home/user" directory, creating the necessary
@@ -52,12 +52,12 @@ public interface Storage {
      * 
      * @return a result message or an empty string if successful.
      */
-    default String cd() {
-        cd("/");
-        mkdir("home");
-        cd("home");
-        mkdir(uname());
-        cd(uname());
+    default String changeDirectory() {
+        Storage.this.changeDirectory("/");
+        createDirectory("home");
+        Storage.this.changeDirectory("home");
+        createDirectory(getUserName());
+        Storage.this.changeDirectory(getUserName());
         return "";
     }
 
@@ -67,7 +67,7 @@ public interface Storage {
      * @param argument the name of the directory to create.
      * @return a result message or an empty string if successful.
      */
-    public String mkdir(String argument);
+    public String createDirectory(String argument);
 
     /**
      * Creates multiple directories specified by the arguments.
@@ -75,12 +75,12 @@ public interface Storage {
      * @param argument the names of the directories to create.
      * @return a result message or an empty string if successful.
      */
-    default String mkdirmore(String... argument) {
+    default String createDirectories(String... argument) {
         if (argument.length == 0) {
             return "Missing argument";
         }
         for (String n : argument) {
-            String result = mkdir(n);
+            String result = createDirectory(n);
             if (!result.isEmpty()) {
                 return result;
             }
@@ -93,7 +93,7 @@ public interface Storage {
      * 
      * @return the path of the current working directory.
      */
-    public String pwd();
+    public String printWorkingDirectory();
 
     /**
      * Lists the contents of the specified directory.
@@ -101,15 +101,15 @@ public interface Storage {
      * @param workingDirectory the directory to list.
      * @return a list of file and directory names in the specified directory.
      */
-    public List<String> ls(String workingDirectory);
+    public List<String> list(String workingDirectory);
 
     /**
      * Lists the contents of the current working directory.
      * 
      * @return a list of file and directory names in the current working directory.
      */
-    default List<String> ls() {
-        return ls(pwd());
+    default List<String> list() {
+        return list(printWorkingDirectory());
     }
 
     /**
@@ -126,7 +126,7 @@ public interface Storage {
      * @return the depth of the current working directory.
      */
     default int depth() {
-        return depth(pwd());
+        return depth(printWorkingDirectory());
     }
 
     /**
@@ -143,7 +143,7 @@ public interface Storage {
      * @param name the name of the file to remove.
      * @return true if the file was successfully removed, false otherwise.
      */
-    public boolean rm(String name);
+    public boolean remove(String name);
 
     /**
      * Removes the directory with the specified name.
@@ -151,7 +151,7 @@ public interface Storage {
      * @param dirname the name of the directory to remove.
      * @return true if the directory was successfully removed, false otherwise.
      */
-    public boolean rmdir(String dirname);
+    public boolean removeDirectory(String dirname);
 
     /**
      * Copies a file from the source path to the target path.
@@ -160,7 +160,7 @@ public interface Storage {
      * @param target the target file path.
      * @return a result message or an empty string if successful.
      */
-    public String cp(String source, String target);
+    public String copy(String source, String target);
 
     /**
      * Moves a file from the source path to the target path.
@@ -169,7 +169,7 @@ public interface Storage {
      * @param target the target file path.
      * @return a result message or an empty string if successful.
      */
-    public String mv(String source, String target);
+    public String move(String source, String target);
 
     /**
      * Reads the contents of a text file with the specified name.
@@ -177,7 +177,7 @@ public interface Storage {
      * @param name the name of the file to read.
      * @return the text content of the file.
      */
-    public String readtext(String name);
+    public String readString(String name);
 
     /**
      * Reads the contents of a binary file with the specified name.
@@ -185,7 +185,7 @@ public interface Storage {
      * @param name the name of the file to read.
      * @return the binary content of the file.
      */
-    public byte[] readbin(String name);
+    public byte[] readBytes(String name);
 
     /**
      * Saves the specified text content to a file with the given name.
@@ -194,7 +194,7 @@ public interface Storage {
      * @param text the text content to save.
      * @return a result message or an empty string if successful.
      */
-    public String savetext(String name, String text);
+    public String writeString(String name, String text);
 
     /**
      * Saves the specified binary data to a file with the given name.
@@ -203,7 +203,7 @@ public interface Storage {
      * @param data the binary data to save.
      * @return a result message or an empty string if successful.
      */
-    public String savebin(String name, byte[] data);
+    public String writeBytes(String name, byte[] data);
 
     /**
      * Checks whether a file or directory with the specified name exists.
@@ -219,7 +219,7 @@ public interface Storage {
      * @param name the name to check.
      * @return true if the name refers to a file, false otherwise.
      */
-    public boolean isfile(String name);
+    public boolean isFile(String name);
 
     /**
      * Checks whether the specified name refers to a directory.
@@ -227,7 +227,7 @@ public interface Storage {
      * @param name the name to check.
      * @return true if the name refers to a directory, false otherwise.
      */
-    public boolean isdir(String name);
+    public boolean isDirectory(String name);
 
     /**
      * Returns a debug string with information about the current state of the storage.
@@ -246,7 +246,7 @@ public interface Storage {
      * 
      * @return the username.
      */
-    default String uname() {
+    default String getUserName() {
         return USER;
     }
 
@@ -256,7 +256,7 @@ public interface Storage {
      * 
      * @return the size limit in bytes, or 0 if there is no limit.
      */
-    default long sizelimitedto() {
+    default long getSizeLimit() {
         return 0;
     }
 
@@ -264,4 +264,15 @@ public interface Storage {
      * The default username for the storage.
      */
     static final String USER = "user";
+    
+    default FileHandle file(String path) {
+        return new FileHandleImpl(this, path);
+    }
+    default FileHandle file() {
+        return file(printWorkingDirectory());
+    }
+    
+    FileType type(String path);
+    
+    RegularFileType getRegularFileType(String path);
 }

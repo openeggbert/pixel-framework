@@ -50,7 +50,7 @@ public class StorageCommandLine {
      * @return the command line prompt string
      */
     public String getCommandLineStart() {
-        return user + "@" + hostname + ":" + storage.pwd() + "$ ";
+        return user + "@" + hostname + ":" + storage.printWorkingDirectory() + "$ ";
     }
 
     /**
@@ -106,7 +106,7 @@ public class StorageCommandLine {
         )));
 
         addCommand("ls", arguments -> provideOutput(result -> result.setOutput(storage
-                .ls()
+                .list()
                 .stream()
                 .map(l -> {
                     String[] a = l.split("/");
@@ -114,12 +114,12 @@ public class StorageCommandLine {
                 })
                 .collect(Collectors.joining("\n")))));
 
-        addCommand("pwd", arguments -> provideOutput(result -> result.setOutput(storage.pwd())));
+        addCommand("pwd", arguments -> provideOutput(result -> result.setOutput(storage.printWorkingDirectory())));
         addCommand("depth", arguments -> provideOutput(result -> result.setOutput(storage.depth())));
 
         addCommand("mkdir", arguments -> provideOutput(result
                 -> {
-            String string = storage.mkdirmore(extractArguments(arguments));
+            String string = storage.createDirectories(extractArguments(arguments));
             if (string.isEmpty()) {
                 result.setOutput("New directory was successfully created");
             } else {
@@ -214,7 +214,7 @@ public class StorageCommandLine {
                 }
                 break;
             case "readtext":
-                String rr = storage.readtext(argument1.get());
+                String rr = storage.readString(argument1.get());
                 if (rr != null) {
                     finalResult.setOutput("Text file was successfully loaded" + "\n\n" + rr);
                 } else {
@@ -222,7 +222,7 @@ public class StorageCommandLine {
                 }
                 break;
             case "savetext":
-                String result = storage.savetext(argument1.get(), argument2.get());
+                String result = storage.writeString(argument1.get(), argument2.get());
                 if (result.isEmpty()) {
                     finalResult.setOutput("Text file was successfully saved");
                 } else {
@@ -230,7 +230,7 @@ public class StorageCommandLine {
                 }
                 break;
             case "cd":
-                String rrr = argument1.isEmpty() ? storage.cd() : storage.cd(argument1.get());
+                String rrr = argument1.isEmpty() ? storage.changeDirectory() : storage.changeDirectory(argument1.get());
                 if (rrr.isEmpty()) {
                     finalResult.setOutput("Changing working directory was successfully created");
                 } else {

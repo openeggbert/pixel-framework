@@ -20,16 +20,19 @@
 
 package com.pixelgamelibrary.api.storage.map;
 
+import com.pixelgamelibrary.api.storage.FileType;
 import com.pixelgamelibrary.api.storage.StorageException;
+import static com.pixelgamelibrary.api.storage.FileType.DIRECTORY;
+import static com.pixelgamelibrary.api.storage.FileType.FILE;
 
 /**
- * Enum representing the types of files or directories in the map.
- * It can either be a FILE or a DIRECTORY.
  * 
  * @author robertvokac
  */
-public enum MapFileType {
-    FILE, DIRECTORY;
+public class MapFileType {
+    private MapFileType() {
+        //Not meant to be instantiated.
+    }
 
     /**
      * Determines the MapFileType based on the value associated with the specified key in the map.
@@ -40,7 +43,7 @@ public enum MapFileType {
      * @return the MapFileType corresponding to the value in the map
      * @throws StorageException if the key is not present in the map or if the value does not match FILE or DIRECTORY
      */
-    public static MapFileType ofKey(String key, SimpleMap map) {
+    public static FileType ofKey(String key, SimpleMap map) {
         // Check if the map contains the specified key
         if (!map.contains(key)) {
             throw new StorageException("Map does not contain key: " + key);
