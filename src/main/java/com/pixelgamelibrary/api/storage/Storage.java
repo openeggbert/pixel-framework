@@ -300,4 +300,21 @@ public interface Storage {
         }
         return printWorkingDirectory() + (printWorkingDirectory().equals("/") ? "" : SLASH) + path;
     }
+    default boolean isTextFile(String content) {
+        try {
+            
+            // Check if the content contains any non-printable characters
+            for (int i = 0; i < content.length(); i++) {
+                char c = content.charAt(i);
+                // In GWT, use a simpler check for control characters
+                if (c < 32 && !Character.isWhitespace(c)) {
+                    return false; // Likely a binary file due to control characters
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            // If there's an exception while reading the file as a string, assume it's binary
+            return false;
+        }
+    }
 }
