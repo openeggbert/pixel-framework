@@ -17,17 +17,74 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
 package com.pixelgamelibrary.api;
+
 
 /**
  *
  * @author robertvokac
  */
-public enum Platform {
-    DESKTOP, ANDROID, WEB, IOS;
-    public boolean isDesktop() {return this == DESKTOP;}
-    public boolean isAndroid() {return this == ANDROID;}
-    public boolean isWeb() {return this == WEB;}
-    public boolean isIOS() {return this == IOS;}
+public class GameWrapper implements GameI {
 
+    private final GameI game;
+
+    public GameWrapper(GameI gameI) {
+        this.game = gameI;
+    }
+
+    @Override
+    public void create() {
+        game.create();
+    }
+
+    @Override
+    public void setScreen(ScreenI screen) {
+        game.setScreen(screen);
+    }
+
+    @Override
+    public ScreenI getScreen() {
+        return game.getScreen();
+    }
+
+    @Override
+    public void render() {
+        game.render();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        game.resize(width, height);
+    }
+
+    @Override
+    public void show() {
+        game.show();
+    }
+
+    @Override
+    public void hide() {
+        game.hide();
+    }
+
+    @Override
+    public void pause() {
+        game.pause();
+    }
+
+    @Override
+    public void resume() {
+        game.resume();
+    }
+
+    @Override
+    public void dispose() {
+        game.dispose();
+    }
+
+    @Override
+    public void setOnSetScreenListener(OnSetScreenListener setScreenListener) {
+        game.setOnSetScreenListener(setScreenListener);
+    }
 }

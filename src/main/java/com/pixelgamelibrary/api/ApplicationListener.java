@@ -17,22 +17,24 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api.interfaces;
+package com.pixelgamelibrary.api;
 
 /**
  *
  * @author robertvokac
  */
-public interface PixelBackend {
+public interface ApplicationListener {
 
-    AppI app();
-    GraphicsI graphics();
-    AudioI audio();
-    InputI input();
-    NetI net();
-    AssetI asset();
-    StorageI storage();
-    UtilsI utils();
-    InternalI internal();
+    void resize(int width, int height);
+
+    void show();
+
+    void hide();
+
+    void pause();
+
+    void resume();
+
+    void dispose();
 
 }

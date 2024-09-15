@@ -19,6 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api.interfaces;
 
+import com.pixelgamelibrary.api.GameI;
 import com.pixelgamelibrary.api.Platform;
 
 /**
@@ -44,5 +45,9 @@ public interface AppI {
     void setAppName(String appName);
     String getAppName();
     boolean isAppNameSet();
+    
+    void setGame(GameI game);
+
+    GameI getGame();
     
 }

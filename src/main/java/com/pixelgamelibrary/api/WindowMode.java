@@ -17,18 +17,14 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
 package com.pixelgamelibrary.api;
 
 /**
  *
  * @author robertvokac
  */
-public class WindowMode {
+public enum WindowMode {
 
-    private WindowMode() {
-        //Not meant to be instantiated.
-    }
-    
-    public static final String WINDOW = "WINDOW";
-    public static final String FULLSCREEN = "FULLSCREEN";
+    WINDOW, FULLSCREEN;
 }

@@ -17,22 +17,34 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api.interfaces;
+package com.pixelgamelibrary.api;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  * @author robertvokac
  */
-public interface PixelBackend {
-
-    AppI app();
-    GraphicsI graphics();
-    AudioI audio();
-    InputI input();
-    NetI net();
-    AssetI asset();
-    StorageI storage();
-    UtilsI utils();
-    InternalI internal();
-
+public abstract class PixelApplication {
+    abstract public GameI createGameViaMap(Map<String, Object> objects);
+    
+    public GameI createGame() {
+        return createGame(new HashMap<>());
+    }
+    public GameI createGame(Object... objects) {
+        Map<String, Object> map = new HashMap<>();
+        int i = 0;
+        int maxI = objects.length - 1;
+        while(i<objects.length) {
+            
+        String key = (String)objects[i];
+        i++;
+        Object value = i > maxI ? null : objects[i];
+        map.put(key, value);
+        }
+        
+        return createGameViaMap(map);
+    }
+    
 }

@@ -17,22 +17,48 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api.interfaces;
+package com.pixelgamelibrary.api;
 
 /**
  *
  * @author robertvokac
  */
-public interface PixelBackend {
+public class ScreenAdapter implements ScreenI{
+private GameI game = null;
 
-    AppI app();
-    GraphicsI graphics();
-    AudioI audio();
-    InputI input();
-    NetI net();
-    AssetI asset();
-    StorageI storage();
-    UtilsI utils();
-    InternalI internal();
+    @Override
+    public void resize(int width, int height) {
+        
+    }
 
+    @Override
+    public void render(float delta) {
+        
+    }
+
+    @Override
+    public void show() {
+        
+    }
+
+    @Override
+    public void hide() {
+        
+    }
+
+    @Override
+    public void pause() {
+        
+    }
+
+    @Override
+    public void resume() {
+        
+    }
+
+    @Override
+    public void dispose() {
+        
+    }
+    
 }

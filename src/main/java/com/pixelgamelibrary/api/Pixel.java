@@ -24,6 +24,7 @@ import com.pixelgamelibrary.api.interfaces.AssetI;
 import com.pixelgamelibrary.api.interfaces.AudioI;
 import com.pixelgamelibrary.api.interfaces.GraphicsI;
 import com.pixelgamelibrary.api.interfaces.InputI;
+import com.pixelgamelibrary.api.interfaces.InternalI;
 import com.pixelgamelibrary.api.interfaces.NetI;
 import com.pixelgamelibrary.api.interfaces.PixelBackend;
 import com.pixelgamelibrary.api.interfaces.StorageI;
@@ -76,6 +77,10 @@ public class Pixel {
 
     public static UtilsI utils() {
         return get().utils();
+    }
+
+    public static InternalI internal() {
+        return get().internal();
     }
     ////
 

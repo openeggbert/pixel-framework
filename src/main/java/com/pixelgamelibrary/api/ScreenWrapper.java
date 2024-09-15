@@ -17,12 +17,54 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
 package com.pixelgamelibrary.api;
+
 
 /**
  *
  * @author robertvokac
  */
-public abstract class Screen extends com.badlogic.gdx.ScreenAdapter {
-    
+public class ScreenWrapper implements ScreenI {
+
+    private final ScreenI screen;
+
+    public ScreenWrapper(ScreenI screenIn) {
+        this.screen = screenIn;
+    }
+    @Override
+    public void render(float delta) {
+        screen.render(delta);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        screen.resize(width, height);
+    }
+
+    @Override
+    public void show() {
+        screen.show();
+    }
+
+    @Override
+    public void hide() {
+        screen.hide();
+    }
+
+    @Override
+    public void pause() {
+        screen.pause();
+    }
+
+    @Override
+    public void resume() {
+        screen.resume();
+    }
+
+    @Override
+    public void dispose() {
+        screen.dispose();
+    }
+
 }

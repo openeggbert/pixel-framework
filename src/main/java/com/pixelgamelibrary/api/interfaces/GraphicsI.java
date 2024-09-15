@@ -19,12 +19,14 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api.interfaces;
 
+import com.pixelgamelibrary.api.WindowMode;
+
 /**
  *
  * @author robertvokac
  */
 public interface GraphicsI {
     boolean setToOriginalDisplayMode();
-    String setDisplayMode(boolean fullscreen, boolean window);
+    WindowMode setDisplayMode(boolean fullscreen, boolean window);
     
 }
