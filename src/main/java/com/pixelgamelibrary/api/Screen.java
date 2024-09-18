@@ -23,7 +23,7 @@ package com.pixelgamelibrary.api;
  *
  * @author robertvokac
  */
-public interface ScreenI extends ApplicationListener {
+public interface Screen extends ApplicationListener {
 
     void render(float delta);
 }

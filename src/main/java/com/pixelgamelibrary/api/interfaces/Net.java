@@ -19,37 +19,10 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api.interfaces;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Stream;
-
 /**
  *
  * @author robertvokac
  */
-public interface UtilsI {
-    XmlElement parseXml(String xmlString);
-            default String decodeBase64AsString(String string) {
-        return new String(decodeBase64AsByteArray(string));
-    }
-
-    byte[] decodeBase64AsByteArray(String string);
-
-    default String encodeToBase64(String string) {
-        return encodeToBase64(string.getBytes());
-    }
-
-    String encodeToBase64(byte[] data);
-    List<String> listSupportedCompressions();
-    byte[] compress(byte[] data, String compression, Map<String, String> arguments);
-    default byte[] compress(byte[] data, String compression) {
-        return compress(data, compression, new HashMap<>());
-    }
-    byte[] decompress(byte[] data, String compression);
-    default Stream<String> splitStringToLinesAsStream(String string) {
-        return Arrays.asList(string.split("\\r?\\n")).stream();
-    }
-
+public interface Net {
+    
 }

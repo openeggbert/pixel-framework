@@ -13,20 +13,20 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program. If not, see 
+// along with this program. If not, see
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api.interfaces;
 
-import com.pixelgamelibrary.api.WindowMode;
+package com.pixelgamelibrary.api.utils;
 
 /**
  *
  * @author robertvokac
  */
-public interface GraphicsI {
-    boolean setToOriginalDisplayMode();
-    WindowMode setDisplayMode(boolean fullscreen, boolean window);
+public class TmpDirectoryRegistry {
+    public TmpDirectoryRegistry() {
+//todo
+    }
     
 }

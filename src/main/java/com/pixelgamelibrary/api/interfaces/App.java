@@ -17,34 +17,46 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api;
+package com.pixelgamelibrary.api.interfaces;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.pixelgamelibrary.api.PixelFeature;
+import com.pixelgamelibrary.api.Platform;
+import com.pixelgamelibrary.api.Game;
+import com.pixelgamelibrary.api.utils.ClipBoard;
+import com.pixelgamelibrary.api.utils.LogLevel;
+import com.pixelgamelibrary.api.utils.Preferences;
 
 /**
  *
  * @author robertvokac
  */
-public abstract class PixelApplication {
-    abstract public Game createGameViaMap(Map<String, Object> objects);
+public interface App {
+    Platform getPlatform();
     
-    public Game createGame() {
-        return createGame(new HashMap<>());
-    }
-    public Game createGame(Object... objects) {
-        Map<String, Object> map = new HashMap<>();
-        int i = 0;
-        int maxI = objects.length - 1;
-        while(i<objects.length) {
-            
-        String key = (String)objects[i];
-        i++;
-        Object value = i > maxI ? null : objects[i];
-        map.put(key, value);
+    default boolean isOneOfPlatforms(Platform ... platforms) {
+        for(Platform p: platforms) {
+            if(getPlatform() == p) {
+                return true;
+            }
         }
-        
-        return createGameViaMap(map);
+        return false;
     }
+    void exit();
+    void log(String msg);
+    void warn(String msg);
+    void error(String msg);
+    void debug(String msg);
+    void setLogLevel(LogLevel logLevel);
+    Preferences getPreferences(String preferencesName);
+    void setAppName(String appName);
+    String getAppName();
+    boolean isAppNameSet();
     
+    void setGame(Game game);
+
+    Game getGame();
+    boolean isFeatureEnabled(PixelFeature feature);
+    boolean isMobileDevice();
+    void postRunnable(Runnable runnable);
+    ClipBoard getClipBoard();
 }

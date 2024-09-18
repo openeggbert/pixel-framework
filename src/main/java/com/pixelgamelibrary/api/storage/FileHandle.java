@@ -17,7 +17,6 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
 package com.pixelgamelibrary.api.storage;
 
 import java.util.List;
@@ -27,39 +26,68 @@ import java.util.List;
  * @author robertvokac
  */
 public interface FileHandle {
+
     FileType type();
-    	String path ();
-	String name ();
-	String extension ();
-	String nameWithoutExtension ();
-        List<FileHandle> list();
-        default boolean isDirectory() {
-            return type() == FileType.DIRECTORY;
-        }
-        
-        default boolean isRegularFile() {
-            return type() == FileType.FILE;
-        }
-        FileHandle child(String name);
-        FileHandle sibling(String name);
-        FileHandle parent();
-        boolean mkdir();
-        boolean mkdirs();
-        boolean exists();
-        boolean delete();
-        boolean deleteDirectory();
-        boolean emptyDirectory();
-        boolean copyTo(FileHandle destination);
-        boolean moveTo(FileHandle destination);
-        
-        long length();
-        FileHandle tempFile (String prefix);
-        FileHandle tempDirectory (String prefix);
-        int depth();
-        boolean writeString(String text);
-        boolean appendString(String text);
-        String readString();
-        
-        boolean writeBytes(byte[] data);
-        byte[] readBytes();
+
+    String path();
+
+    String name();
+
+    String extension();
+
+    String nameWithoutExtension();
+
+    List<FileHandle> list();
+
+    default boolean isDirectory() {
+        return type() == FileType.DIRECTORY;
+    }
+
+    default boolean isRegularFile() {
+        return type() == FileType.FILE;
+    }
+
+    FileHandle child(String name);
+
+    FileHandle sibling(String name);
+
+    FileHandle parent();
+
+    boolean mkdir();
+
+    boolean mkdirs();
+
+    boolean exists();
+
+    boolean delete();
+
+    boolean deleteDirectory();
+
+    boolean emptyDirectory();
+
+    boolean copyTo(FileHandle destination);
+
+    boolean moveTo(FileHandle destination);
+
+    long length();
+
+    FileHandle tempFile(String prefix);
+
+    FileHandle tempDirectory(String prefix);
+
+    int depth();
+
+    boolean writeString(String text);
+
+    boolean appendString(String text);
+
+    String readString();
+
+    boolean writeBytes(byte[] data);
+
+    byte[] readBytes();
+
+    void flush();
+
+    Storage getStorage();
 }

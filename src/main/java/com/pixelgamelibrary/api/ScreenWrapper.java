@@ -25,11 +25,11 @@ package com.pixelgamelibrary.api;
  *
  * @author robertvokac
  */
-public class ScreenWrapper implements ScreenI {
+public class ScreenWrapper implements Screen {
 
-    private final ScreenI screen;
+    private final Screen screen;
 
-    public ScreenWrapper(ScreenI screenIn) {
+    public ScreenWrapper(Screen screenIn) {
         this.screen = screenIn;
     }
     @Override

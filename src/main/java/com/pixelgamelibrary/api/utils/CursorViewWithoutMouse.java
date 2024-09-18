@@ -13,41 +13,17 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program. If not, see 
+// along with this program. If not, see
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api.interfaces;
 
-import com.pixelgamelibrary.api.GameI;
-import com.pixelgamelibrary.api.Platform;
+package com.pixelgamelibrary.api.utils;
 
 /**
  *
  * @author robertvokac
  */
-public interface AppI {
-    Platform getPlatform();
-    
-    default boolean isOneOfPlatforms(Platform ... platforms) {
-        for(Platform p: platforms) {
-            if(getPlatform() == p) {
-                return true;
-            }
-        }
-        return false;
-    }
-    void exit();
-    void log(String msg);
-    void warn(String msg);
-    void error(String msg);
-    void debug(String msg);
-    void setAppName(String appName);
-    String getAppName();
-    boolean isAppNameSet();
-    
-    void setGame(GameI game);
-
-    GameI getGame();
-    
+public enum CursorViewWithoutMouse {
+     NONE, NORMAL, MOVE;
 }

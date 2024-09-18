@@ -1,18 +1,8 @@
 package com.pixelgamelibrary.api.storage.map;
 
-import com.pixelgamelibrary.api.GameI;
 import com.pixelgamelibrary.api.Pixel;
 import com.pixelgamelibrary.api.Platform;
-import com.pixelgamelibrary.api.interfaces.AppI;
-import com.pixelgamelibrary.api.interfaces.AssetI;
-import com.pixelgamelibrary.api.interfaces.AudioI;
-import com.pixelgamelibrary.api.interfaces.GraphicsI;
-import com.pixelgamelibrary.api.interfaces.InputI;
-import com.pixelgamelibrary.api.interfaces.InternalI;
-import com.pixelgamelibrary.api.interfaces.NetI;
 import com.pixelgamelibrary.api.interfaces.PixelBackend;
-import com.pixelgamelibrary.api.interfaces.StorageI;
-import com.pixelgamelibrary.api.interfaces.UtilsI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -21,6 +11,19 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import com.pixelgamelibrary.api.interfaces.Files;
+import com.pixelgamelibrary.api.interfaces.Audio;
+import com.pixelgamelibrary.api.interfaces.Graphics;
+import com.pixelgamelibrary.api.interfaces.Input;
+import com.pixelgamelibrary.api.interfaces.Internal;
+import com.pixelgamelibrary.api.interfaces.Net;
+import com.pixelgamelibrary.api.interfaces.Utils;
+import com.pixelgamelibrary.api.interfaces.App;
+import com.pixelgamelibrary.api.Game;
+import com.pixelgamelibrary.api.PixelFeature;
+import com.pixelgamelibrary.api.utils.ClipBoard;
+import com.pixelgamelibrary.api.utils.LogLevel;
+import com.pixelgamelibrary.api.utils.Preferences;
 
 // Tests for MapStorage class
 public class MapStorageTest {
@@ -32,8 +35,8 @@ public class MapStorageTest {
         
         PixelBackend dummyPixelBackend = new PixelBackend() {
             @Override
-            public AppI app() {
-                return new AppI() {
+            public App app() {
+                return new App() {
                     @Override
                     public Platform getPlatform() {
                         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -79,12 +82,42 @@ public class MapStorageTest {
                     }
 
                     @Override
-                    public void setGame(GameI game) {
+                    public void setGame(Game game) {
                         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                     }
 
                     @Override
-                    public GameI getGame() {
+                    public Game getGame() {
+                        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                    }
+
+                    @Override
+                    public void setLogLevel(LogLevel logLevel) {
+                        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                    }
+
+                    @Override
+                    public Preferences getPreferences(String preferencesName) {
+                        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                    }
+
+                    @Override
+                    public boolean isFeatureEnabled(PixelFeature feature) {
+                        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                    }
+
+                    @Override
+                    public boolean isMobileDevice() {
+                        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                    }
+
+                    @Override
+                    public void postRunnable(Runnable runnable) {
+                        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                    }
+
+                    @Override
+                    public ClipBoard getClipBoard() {
                         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                     }
                 
@@ -92,42 +125,37 @@ public class MapStorageTest {
             }
 
             @Override
-            public GraphicsI graphics() {
+            public Graphics graphics() {
                 throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
             }
 
             @Override
-            public AudioI audio() {
+            public Audio audio() {
                 throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
             }
 
             @Override
-            public InputI input() {
+            public Input input() {
                 throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
             }
 
             @Override
-            public NetI net() {
+            public Net net() {
                 throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
             }
 
             @Override
-            public AssetI asset() {
+            public Files files() {
                 throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
             }
 
             @Override
-            public StorageI storage() {
+            public Utils utils() {
                 throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
             }
 
             @Override
-            public UtilsI utils() {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-            }
-
-            @Override
-            public InternalI internal() {
+            public Internal internal() {
                 throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
             }
         };

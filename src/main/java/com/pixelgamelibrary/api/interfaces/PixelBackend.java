@@ -25,14 +25,13 @@ package com.pixelgamelibrary.api.interfaces;
  */
 public interface PixelBackend {
 
-    AppI app();
-    GraphicsI graphics();
-    AudioI audio();
-    InputI input();
-    NetI net();
-    AssetI asset();
-    StorageI storage();
-    UtilsI utils();
-    InternalI internal();
+    App app();
+    Graphics graphics();
+    Audio audio();
+    Input input();
+    Net net();
+    Files files();
+    Utils utils();
+    Internal internal();
 
 }

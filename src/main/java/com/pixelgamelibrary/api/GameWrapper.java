@@ -25,11 +25,11 @@ package com.pixelgamelibrary.api;
  *
  * @author robertvokac
  */
-public class GameWrapper implements GameI {
+public class GameWrapper implements Game {
 
-    private final GameI game;
+    private final Game game;
 
-    public GameWrapper(GameI gameI) {
+    public GameWrapper(Game gameI) {
         this.game = gameI;
     }
 
@@ -39,12 +39,12 @@ public class GameWrapper implements GameI {
     }
 
     @Override
-    public void setScreen(ScreenI screen) {
+    public void setScreen(Screen screen) {
         game.setScreen(screen);
     }
 
     @Override
-    public ScreenI getScreen() {
+    public Screen getScreen() {
         return game.getScreen();
     }
 

@@ -23,8 +23,8 @@ package com.pixelgamelibrary.api;
  *
  * @author robertvokac
  */
-public class ScreenAdapter implements ScreenI{
-private GameI game = null;
+public class ScreenAdapter implements Screen{
+private Game game = null;
 
     @Override
     public void resize(int width, int height) {

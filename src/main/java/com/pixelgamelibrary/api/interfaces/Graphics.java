@@ -17,14 +17,19 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
+package com.pixelgamelibrary.api.interfaces;
 
-package com.pixelgamelibrary.api;
+import com.pixelgamelibrary.api.WindowMode;
+import com.pixelgamelibrary.api.utils.Monitor;
+import java.util.List;
 
 /**
  *
  * @author robertvokac
  */
-public interface OnSetScreenListener {
-    void onSetScreen(Screen screen);
+public interface Graphics {
+    boolean setToOriginalDisplayMode();
+    WindowMode setDisplayMode(boolean fullscreen, boolean window);
+    List<Monitor> getMonitors();
     
 }

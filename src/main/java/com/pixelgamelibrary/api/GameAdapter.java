@@ -24,9 +24,9 @@ package com.pixelgamelibrary.api;
  *
  * @author robertvokac
  */
-public class GameAdapter implements GameI {
+public class GameAdapter implements Game {
 
-    private ScreenI screen;
+    private Screen screen;
     private OnSetScreenListener setOnSetScreenListener;
     @Override
     public void create() {
@@ -34,7 +34,7 @@ public class GameAdapter implements GameI {
     }
 
     @Override
-    public void setScreen(ScreenI screen) {
+    public void setScreen(Screen screen) {
         this.screen = screen;
         System.out.println("setOnSetScreenListener=" + setOnSetScreenListener);
         if(setOnSetScreenListener != null) {
@@ -44,7 +44,7 @@ public class GameAdapter implements GameI {
     }
 
     @Override
-    public ScreenI getScreen() {
+    public Screen getScreen() {
         return screen;
     }
 

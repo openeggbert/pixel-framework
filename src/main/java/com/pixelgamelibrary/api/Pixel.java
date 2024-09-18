@@ -19,16 +19,15 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api;
 
-import com.pixelgamelibrary.api.interfaces.AppI;
-import com.pixelgamelibrary.api.interfaces.AssetI;
-import com.pixelgamelibrary.api.interfaces.AudioI;
-import com.pixelgamelibrary.api.interfaces.GraphicsI;
-import com.pixelgamelibrary.api.interfaces.InputI;
-import com.pixelgamelibrary.api.interfaces.InternalI;
-import com.pixelgamelibrary.api.interfaces.NetI;
 import com.pixelgamelibrary.api.interfaces.PixelBackend;
-import com.pixelgamelibrary.api.interfaces.StorageI;
-import com.pixelgamelibrary.api.interfaces.UtilsI;
+import com.pixelgamelibrary.api.interfaces.Files;
+import com.pixelgamelibrary.api.interfaces.Audio;
+import com.pixelgamelibrary.api.interfaces.Graphics;
+import com.pixelgamelibrary.api.interfaces.Input;
+import com.pixelgamelibrary.api.interfaces.Internal;
+import com.pixelgamelibrary.api.interfaces.Net;
+import com.pixelgamelibrary.api.interfaces.Utils;
+import com.pixelgamelibrary.api.interfaces.App;
 
 /**
  *
@@ -47,39 +46,35 @@ public class Pixel {
     }
 
     ////
-    public static AppI app() {
+    public static App app() {
         return get().app();
     }
 
-    public static GraphicsI graphics() {
+    public static Graphics graphics() {
         return get().graphics();
     }
 
-    public static AudioI audio() {
+    public static Audio audio() {
         return get().audio();
     }
 
-    public static InputI input() {
+    public static Input input() {
         return get().input();
     }
 
-    public static NetI net() {
+    public static Net net() {
         return get().net();
     }
 
-    public static AssetI asset() {
-        return get().asset();
+    public static Files files() {
+        return get().files();
     }
 
-    public static StorageI storage() {
-        return get().storage();
-    }
-
-    public static UtilsI utils() {
+    public static Utils utils() {
         return get().utils();
     }
 
-    public static InternalI internal() {
+    public static Internal internal() {
         return get().internal();
     }
     ////

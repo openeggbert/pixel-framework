@@ -17,14 +17,12 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
+package com.pixelgamelibrary.api.interfaces;
 
-package com.pixelgamelibrary.api;
 
 /**
  *
  * @author robertvokac
  */
-public interface OnSetScreenListener {
-    void onSetScreen(Screen screen);
-    
+public interface Internal {
 }

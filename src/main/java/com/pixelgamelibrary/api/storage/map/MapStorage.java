@@ -25,6 +25,7 @@ import com.pixelgamelibrary.api.storage.FileType;
 import com.pixelgamelibrary.api.storage.RegularFileType;
 import com.pixelgamelibrary.api.storage.StorageException;
 import com.pixelgamelibrary.api.storage.Storage;
+import com.pixelgamelibrary.api.storage.StorageType;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -406,5 +407,40 @@ public class MapStorage implements Storage {
         String text = readString(path);
         
         return text.startsWith(BINARYFILE) ? RegularFileType.BINARY :  RegularFileType.TEXT;
+    }
+
+    @Override
+    public byte[] backup(String methodName) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void restore(String methodName, byte[] data) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean isReadonly() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void clear() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean isEmpty() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public long size() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public StorageType getStorageType() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

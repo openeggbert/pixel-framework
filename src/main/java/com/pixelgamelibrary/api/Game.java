@@ -17,12 +17,21 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api.interfaces;
-
+package com.pixelgamelibrary.api;
 
 /**
  *
  * @author robertvokac
  */
-public interface InternalI {
+public interface Game extends ApplicationListener {
+
+    void create();
+
+    void setScreen(Screen screen);
+
+    Screen getScreen();
+    
+    void render();
+    
+    void setOnSetScreenListener(OnSetScreenListener setScreenListener);
 }
