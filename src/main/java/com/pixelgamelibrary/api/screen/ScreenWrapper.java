@@ -18,74 +18,53 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-package com.pixelgamelibrary.api;
+package com.pixelgamelibrary.api.screen;
+
 
 /**
  *
  * @author robertvokac
  */
-public class GameAdapter implements Game {
+public class ScreenWrapper implements Screen {
 
-    private Screen screen;
-    private OnSetScreenListener setOnSetScreenListener;
-    @Override
-    public void create() {
-        
+    private final Screen screen;
+
+    public ScreenWrapper(Screen screenIn) {
+        this.screen = screenIn;
     }
-
     @Override
-    public void setScreen(Screen screen) {
-        this.screen = screen;
-        System.out.println("setOnSetScreenListener=" + setOnSetScreenListener);
-        if(setOnSetScreenListener != null) {
-        setOnSetScreenListener.onSetScreen(screen);
-        }
-        System.out.println("GameAdapter:setScreen");
-    }
-
-    @Override
-    public Screen getScreen() {
-        return screen;
-    }
-
-    @Override
-    public void render() {
-        
+    public void render(float delta) {
+        screen.render(delta);
     }
 
     @Override
     public void resize(int width, int height) {
-        
+        screen.resize(width, height);
     }
 
     @Override
     public void show() {
-        
+        screen.show();
     }
 
     @Override
     public void hide() {
-        
+        screen.hide();
     }
 
     @Override
     public void pause() {
-        
+        screen.pause();
     }
 
     @Override
     public void resume() {
-        
+        screen.resume();
     }
 
     @Override
     public void dispose() {
-        
+        screen.dispose();
     }
 
-    @Override
-    public void setOnSetScreenListener(OnSetScreenListener setScreenListener) {
-        this.setOnSetScreenListener = setScreenListener;
-    }
-    
 }

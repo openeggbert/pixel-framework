@@ -19,6 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api;
 
+import com.pixelgamelibrary.api.game.Game;
 import java.util.HashMap;
 import java.util.Map;
 

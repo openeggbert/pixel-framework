@@ -18,73 +18,77 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-package com.pixelgamelibrary.api;
+package com.pixelgamelibrary.api.game;
 
+import com.pixelgamelibrary.api.OnSetScreenListener;
+import com.pixelgamelibrary.api.screen.Screen;
 
 /**
  *
  * @author robertvokac
  */
-public class GameWrapper implements Game {
+public class GameAdapter implements Game {
 
-    private final Game game;
-
-    public GameWrapper(Game gameI) {
-        this.game = gameI;
-    }
-
+    private Screen screen;
+    private OnSetScreenListener setOnSetScreenListener;
     @Override
     public void create() {
-        game.create();
+        
     }
 
     @Override
     public void setScreen(Screen screen) {
-        game.setScreen(screen);
+        this.screen = screen;
+        System.out.println("setOnSetScreenListener=" + setOnSetScreenListener);
+        if(setOnSetScreenListener != null) {
+        setOnSetScreenListener.onSetScreen(screen);
+        }
+        System.out.println("GameAdapter:setScreen");
     }
 
     @Override
     public Screen getScreen() {
-        return game.getScreen();
+        return screen;
     }
 
     @Override
     public void render() {
-        game.render();
+        
     }
 
     @Override
     public void resize(int width, int height) {
-        game.resize(width, height);
+        
     }
 
     @Override
     public void show() {
-        game.show();
+        
     }
 
     @Override
     public void hide() {
-        game.hide();
+        
     }
 
     @Override
     public void pause() {
-        game.pause();
+        
     }
 
     @Override
     public void resume() {
-        game.resume();
+        
     }
 
     @Override
     public void dispose() {
-        game.dispose();
+        
     }
 
     @Override
     public void setOnSetScreenListener(OnSetScreenListener setScreenListener) {
-        game.setOnSetScreenListener(setScreenListener);
+        this.setOnSetScreenListener = setScreenListener;
     }
+    
 }

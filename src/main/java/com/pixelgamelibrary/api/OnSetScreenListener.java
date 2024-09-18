@@ -20,6 +20,8 @@
 
 package com.pixelgamelibrary.api;
 
+import com.pixelgamelibrary.api.screen.Screen;
+
 /**
  *
  * @author robertvokac

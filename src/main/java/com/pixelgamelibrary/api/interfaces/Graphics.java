@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api.interfaces;
 
-import com.pixelgamelibrary.api.WindowMode;
+import com.pixelgamelibrary.api.DisplayMode;
 import com.pixelgamelibrary.api.utils.Monitor;
 import java.util.List;
 
@@ -29,7 +29,7 @@ import java.util.List;
  */
 public interface Graphics {
     boolean setToOriginalDisplayMode();
-    WindowMode setDisplayMode(boolean fullscreen, boolean window);
+    DisplayMode setDisplayMode(boolean fullscreen, boolean window);
     List<Monitor> getMonitors();
     
 }

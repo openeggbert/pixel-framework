@@ -17,54 +17,25 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
+package com.pixelgamelibrary.api.game;
 
-package com.pixelgamelibrary.api;
-
+import com.pixelgamelibrary.api.ApplicationListener;
+import com.pixelgamelibrary.api.OnSetScreenListener;
+import com.pixelgamelibrary.api.screen.Screen;
 
 /**
  *
  * @author robertvokac
  */
-public class ScreenWrapper implements Screen {
+public interface Game extends ApplicationListener {
 
-    private final Screen screen;
+    void create();
 
-    public ScreenWrapper(Screen screenIn) {
-        this.screen = screenIn;
-    }
-    @Override
-    public void render(float delta) {
-        screen.render(delta);
-    }
+    void setScreen(Screen screen);
 
-    @Override
-    public void resize(int width, int height) {
-        screen.resize(width, height);
-    }
-
-    @Override
-    public void show() {
-        screen.show();
-    }
-
-    @Override
-    public void hide() {
-        screen.hide();
-    }
-
-    @Override
-    public void pause() {
-        screen.pause();
-    }
-
-    @Override
-    public void resume() {
-        screen.resume();
-    }
-
-    @Override
-    public void dispose() {
-        screen.dispose();
-    }
-
+    Screen getScreen();
+    
+    void render();
+    
+    void setOnSetScreenListener(OnSetScreenListener setScreenListener);
 }

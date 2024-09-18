@@ -17,14 +17,50 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
+package com.pixelgamelibrary.api.screen;
 
-package com.pixelgamelibrary.api;
+import com.pixelgamelibrary.api.game.Game;
 
 /**
  *
  * @author robertvokac
  */
-public enum WindowMode {
+public class ScreenAdapter implements Screen{
+private Game game = null;
 
-    WINDOW, FULLSCREEN;
+    @Override
+    public void resize(int width, int height) {
+        
+    }
+
+    @Override
+    public void render(float delta) {
+        
+    }
+
+    @Override
+    public void show() {
+        
+    }
+
+    @Override
+    public void hide() {
+        
+    }
+
+    @Override
+    public void pause() {
+        
+    }
+
+    @Override
+    public void resume() {
+        
+    }
+
+    @Override
+    public void dispose() {
+        
+    }
+    
 }
