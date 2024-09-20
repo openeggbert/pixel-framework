@@ -18,17 +18,12 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-package com.pixelgamelibrary.api.utils;
+package com.pixelgamelibrary.api.audio;
 
 /**
  *
  * @author robertvokac
  */
-public class DisplayMode {
-    private int width, height, refreshRate, bitsPerPixel;
-    
-    public DisplayMode() {
-
-    }
+public interface AudioRecorder {
     
 }

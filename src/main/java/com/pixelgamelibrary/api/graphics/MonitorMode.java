@@ -18,13 +18,20 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-package com.pixelgamelibrary.api.utils;
+package com.pixelgamelibrary.api.graphics;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.ToString;
 
 /**
  *
  * @author robertvokac
  */
-public interface Texture {
-     void makeColorTransparent(int r, int g, int b);
-     void scale(double d);
+@Data
+@AllArgsConstructor
+@ToString
+public class MonitorMode {
+    private int width, height, refreshRate, bitsPerPixel;
+    
 }

@@ -18,12 +18,15 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-package com.pixelgamelibrary.api.utils;
+package com.pixelgamelibrary.api.app;
 
 /**
  *
  * @author robertvokac
  */
-public enum CursorViewWithoutMouse {
-     NONE, NORMAL, MOVE;
+public class ClipBoard {
+    public ClipBoard() {
+//todo
+    }
+    
 }

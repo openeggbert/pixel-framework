@@ -17,13 +17,57 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
+package com.pixelgamelibrary.api.graphics;
 
-package com.pixelgamelibrary.api.utils;
+import com.pixelgamelibrary.api.ViewMode;
+import java.util.List;
 
 /**
  *
  * @author robertvokac
  */
-public interface PixMap {
+public interface Monitor {
+
+    String getName();
     
+    int getVirtualWidth();
+
+    int getVirtualHeight();
+
+    MonitorMode getMonitorMode();
+
+    List<MonitorMode> listSupportedMonitorModes();
+
+    boolean setMonitorMode(MonitorMode monitorMode);
+
+    boolean setToOriginalMonitorMode();
+
+    default void setViewMode(ViewMode displayMode) {
+        setViewMode(displayMode, 0, 0);
+    }
+    void setViewMode(ViewMode displayMode, int width, int height);
+
+    default void setFullScreenMode() {
+        setViewMode(ViewMode.FULLSCREEN);
+    }
+
+    default void setWindowedMode(int width, int height) {
+        setViewMode(ViewMode.WINDOW, width, height);
+    }
+
+    default boolean isFullscreen() {
+        return getViewMode() == ViewMode.FULLSCREEN;
+    }
+
+    default boolean isWindowed() {
+        return getViewMode() == ViewMode.WINDOW;
+    }
+    
+    ViewMode getViewMode();
+    
+    boolean isMonitorInUse();
+    
+    boolean isMonitorModeChangeSupported();
+
+
 }

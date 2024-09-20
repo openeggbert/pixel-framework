@@ -27,6 +27,7 @@ public enum StorageType {
     ASSETS,
     LOCAL,
     EXTERNAL,
+    RELATIVE,
     ABSOLUTE,
     TMP,
     UNDEFINED;

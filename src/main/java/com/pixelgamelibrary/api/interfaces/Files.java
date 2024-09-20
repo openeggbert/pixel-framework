@@ -24,6 +24,7 @@ import com.pixelgamelibrary.api.storage.Storage;
 import com.pixelgamelibrary.api.storage.StorageException;
 import com.pixelgamelibrary.api.storage.StorageType;
 import static com.pixelgamelibrary.api.storage.StorageType.ASSETS;
+import static com.pixelgamelibrary.api.storage.StorageType.EXTERNAL;
 
 /**
  *
@@ -31,17 +32,38 @@ import static com.pixelgamelibrary.api.storage.StorageType.ASSETS;
  */
 public interface Files {
 
-    Storage local();
-
     Storage assets();
+    
+    Storage local();
 
     Storage external();
 
-    Storage relative(String absolutePath);
+    Storage relative();
 
     Storage absolute();
 
     Storage tmp();
+    
+    default FileHandle assetsFile(String path) {
+        return assets().file(path); 
+    }
+    default FileHandle localFile(String path) {
+        return local().file(path); 
+    }
+    default FileHandle externalFile(String path) {
+        return external().file(path); 
+    }
+    default FileHandle relativeFile(String path) {
+        return relative().file(path); 
+    }
+    default FileHandle absoluteFile(String path) {
+        return absolute().file(path); 
+    }
+    default FileHandle tmpFile(String path) {
+        return tmp().file(path); 
+    }
+    
+    
 
     default FileHandle file​(java.lang.String path, StorageType type) {
         switch (type) {
@@ -51,6 +73,8 @@ public interface Files {
                 return local().file(path);
             case EXTERNAL:
                 return external().file(path);
+            case RELATIVE:
+                return relative().file(path);
             case ABSOLUTE:
                 return absolute().file(path);
             case TMP:

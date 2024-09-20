@@ -21,9 +21,9 @@ import com.pixelgamelibrary.api.interfaces.Utils;
 import com.pixelgamelibrary.api.interfaces.App;
 import com.pixelgamelibrary.api.game.Game;
 import com.pixelgamelibrary.api.PixelFeature;
-import com.pixelgamelibrary.api.utils.ClipBoard;
-import com.pixelgamelibrary.api.utils.LogLevel;
-import com.pixelgamelibrary.api.utils.Preferences;
+import com.pixelgamelibrary.api.app.ClipBoard;
+import com.pixelgamelibrary.api.app.LogLevel;
+import com.pixelgamelibrary.api.app.Preferences;
 
 // Tests for MapStorage class
 public class MapStorageTest {
