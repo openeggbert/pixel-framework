@@ -21,7 +21,6 @@ repositories {
 }
 
 dependencies {
-    api "com.badlogicgames.gdx:gdx:$gdxVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.10.3"
