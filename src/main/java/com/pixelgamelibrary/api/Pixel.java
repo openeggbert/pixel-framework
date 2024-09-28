@@ -28,6 +28,7 @@ import com.pixelgamelibrary.api.interfaces.Internal;
 import com.pixelgamelibrary.api.interfaces.Net;
 import com.pixelgamelibrary.api.interfaces.Utils;
 import com.pixelgamelibrary.api.interfaces.App;
+import com.pixelgamelibrary.api.interfaces.Extension;
 
 /**
  *
@@ -47,38 +48,46 @@ public class Pixel {
 
     ////
     public static App app() {
-        return get().app();
+        return extension().getOrDefault(App.class, get().app());
     }
 
     public static Graphics graphics() {
-        return get().graphics();
+        return extension().getOrDefault(Graphics.class, get().graphics());
     }
 
     public static Audio audio() {
-        return get().audio();
+        return extension().getOrDefault(Audio.class, get().audio());
     }
 
     public static Input input() {
-        return get().input();
+        return extension().getOrDefault(Input.class, get().input());
     }
 
     public static Net net() {
-        return get().net();
+        return extension().getOrDefault(Net.class, get().net());
     }
 
     public static Files files() {
-        return get().files();
+        return extension().getOrDefault(Files.class, get().files());
     }
 
     public static Utils utils() {
-        return get().utils();
+        return extension().getOrDefault(Utils.class, get().utils());
     }
 
     public static Internal internal() {
-        return get().internal();
+        return extension().getOrDefault(Internal.class, get().internal());
     }
-    ////
 
+    public static Extension extension() {
+        return get().extension();
+    }
+
+    public static <T> T get(Class<T> clazz) {
+        return get().get(clazz);
+    }
+
+    ////
     public static void initBackend(PixelBackend pixelBackend) {
         if (isBackendSet()) {
             throw new PixelException("Pixel Backend was already set");

@@ -19,6 +19,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api.interfaces;
 
+import com.pixelgamelibrary.api.PixelException;
+import com.pixelgamelibrary.api.extension.ExtensionImpl;
+
 /**
  *
  * @author robertvokac
@@ -29,9 +32,29 @@ public interface PixelBackend {
     Graphics graphics();
     Audio audio();
     Input input();
+    //
     Net net();
     Files files();
     Utils utils();
     Internal internal();
+    //
+    default Extension extension() {
+        return ExtensionImpl.getInstance();
+    }
+
+    default <T> T get(Class<T> clazz) {
+        if(clazz.equals(App.class)) {return (T) app();}
+        if(clazz.equals(Graphics.class)) {return (T) graphics();}
+        if(clazz.equals(Audio.class)) {return (T) audio();}
+        if(clazz.equals(Input.class)) {return (T) input();}
+        //
+        if(clazz.equals(Net.class)) {return (T) net();}
+        if(clazz.equals(Files.class)) {return (T) files();}
+        if(clazz.equals(Utils.class)) {return (T) utils();}
+        if(clazz.equals(Internal.class)) {return (T) internal();}
+        //
+        if(clazz.equals(Extension.class)) {return (T) extension();}
+        throw new PixelException("Unsupported interface: " + clazz.getName());
+    }
 
 }
