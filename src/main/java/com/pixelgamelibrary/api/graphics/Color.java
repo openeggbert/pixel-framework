@@ -25,9 +25,7 @@ import lombok.Data;
  * Represents a color in the RGBA format where each component is a float value
  * between 0 and 1. This class provides methods to manipulate color values,
  * including normalization, blending, and conversion to various formats (e.g.,
- * hexadecimal, integer).
- * <p>
- * The color components are represented as:
+ * hexadecimal, integer). The color components are represented as:
  * <ul>
  * <li><b>red</b> - The intensity of the red component, ranging from 0 to
  * 1.</li>
@@ -38,7 +36,6 @@ import lombok.Data;
  * <li><b>alpha</b> - The transparency level, where 0 is fully transparent and 1
  * is fully opaque.</li>
  * </ul>
- * </p>
  *
  * <p>
  * This class is immutable. Each method that modifies a color returns a new
@@ -51,6 +48,8 @@ import lombok.Data;
  */
 @Data
 public final class Color {
+
+    private static final int BITS_IN_ONE_BYTE = 255;
 
     private float red, green, blue, alpha;
 
@@ -70,11 +69,21 @@ public final class Color {
         return this;
     }
 
+    private static int floatElementToInt(float f) {
+
+        return (int) (f * BITS_IN_ONE_BYTE);
+    }
+
+    private static float intElementToFloat(int i) {
+
+        float iFloat = i;
+        return iFloat / BITS_IN_ONE_BYTE;
+    }
     // Default alpha value for colors
     public static final float DEFAULT_ALPHA = 1f;
 
     // Default alpha int value for colors
-    public static final int DEFAULT_ALPHA_INT = (int) DEFAULT_ALPHA;
+    public static final int DEFAULT_ALPHA_INT = 256;
 
     // Default constructor initializes color to black with full opacity
     public Color() {
@@ -105,7 +114,7 @@ public final class Color {
 
     // Constructor initializes color with specified RGBA values, converting from integers to floats
     public Color(int red, int green, int blue, int alpha) {
-        this((float) red, (float) green, (float) blue, (float) alpha);
+        this(intElementToFloat(red), intElementToFloat(green), intElementToFloat(blue), intElementToFloat(alpha));
     }
 
     // Copy constructor creates a new Color instance from an existing one
@@ -177,10 +186,10 @@ public final class Color {
      */
     public Color set(int red, int green, int blue, int alpha) {
         return set(
-                (float) red,
-                (float) green,
-                (float) blue,
-                (float) alpha);
+                intElementToFloat(red),
+                intElementToFloat(green),
+                intElementToFloat(blue),
+                intElementToFloat(alpha));
     }
 
     /**
@@ -243,6 +252,30 @@ public final class Color {
         return normalize();
     }
 
+    public Color multiply(float r, float g, float b, float a) {
+        this.red *= r;
+        this.green *= g;
+        this.blue *= b;
+        this.alpha *= a;
+        return normalize();
+    }
+
+    public Color add(float r, float g, float b, float a) {
+        this.red += r;
+        this.green += g;
+        this.blue += b;
+        this.alpha += a;
+        return normalize();
+    }
+
+    public Color subtract(float r, float g, float b, float a) {
+        this.red -= r;
+        this.green -= g;
+        this.blue -= b;
+        this.alpha -= a;
+        return normalize();
+    }
+
     @Override
     public boolean equals(Object obj) {
         // Check for reference equality
@@ -283,6 +316,19 @@ public final class Color {
         return (a << 24) | (r << 16) | (g << 8) | b;
     }
 
+    /**
+     * Converts the color to an integer representation (0xAARRGGBB).
+     *
+     * @return the integer representation of this color
+     */
+    public int toIntRGBA() {
+        int a = Math.round(alpha * 255);
+        int r = Math.round(red * 255);
+        int g = Math.round(green * 255);
+        int b = Math.round(blue * 255);
+        return (r << 24) | (b << 16) | (b << 8) | a;
+    }
+
     public static int alpha(float alpha) {
         return Math.round(alpha * 255);
     }
@@ -294,7 +340,7 @@ public final class Color {
      * @return the hexadecimal string representation of this color
      */
     public String toHexString() {
-        return String.format("#%08X", toInt());
+        return String.format("#%08X", toIntRGBA());
     }
 
     public static Color valueOf(String hexString) {
@@ -325,8 +371,110 @@ public final class Color {
         return new Color(r, g, b, a);
     }
 
-    public Color cpy() {
+    public Color copy() {
         return new Color(this);
+    }
+
+    public float getRedFloat() {
+        return red;
+    }
+
+    public float getGreenFloat() {
+        return green;
+    }
+
+    public float getBlueFloat() {
+        return blue;
+    }
+
+    public float getAlphaFloat() {
+        return alpha;
+    }
+
+    public int getRedInt() {
+        return floatElementToInt(red);
+    }
+
+    public int getGreenInt() {
+        return floatElementToInt(green);
+    }
+
+    public int getBlueInt() {
+        return floatElementToInt(blue);
+    }
+
+    public int getAlphaInt() {
+        return floatElementToInt(alpha);
+    }
+
+    public void set16Bit() {
+        this.red = floatElementToInt(this.red) >> 3; // 5 bitů
+        this.green = floatElementToInt(this.green) >> 2; // 6 bitů
+        this.blue = floatElementToInt(this.blue) >> 3; // 5 bitů
+    }
+
+    public void set8Bit() {
+this.red = floatElementToInt(this.red) >> 5; // 3 bity (max 7)
+this.green = floatElementToInt(this.green) >> 5; // 3 bity (max 7)
+this.blue = floatElementToInt(this.blue) >> 6; // 2 bity (max 3)
+    }
+
+    public void set4Bit() {
+        this.red = floatElementToInt(this.red) >> 1; // 2 bitů
+        this.green = floatElementToInt(this.green) >> 1; // 2 bitů
+        this.blue = floatElementToInt(this.blue) >> 1; // 2 bitů
+    }
+
+    public void setWhiteBlack8Bit() {
+        int grayscale = (int) ((red + green + blue) / 3 * 255);
+        this.red = this.green = this.blue = grayscale / 255f; // Černobílý
+    }
+
+    public void setWhiteBlack4Bit() {
+        int grayscale = (int) ((red + green + blue) / 3 * 15);
+        this.red = this.green = this.blue = grayscale / 15f; // Černobílý
+    }
+
+    public void setWhiteBlack2Bit() {
+        int grayscale = (int) ((red + green + blue) / 3 * 3);
+        this.red = this.green = this.blue = grayscale / 3f; // Černobílý
+    }
+
+    public void setWhiteBlack1Bit() {
+        int grayscale = (int) ((red + green + blue) / 3 * 1);
+        this.red = this.green = this.blue = grayscale / 1f; // Černobílý
+    }
+
+    public int getByteRepresentation16Bit() {
+        return (floatElementToInt(this.red) << 11) | (floatElementToInt(this.green) << 5) | floatElementToInt(this.blue);
+    }
+
+    public int getByteRepresentation8Bit() {
+        return (floatElementToInt(this.red) << 4) | (floatElementToInt(this.green) << 2) | floatElementToInt(this.blue);
+    }
+
+    public int getByteRepresentation4Bit() {
+        return (floatElementToInt(this.red) << 2) | (floatElementToInt(this.green) << 1) | floatElementToInt(this.blue);
+    }
+
+    public int getByteRepresentationWhiteBlack8Bit() {
+        int grayscale = (int) ((red + green + blue) / 3 * 255);
+        return grayscale;
+    }
+
+    public int getByteRepresentationWhiteBlack4Bit() {
+        int grayscale = (int) ((red + green + blue) / 3 * 15);
+        return grayscale;
+    }
+
+    public int getByteRepresentationWhiteBlack2Bit() {
+        int grayscale = (int) ((red + green + blue) / 3 * 3);
+        return grayscale;
+    }
+
+    public int getByteRepresentationWhiteBlack1Bit() {
+        int grayscale = (int) ((red + green + blue) / 3 * 1);
+        return grayscale;
     }
 
     @Override
