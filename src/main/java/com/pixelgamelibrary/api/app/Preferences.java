@@ -20,10 +20,12 @@
 
 package com.pixelgamelibrary.api.app;
 
+import com.pixelgamelibrary.api.storage.map.SimpleMap;
+
 /**
  *
  * @author robertvokac
  */
-public interface Preferences {
+public interface Preferences extends SimpleMap {
     
 }

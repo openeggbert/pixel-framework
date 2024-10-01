@@ -17,24 +17,16 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
+package com.pixelgamelibrary.api.math;
 
-package com.pixelgamelibrary.api.graphics;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-import com.pixelgamelibrary.api.Disposable;
-
-/**
- *
- * @author robertvokac
- */
-public interface Texture extends Disposable {
-    
-     void draw (Pixmap pixmap, int x, int y);
-     int getWidth ();
-     int getHeight ();
-     int getDepth ();
-    //
-     void makeColorTransparent(int r, int g, int b);
-     void scale(double d);
-     void setColorMode(ColorMode colorMode, int bitCount);
+@AllArgsConstructor
+@Getter
+@Setter
+public final class Vector2 {
+private int x,y;
 
 }

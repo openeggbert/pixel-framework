@@ -112,7 +112,7 @@ public class MapStorageTest {
                     }
 
                     @Override
-                    public void postRunnable(Runnable runnable) {
+                    public void runLater(Runnable runnable) {
                         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                     }
 

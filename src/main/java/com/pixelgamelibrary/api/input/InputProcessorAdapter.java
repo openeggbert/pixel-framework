@@ -17,21 +17,57 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
-package com.pixelgamelibrary.api;
+package com.pixelgamelibrary.api.input;
 
 /**
  *
  * @author robertvokac
  */
-public class PixelException extends RuntimeException{
+public class InputProcessorAdapter implements InputProcessor {
 
-    public PixelException(String string) {
-        super(string);
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
     }
 
-    public PixelException(String string, Exception e) {
-        super(string, e);
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
     }
-    
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return false;
+    }
+
 }

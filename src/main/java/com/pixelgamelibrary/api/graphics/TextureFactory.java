@@ -20,21 +20,15 @@
 
 package com.pixelgamelibrary.api.graphics;
 
-import com.pixelgamelibrary.api.Disposable;
+import com.pixelgamelibrary.api.storage.FileHandle;
 
 /**
  *
  * @author robertvokac
  */
-public interface Texture extends Disposable {
-    
-     void draw (Pixmap pixmap, int x, int y);
-     int getWidth ();
-     int getHeight ();
-     int getDepth ();
-    //
-     void makeColorTransparent(int r, int g, int b);
-     void scale(double d);
-     void setColorMode(ColorMode colorMode, int bitCount);
-
+public interface TextureFactory {
+     Texture create(String assetPath);
+     Texture create(FileHandle fileHandle);
+     Texture create(Pixmap pixmap);
+     Texture create(int width, int height);
 }

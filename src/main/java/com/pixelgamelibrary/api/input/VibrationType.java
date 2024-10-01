@@ -25,5 +25,5 @@ package com.pixelgamelibrary.api.input;
  * @author robertvokac
  */
 public enum VibrationType {
-     
+     LIGHT, MEDIUM, HEAVY;
 }

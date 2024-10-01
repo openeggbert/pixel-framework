@@ -60,6 +60,6 @@ public interface App {
     }
     boolean isFeatureEnabled(String feature);
     boolean isMobileDevice();
-    void postRunnable(Runnable runnable);
+    void runLater(Runnable runnable);
     ClipBoard getClipBoard();
 }

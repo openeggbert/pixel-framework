@@ -17,13 +17,21 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
 package com.pixelgamelibrary.api.graphics;
+
+import com.pixelgamelibrary.api.math.Vector2;
 
 /**
  *
  * @author robertvokac
  */
 public interface Camera {
+
+    void zoom(float zoom);
     
+    void rotate(float angle);
+
+    void translate(float x, float y);
+
+    void translate(Vector2 vector);
 }
