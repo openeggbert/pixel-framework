@@ -17,16 +17,42 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
 package com.pixelgamelibrary.api.graphics;
+
+import com.pixelgamelibrary.api.PixelException;
+import lombok.Getter;
 
 /**
  *
  * @author robertvokac
  */
-public interface Texture {
-     void makeColorTransparent(int r, int g, int b);
-     void scale(double d);
-     void setColorMode(ColorMode colorMode, int bitCount);
+public enum ColorDepth {
+    BITS_32(32),
+    BITS_24(24),
+    BITS_16(16),
+    BITS_8(8),
+    BITS_4(4);
+    
+    @Getter
+    private final int bitCount;
 
+    ColorDepth(int bitCount) {
+        this.bitCount = bitCount;
+    }
+    public static ColorDepth from(int bitCount) {
+        switch (bitCount) {
+            case 32:
+                return BITS_32;
+            case 24:
+                return BITS_24;
+            case 16:
+                return BITS_16;
+            case 8:
+                return BITS_8;
+            case 4:
+                return BITS_4;
+            default:
+                throw new PixelException("Unsupported bit depth");
+        }
+    }
 }

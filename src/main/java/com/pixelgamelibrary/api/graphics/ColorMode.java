@@ -17,16 +17,13 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
 package com.pixelgamelibrary.api.graphics;
 
 /**
  *
  * @author robertvokac
  */
-public interface Texture {
-     void makeColorTransparent(int r, int g, int b);
-     void scale(double d);
-     void setColorMode(ColorMode colorMode, int bitCount);
-
+public enum ColorMode {
+    COLOR,
+    BLACK_AND_WHITE;
 }
