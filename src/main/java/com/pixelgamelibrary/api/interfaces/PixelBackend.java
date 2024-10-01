@@ -28,6 +28,9 @@ import com.pixelgamelibrary.api.extension.ExtensionImpl;
  */
 public interface PixelBackend {
 
+    default String name() {
+        return getClass().getSimpleName();
+    }
     App app();
     Graphics graphics();
     Audio audio();

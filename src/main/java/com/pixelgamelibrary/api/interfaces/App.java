@@ -55,7 +55,10 @@ public interface App {
     void setGame(Game game);
 
     Game getGame();
-    boolean isFeatureEnabled(PixelFeature feature);
+    default boolean isFeatureEnabled(PixelFeature feature) {
+        return isFeatureEnabled(feature.name());
+    }
+    boolean isFeatureEnabled(String feature);
     boolean isMobileDevice();
     void postRunnable(Runnable runnable);
     ClipBoard getClipBoard();

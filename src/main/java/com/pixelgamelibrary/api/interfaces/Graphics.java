@@ -19,8 +19,10 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api.interfaces;
 
+import com.pixelgamelibrary.api.graphics.Cursor;
 import com.pixelgamelibrary.api.graphics.Monitor;
 import java.util.List;
+import com.pixelgamelibrary.api.graphics.Pixmap;
 
 /**
  *
@@ -33,5 +35,14 @@ public interface Graphics {
     Monitor getPrimaryMonitor();
     String getTitle();
     void setTitle(String title);
+    Cursor newCursor(Pixmap pixMap, int x, int y);
+    default Cursor newCursor(Pixmap pixMap) {
+    Monitor monitor = getPrimaryMonitor();
+        return newCursor(pixMap, monitor.getVirtualWidth() / 2, monitor.getVirtualWidth() / 2);
+    }
+    void setCursor (Cursor cursor);
+    float getDeltaTime ();
+    void setTargetFPS();
+    int getTargetFPS();
     
 }

@@ -18,12 +18,16 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-package com.pixelgamelibrary.api.utils;
+package com.pixelgamelibrary.api.graphics;
+
+import com.pixelgamelibrary.api.storage.FileHandle;
 
 /**
  *
  * @author robertvokac
  */
-public interface Disposable {
+public interface PixMapFactory {
+    Pixmap create(int width, int height);
+    Pixmap create(FileHandle fileHandle);
     
 }

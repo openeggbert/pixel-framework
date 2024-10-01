@@ -68,6 +68,7 @@ public interface Monitor {
     boolean isMonitorInUse();
     
     boolean isMonitorModeChangeSupported();
+    int getDpi();
 
 
 }

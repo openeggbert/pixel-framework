@@ -20,10 +20,12 @@
 
 package com.pixelgamelibrary.api.graphics;
 
+import com.pixelgamelibrary.api.Disposable;
+
 /**
  *
  * @author robertvokac
  */
-public interface PixMap {
+public interface Pixmap extends Disposable, Drawable {
     
 }

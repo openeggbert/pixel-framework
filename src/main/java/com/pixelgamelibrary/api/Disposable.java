@@ -18,14 +18,14 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-package com.pixelgamelibrary.api.graphics;
-
-import com.pixelgamelibrary.api.Disposable;
+package com.pixelgamelibrary.api;
 
 /**
  *
  * @author robertvokac
  */
-public interface Cursor extends Disposable {    
-    
+public interface Disposable {
+    void dispose ();
+    boolean isDisposed();
+
 }
