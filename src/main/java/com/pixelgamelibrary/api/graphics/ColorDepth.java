@@ -27,17 +27,33 @@ import lombok.Getter;
  * @author robertvokac
  */
 public enum ColorDepth {
-    BITS_32(32),
-    BITS_24(24),
-    BITS_16(16),
-    BITS_8(8),
+    BITS_32(32, 8,8,8),
+    BITS_24(24,8,8,8),
+    BITS_16(16,5,6,5),
+    BITS_8(8,3,3,2),
     BITS_4(4);
-    
+
     @Getter
     private final int bitCount;
+    @Getter
+    private final int redBitCount, greenBitCount, blueBitCount;
 
-    ColorDepth(int bitCount) {
+    ColorDepth(int bitCount, int redBitCount, int greenBitCount, int blueBitCount) {
+        int sum = (redBitCount + greenBitCount + blueBitCount);
+        if(sum == 24 && bitCount == 32) {
+            sum = 32;
+        }
+        if(sum != 0 && bitCount != sum) {
+            throw new PixelException("Fatal internal error: " + "bitCount != (redBitCount + greenBitCount + blueBitCount)");
+        }
         this.bitCount = bitCount;
+        this.redBitCount = redBitCount;
+        this.greenBitCount = greenBitCount;
+        this.blueBitCount = blueBitCount;
+        
+    }
+    ColorDepth(int bitCount) {
+        this(bitCount, 0, 0, 0);
     }
     public static ColorDepth from(int bitCount) {
         switch (bitCount) {

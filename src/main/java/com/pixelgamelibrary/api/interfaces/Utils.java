@@ -19,6 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api.interfaces;
 
+import com.pixelgamelibrary.api.utils.BinaryUtilsImpl;
 import com.pixelgamelibrary.api.utils.CollectionUtils;
 import com.pixelgamelibrary.api.utils.ReflectionUtils;
 import java.util.Arrays;
@@ -57,5 +58,8 @@ public interface Utils {
     }
     ReflectionUtils reflection();
     CollectionUtils collections();
+    default BinaryUtilsImpl binary() {
+        return BinaryUtilsImpl.INSTANCE;
+    }
 
 }

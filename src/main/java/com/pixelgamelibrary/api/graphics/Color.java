@@ -19,12 +19,14 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api.graphics;
 
+import com.pixelgamelibrary.api.Pixel;
 import com.pixelgamelibrary.api.PixelException;
 import static com.pixelgamelibrary.api.graphics.ColorDepth.BITS_16;
 import static com.pixelgamelibrary.api.graphics.ColorDepth.BITS_24;
 import static com.pixelgamelibrary.api.graphics.ColorDepth.BITS_32;
 import static com.pixelgamelibrary.api.graphics.ColorDepth.BITS_4;
 import static com.pixelgamelibrary.api.graphics.ColorDepth.BITS_8;
+import java.util.BitSet;
 import lombok.Data;
 
 /**
@@ -55,7 +57,8 @@ import lombok.Data;
 @Data
 public final class Color {
 
-    private static final int BITS_IN_ONE_BYTE = 255;
+    private static final int EIGHT_BITS_TO_DECIMAL_WITHOUT_ONE = 255;
+    
 
     private float red, green, blue, alpha;
 
@@ -75,15 +78,15 @@ public final class Color {
         return this;
     }
 
-    private static int floatElementToInt(float f) {
+    static int floatElementToInt(float f) {
 
-        return (int) (f * BITS_IN_ONE_BYTE);
+        return (int) (f * EIGHT_BITS_TO_DECIMAL_WITHOUT_ONE);
     }
 
-    private static float intElementToFloat(int i) {
+    static float intElementToFloat(int i) {
 
         float iFloat = i;
-        return iFloat / BITS_IN_ONE_BYTE;
+        return iFloat / EIGHT_BITS_TO_DECIMAL_WITHOUT_ONE;
     }
     
     // Counts distance between two colors
@@ -433,10 +436,8 @@ public final class Color {
      * right to discard the lower bits. This method modifies the existing color
      * instance.
      */
-    public void set16Bit() {
-        this.red = floatElementToInt(this.red) >> 3;  // 5 bits for red
-        this.green = floatElementToInt(this.green) >> 2; // 6 bits for green
-        this.blue = floatElementToInt(this.blue) >> 3;  // 5 bits for blue
+    public void convertTo16Bit() {
+        convertToXBit(ColorDepth.BITS_16);
     }
 
     /**
@@ -446,10 +447,8 @@ public final class Color {
      * blue (maximum value of 3). This method modifies the existing color
      * instance.
      */
-    public void set8Bit() {
-        this.red = floatElementToInt(this.red) >> 5;  // 3 bits for red (max 7)
-        this.green = floatElementToInt(this.green) >> 5; // 3 bits for green (max 7)
-        this.blue = floatElementToInt(this.blue) >> 6;  // 2 bits for blue (max 3)
+    public void convertTo8Bit() {
+        convertToXBit(ColorDepth.BITS_8);
     }
 
     /**
@@ -458,33 +457,59 @@ public final class Color {
      * achieved by shifting the integer values right to discard the lower bits.
      * This method modifies the existing color instance.
      */
-    public void set4Bit() {
-        this.red = floatElementToInt(this.red) >> 1;  // 2 bits for red
-        this.green = floatElementToInt(this.green) >> 1; // 2 bits for green
-        this.blue = floatElementToInt(this.blue) >> 1;  // 2 bits for blue
+    public void convertTo4Bit() {
+        set(Color4BitPalette.findClosestColor(this));
+    }
+  
+    private void convertToXBit(ColorDepth colorDepth) {
+        convertToXBit(colorDepth.getRedBitCount(), colorDepth.getGreenBitCount(), colorDepth.getBlueBitCount());
+    }  
+    
+    private void convertToXBit(int rBits, int gBits, int bBits) {
+        ColorDepthHelper colorDepthHelper = new ColorDepthHelper(this, rBits, gBits, bBits);
+        final int r = colorDepthHelper.r;
+        this.red = intElementToFloat(r);
+        final int g = colorDepthHelper.g;
+        this.green = intElementToFloat(g);
+        final int b = colorDepthHelper.b;
+        this.blue = intElementToFloat(b);
+    }
+        
+    public void convertToWhiteBlack8Bit() {
+        convertToWhiteBlackXBit(8);
     }
 
-    public void setWhiteBlack8Bit() {
-        int grayscale = (int) ((red + green + blue) / 3 * 255);
-        this.red = this.green = this.blue = grayscale / 255f;
+    public void convertToWhiteBlack4Bit() {
+        convertToWhiteBlackXBit(4);
+    }
+    
+    public void convertToWhiteBlack2Bit() {
+        convertToWhiteBlackXBit(2);
     }
 
-    public void setWhiteBlack4Bit() {
-        int grayscale = (int) ((red + green + blue) / 3 * 15);
-        this.red = this.green = this.blue = grayscale / 15f;
+    public void convertToWhiteBlack1Bit() {
+        convertToWhiteBlackXBit(1);
     }
 
-    public void setWhiteBlack2Bit() {
-        int grayscale = (int) ((red + green + blue) / 3 * 3);
-        this.red = this.green = this.blue = grayscale / 3f;
+    private void convertToWhiteBlackXBit(int bitCount) {
+        this.red = this.green = this.blue = colorToGreyScaleElement(this, bitCount);
+    }
+    
+    private static float colorToGreyScaleElement(Color color, int bitCount) {
+        // Calculate the maximum value based on the bit count
+        int maxValue = (1 << bitCount) - 1; // 2^bitCount - 1
+
+        // Calculate the average of the color components and normalize to 255
+        float grayscale = (color.getRed() + color.getGreen() + color.getBlue()) / 3.0f;
+
+        // Normalize the grayscale value to the range [0, maxValue]
+        return (grayscale / 255.0f) * maxValue; // Scale to [0, maxValue]
     }
 
-    public void setWhiteBlack1Bit() {
-        int grayscale = (int) ((red + green + blue) / 3 * 1);
-        this.red = this.green = this.blue = grayscale / 1f;
-    }
 
-    public void setWithBitCount(int bitCount) {
+
+
+    public void convertToWithBitCount(int bitCount) {
         ColorDepth colorDepth = ColorDepth.from(bitCount);
         switch (colorDepth) {
             case BITS_32:
@@ -492,82 +517,104 @@ public final class Color {
             case BITS_24:
                 return;
             case BITS_16:
-                set16Bit();
+                convertTo16Bit();
                 break;
             case BITS_8:
-                set8Bit();
+                convertTo8Bit();
                 break;
             case BITS_4:
-                set4Bit();
+                convertTo4Bit();
                 break;
             default:
                 throw new PixelException("Unsupported color depth: " + bitCount);
         }
     }
 
-    public void setWhiteBlackWithBitCount(int bitCount) {
+    public void convertToWhiteBlackWithBitCount(int bitCount) {
 
         switch (bitCount) {
             case 8:
-                setWhiteBlack8Bit();
+                convertToWhiteBlack8Bit();
                 break;
             case 4:
-                setWhiteBlack4Bit();
+                convertToWhiteBlack4Bit();
                 break;
             case 2:
-                setWhiteBlack2Bit();
+                convertToWhiteBlack2Bit();
                 break;
             case 1:
-                setWhiteBlack1Bit();
+                convertToWhiteBlack1Bit();
                 break;
             default:
                 throw new PixelException("Unsupported bit count: " + bitCount);
         }
     }
 
-    public void set(ColorMode colorMode, int bitCount) {
+    public void convertTo(ColorMode colorMode, int bitCount) {
         if (colorMode == ColorMode.COLOR) {
-            setWithBitCount(bitCount);
+            convertToWithBitCount(bitCount);
             return;
         }
 
         if (colorMode == ColorMode.BLACK_AND_WHITE) {
-            setWhiteBlackWithBitCount(bitCount);
+            convertToWhiteBlackWithBitCount(bitCount);
             return;
         }
         throw new PixelException("Unsupported ColorMode: " + colorMode);
     }
 
-    public byte[] getByteRepresentation32Bit() {
-        return null;//todo
+    public BitSet getByteRepresentation32Bit() {
+        return getByteRepresentation(ColorMode.COLOR, 32);
     }
 
-    public byte[] getByteRepresentation24Bit() {
-        return null;//todo
+    public BitSet getByteRepresentation24Bit() {
+        return getByteRepresentation(ColorMode.COLOR, 24);
     }
 
-    public byte[] getByteRepresentation16Bit() {
-        return null;//todo
+    public BitSet getByteRepresentation16Bit() {
+        return getByteRepresentation(ColorMode.COLOR, 16);
     }
 
-    public byte[] getByteRepresentation8Bit() {
-        return null;//todo
+    public BitSet getByteRepresentation8Bit() {
+        return getByteRepresentation(ColorMode.COLOR, 8);
     }
 
-    public byte[] getByteRepresentation4Bit() {
-        return null;//todo
+    public BitSet getByteRepresentation4Bit() {
+        return getByteRepresentation(ColorMode.COLOR, 4);
+    }
+    
+    public BitSet getWhiteBlackByteRepresentation8Bit() {
+        return getByteRepresentation(ColorMode.BLACK_AND_WHITE, 8);
     }
 
-    public byte[] getByteRepresentation2Bit() {
-        return null;//todo
+    public BitSet getWhiteBlackByteRepresentation4Bit() {
+        return getByteRepresentation(ColorMode.BLACK_AND_WHITE, 4);
     }
 
-    public byte[] getByteRepresentation1Bit() {
-        return null;//todo
+    public BitSet getWhiteBlackByteRepresentation2Bit() {
+        return getByteRepresentation(ColorMode.BLACK_AND_WHITE, 2);
     }
 
-    public byte[] getByteRepresentation(ColorMode colorMode, int bitCount) {
-        return null;//todo
+    public BitSet getWhiteBlackByteRepresentation1Bit() {
+        return getByteRepresentation(ColorMode.BLACK_AND_WHITE, 1);
+    }
+
+    public BitSet getByteRepresentation(ColorMode colorMode, int bitCount) {
+        if (colorMode == ColorMode.COLOR) {
+            Color colorClone = this.copy();
+            colorClone.convertTo(colorMode, bitCount);
+            ColorDepthHelper colorDepthHelper = new ColorDepthHelper(colorClone, ColorDepth.from(bitCount));
+            return colorDepthHelper.getBitSet();
+        }
+
+        if (colorMode == ColorMode.BLACK_AND_WHITE) {
+            Color colorClone = this.copy();
+            colorClone.convertTo(colorMode, bitCount);
+            float element = colorToGreyScaleElement(colorClone, bitCount);
+            double number = Math.pow(2, bitCount) * element;
+            return Pixel.utils().binary().convertIntToBitSet((int) number, bitCount);
+        }
+        throw new PixelException("Unsupported ColorMode: " + colorMode);
     }
 
     @Override
