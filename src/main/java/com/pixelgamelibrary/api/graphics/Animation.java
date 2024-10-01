@@ -17,13 +17,67 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
 package com.pixelgamelibrary.api.graphics;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author robertvokac
+ * @param <T>
  */
-public interface Animation {
-    
+public class Animation<T> {
+
+    T[] keyFrames;
+
+    private float frameDuration;
+    @Getter
+    @Setter
+    private AnimationMode animationMode = AnimationMode.NORMAL;
+
+    public Animation(int frameDuration, Iterable<T> keyFrames) {
+
+    }
+
+    public Animation(int frameDuration, Iterable<T> keyFrames, AnimationMode animationMode) {
+
+    }
+
+    public Animation(int frameDuration, T... keyFrames) {
+
+    }
+
+    public Animation(int frameDuration, AnimationMode animationMode, T... keyFrames) {
+
+    }
+
+    public T getKeyFrame(long gameTime) {
+        return null;//todo
+    }
+
+    public int getKeyFrameIndex(long gameTime) {
+
+        return 0;//todo
+    }
+
+    public T[] getKeyFrames() {
+        return null;//
+    }
+
+    public boolean isAnimationFinished(float gameTime) {
+        return true;//todo
+    }
+
+    public void setFrameDuration(float frameDuration) {
+    }
+
+    public float getFrameDuration() {
+        return 0;//todo
+    }
+
+    public float getAnimationDuration() {
+        return 0;//todo
+    }
+
 }
