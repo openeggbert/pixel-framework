@@ -31,15 +31,15 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
-public class ColorDepthHelper {
+class ColorDepthHelper {
 
     final int r, g, b;
     final int redBits, greenBits, blueBits;
 
-    public ColorDepthHelper(Color color, ColorDepth colorDepth) {
+    ColorDepthHelper(Color color, ColorDepth colorDepth) {
         this(color, colorDepth.getRedBitCount(), colorDepth.getGreenBitCount(), colorDepth.getBlueBitCount());
     }
-    public ColorDepthHelper(Color color, int redBits, int greenBits, int blueBits) {
+    ColorDepthHelper(Color color, int redBits, int greenBits, int blueBits) {
         // Create masks based on the number of bits for each color component
         int redMask = (1 << redBits) - 1;   // Mask for red
         int greenMask = (1 << greenBits) - 1; // Mask for green
@@ -53,7 +53,7 @@ public class ColorDepthHelper {
         this.greenBits = greenBits;
         this.blueBits = blueBits;
     }
-    public BitSet getBitSet() {
+    BitSet getBitSet() {
         BinaryUtils bu = Pixel.utils().binary();
         return bu.merge3BitSets(
                 bu.convertIntToBitSet(r, redBits),

@@ -101,7 +101,7 @@ public final class Color {
     public static final float DEFAULT_ALPHA = 1f;
 
     // Default alpha int value for colors
-    public static final int DEFAULT_ALPHA_INT = 256;
+    public static final int DEFAULT_ALPHA_INT = 255;
 
     // Default constructor initializes color to black with full opacity
     public Color() {
