@@ -17,18 +17,25 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api.interfaces;
-
-import com.pixelgamelibrary.api.audio.Music;
-import com.pixelgamelibrary.api.audio.Sound;
-import com.pixelgamelibrary.api.storage.FileHandle;
+package com.pixelgamelibrary.api.net.sockets;
 
 /**
- *
  * @author robertvokac
  */
-public interface Audio {
-    //Add MIDI support - todo
-    Sound newSound(FileHandle fileHandle);
-    Music newMusic(FileHandle fileHandle);
+public class ClientSocketHints {
+    public static final ClientSocketHints getDefault() {
+        return new ClientSocketHints();
+    }
+
+    public int connectionMsTimeout = 5000;
+    public SocketPerformancePreferences performancePreferences = new SocketPerformancePreferences();
+    public int trafficClass = 0x14;
+
+    public boolean keepAlive = true;
+    public boolean tcpNoDelay = true;
+    public int sendBufferSize = 4096;
+    public int receiveBufferSize = 4096;
+    public boolean linger = false;
+    public int lingerDuration = 0;
+    public int socketTimeout = 0;
 }

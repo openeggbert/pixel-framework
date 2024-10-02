@@ -17,18 +17,16 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api.interfaces;
+package com.pixelgamelibrary.api.net.sockets;
 
-import com.pixelgamelibrary.api.audio.Music;
-import com.pixelgamelibrary.api.audio.Sound;
-import com.pixelgamelibrary.api.storage.FileHandle;
+import com.pixelgamelibrary.api.Disposable;
 
 /**
- *
  * @author robertvokac
  */
-public interface Audio {
-    //Add MIDI support - todo
-    Sound newSound(FileHandle fileHandle);
-    Music newMusic(FileHandle fileHandle);
+public interface Socket extends Disposable {
+
+    String getRemoteHostNameOrIpAddress();
+
+    int getPort();
 }

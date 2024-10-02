@@ -13,17 +13,31 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program. If not, see
+// along with this program. If not, see 
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
+package com.pixelgamelibrary.api.net.http;
 
-package com.pixelgamelibrary.api.audio;
+import com.pixelgamelibrary.api.Disposable;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
 
 /**
- *
  * @author robertvokac
  */
-public interface AudioDevice {
-    
+public interface HttpResponse extends Disposable {
+
+    byte[] getResult();
+
+    String getResultAsString();
+
+    InputStream getResultAsStream();
+
+    HttpStatusCode getStatus();
+
+    String getHeader(String name);
+
+    Map<String, List<String>> getHeaders();
 }

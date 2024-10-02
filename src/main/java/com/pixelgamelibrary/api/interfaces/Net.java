@@ -19,10 +19,41 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api.interfaces;
 
+import com.pixelgamelibrary.api.net.sockets.ClientSocket;
+import com.pixelgamelibrary.api.net.sockets.ServerSocket;
+import com.pixelgamelibrary.api.net.sockets.ClientSocketHints;
+import com.pixelgamelibrary.api.net.http.HttpRequest;
+import com.pixelgamelibrary.api.net.http.HttpResponseListener;
+import com.pixelgamelibrary.api.net.sockets.ServerSocketHints;
+
 /**
  *
  * @author robertvokac
  */
 public interface Net {
-    
+
+    public void sendHttpRequest(HttpRequest httpRequest, HttpResponseListener httpResponseListener);
+
+    public void cancelHttpRequest(HttpRequest httpRequest);
+
+    public boolean isHttpRequestPending(HttpRequest httpRequest);
+
+    public ServerSocket newServerSocket(String hostNameOrIpAddress, int port, ServerSocketHints hints);
+
+    ServerSocket newServerSocket(int port, ServerSocketHints hints);
+
+    default ServerSocket newServerSocket(String hostNameOrIpAddress, int port) {
+        return newServerSocket(hostNameOrIpAddress, port, ServerSocketHints.getDefault());
+    }
+
+    default ServerSocket newServerSocket(int port) {
+        return newServerSocket(port, ServerSocketHints.getDefault());
+    }
+
+    ClientSocket newClientSocket(String hostNameOrIpAddress, int port, ClientSocketHints hints);
+
+    default ClientSocket newClientSocket(String hostNameOrIpAddress, int port) {
+        return newClientSocket(hostNameOrIpAddress, port, ClientSocketHints.getDefault());
+    }
+
 }

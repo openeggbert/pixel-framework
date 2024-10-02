@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// Pixel Game Library.
-// Copyright (C) 2024 Your Name or Company.
+// Pixel: Game library.
+// Copyright (C) 2024 the original author or authors.
 //
 // This program is free software: you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

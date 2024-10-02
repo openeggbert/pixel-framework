@@ -17,18 +17,19 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api.interfaces;
+package com.pixelgamelibrary.api;
 
-import com.pixelgamelibrary.api.audio.Music;
-import com.pixelgamelibrary.api.audio.Sound;
-import com.pixelgamelibrary.api.storage.FileHandle;
+import lombok.Getter;
 
 /**
  *
  * @author robertvokac
  */
-public interface Audio {
-    //Add MIDI support - todo
-    Sound newSound(FileHandle fileHandle);
-    Music newMusic(FileHandle fileHandle);
+public enum Importance {
+    HIGHEST(5), HIGH(4), MEDIUM(3), LOW(2), LOWEST(1);
+    @Getter
+    private final int number;
+    Importance(int numberIn) {
+        this.number = numberIn;
+    }
 }
