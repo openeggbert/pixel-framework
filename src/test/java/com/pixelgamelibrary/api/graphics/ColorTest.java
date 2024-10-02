@@ -173,7 +173,7 @@ public class ColorTest {
     @Test
     public void testToString() {
         Color color = new Color(0.5f, 0.5f, 0.5f, 0.75f);
-        assertEquals("Color{red=0.500000, green=0.500000, blue=0.500000, alpha=0.750000}", color.toString());
+        assertEquals("Color{red=0.5, green=0.5, blue=0.5, alpha=0.75}", color.toString());
     }
 
     @Test

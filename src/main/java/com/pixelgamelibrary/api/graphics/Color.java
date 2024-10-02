@@ -26,6 +26,7 @@ import static com.pixelgamelibrary.api.graphics.ColorDepth.BITS_24;
 import static com.pixelgamelibrary.api.graphics.ColorDepth.BITS_32;
 import static com.pixelgamelibrary.api.graphics.ColorDepth.BITS_4;
 import static com.pixelgamelibrary.api.graphics.ColorDepth.BITS_8;
+import com.pixelgamelibrary.api.utils.StringUtilsImpl;
 import java.util.BitSet;
 import lombok.Data;
 
@@ -362,7 +363,7 @@ public final class Color {
      * @return the hexadecimal string representation of this color
      */
     public String toHexString() {
-        return String.format("#%08X", toIntRGBA());
+        return "#" + StringUtilsImpl.INSTANCE.padLeft(Integer.toHexString(toIntRGBA()), '0', 8).toUpperCase();
     }
 
     public static Color valueOf(String hexString) {
@@ -620,7 +621,8 @@ public final class Color {
     @Override
     public String toString() {
         // Provide a string representation of the color in RGBA format
-        return String.format("Color{red=%f, green=%f, blue=%f, alpha=%f}", red, green, blue, alpha);
+        return "Color{red=" + red + ", green=" + green + ", blue=" + blue + ", alpha=" + alpha + "}";
+
     }
 
 }

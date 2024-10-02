@@ -22,6 +22,8 @@ package com.pixelgamelibrary.api.interfaces;
 import com.pixelgamelibrary.api.utils.BinaryUtilsImpl;
 import com.pixelgamelibrary.api.utils.CollectionUtils;
 import com.pixelgamelibrary.api.utils.ReflectionUtils;
+import com.pixelgamelibrary.api.utils.StringUtils;
+import com.pixelgamelibrary.api.utils.StringUtilsImpl;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +62,9 @@ public interface Utils {
     CollectionUtils collections();
     default BinaryUtilsImpl binary() {
         return BinaryUtilsImpl.INSTANCE;
+    }
+    default StringUtils string() {
+        return StringUtilsImpl.INSTANCE;
     }
 
 }

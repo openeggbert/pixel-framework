@@ -51,7 +51,7 @@ public interface Sound extends Disposable {
     /**
      * Plays the sound with specified volume, pitch, and pan.
      * @param volume the volume level in the range [0, 1]
-     * @param pitch the pitch multiplier, where 1 is the default, >1 is faster, <1 is slower
+     * @param pitch the pitch multiplier, where 1 is the default, &gt;1 is faster, &lt;1 is slower
      * @param pan panning in the range -1 (left) to 1 (right), 0 is center
      * @return the ID of the sound instance if successful, or -1 on failure.
      */
@@ -73,7 +73,7 @@ public interface Sound extends Disposable {
     /**
      * Plays the sound in a loop with specified volume, pitch, and pan.
      * @param volume the volume level in the range [0, 1]
-     * @param pitch the pitch multiplier, where 1 is the default, >1 is faster, <1 is slower
+     * @param pitch the pitch multiplier, where 1 is the default, &gt;1 is faster, &lt;1 is slower
      * @param pan panning in the range -1 (left) to 1 (right), 0 is center
      * @return the ID of the sound instance if successful, or -1 on failure.
      */
@@ -128,7 +128,7 @@ public interface Sound extends Disposable {
     /**
      * Sets the pitch for the sound instance with the specified ID.
      * @param soundId the ID of the sound instance
-     * @param pitch the pitch multiplier, where 1 is the default, >1 is faster, <1 is slower
+     * @param pitch the pitch multiplier, where 1 is the default, &gt;1 is faster, &lt;1 is slower
      */
     public void setPitch(long soundId, float pitch);
 
