@@ -58,6 +58,54 @@ import lombok.Data;
 @Data
 public final class Color {
 
+    public static final Color BLUE = new Color(0, 0, 255);
+    public static final Color RED = new Color(255, 0, 0);
+    public static final Color GREEN = new Color(0, 255, 0);
+    public static final Color BLACK = new Color(0, 0, 0);
+    public static final Color WHITE = new Color(255, 255, 255);
+    public static final Color YELLOW = new Color(255, 255, 0);
+    public static final Color CYAN = new Color(0, 255, 255);
+    public static final Color MAGENTA = new Color(255, 0, 255);
+    public static final Color GRAY = new Color(128, 128, 128);
+    public static final Color LIGHT_GRAY = new Color(192, 192, 192);
+    public static final Color DARK_GRAY = new Color(64, 64, 64);
+    public static final Color ORANGE = new Color(255, 165, 0);
+    public static final Color PINK = new Color(255, 192, 203);
+    public static final Color BROWN = new Color(165, 42, 42);
+    public static final Color PURPLE = new Color(128, 0, 128);
+    public static final Color VIOLET = new Color(238, 130, 238);
+    public static final Color LIME = new Color(0, 255, 0);
+    public static final Color TURQUOISE = new Color(64, 224, 208);
+    public static final Color INDIGO = new Color(75, 0, 130);
+    public static final Color GOLD = new Color(255, 215, 0);
+    public static final Color SILVER = new Color(192, 192, 192);
+    public static final Color MAROON = new Color(128, 0, 0);
+    public static final Color NAVY = new Color(0, 0, 128);
+    public static final Color TEAL = new Color(0, 128, 128);
+    public static final Color OLIVE = new Color(128, 128, 0);
+    public static final Color BEIGE = new Color(245, 245, 220);
+    public static final Color SALMON = new Color(250, 128, 114);
+    public static final Color CORAL = new Color(255, 127, 80);
+    public static final Color HOT_PINK = new Color(255, 105, 180);
+    public static final Color CHARTREUSE = new Color(127, 255, 0);
+    public static final Color SKY_BLUE = new Color(135, 206, 235);
+    public static final Color LIGHT_BLUE = new Color(173, 216, 230);
+    public static final Color DARK_BLUE = new Color(0, 0, 139);
+    public static final Color MINT = new Color(189, 252, 201);
+    public static final Color PEACH = new Color(255, 218, 185);
+    public static final Color PLUM = new Color(221, 160, 221);
+    public static final Color IVORY = new Color(255, 255, 240);
+    public static final Color LAVENDER = new Color(230, 230, 250);
+    public static final Color MINT_CREAM = new Color(245, 255, 250);
+    public static final Color WHEAT = new Color(245, 222, 179);
+    public static final Color TAN = new Color(210, 180, 140);
+    public static final Color KHAKI = new Color(240, 230, 140);
+    public static final Color PERIWINKLE = new Color(204, 204, 255);
+    public static final Color SLATE_GRAY = new Color(112, 128, 144);
+    public static final Color SEA_GREEN = new Color(46, 139, 87);
+    public static final Color FOREST_GREEN = new Color(34, 139, 34);
+    public static final Color MIDNIGHT_BLUE = new Color(25, 25, 112);
+
     private static final int EIGHT_BITS_TO_DECIMAL_WITHOUT_ONE = 255;
     
 

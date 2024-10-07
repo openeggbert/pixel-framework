@@ -25,14 +25,11 @@ import com.pixelgamelibrary.api.Disposable;
  *
  * @author robertvokac
  */
-public interface SpriteBatch extends Disposable {
-
-    void begin();
-
-    void end();
-
-    void draw(Texture texture, int x, int y, int width, int height);
-
-    void draw(Texture texture, int x, int y);
-
+public interface BitmapFont extends Disposable {
+    void setScale(float f);
+    void setColor(Color color);
+    default void setColor(float r, float g, float b, float a) {
+        setColor(new Color(0f, 0f, 1f, 1f));
+    }
+    void draw(SpriteBatch batch, String text, float x, float y);
 }

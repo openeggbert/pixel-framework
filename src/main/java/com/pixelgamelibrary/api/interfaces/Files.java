@@ -32,35 +32,35 @@ import static com.pixelgamelibrary.api.storage.StorageType.EXTERNAL;
  */
 public interface Files {
 
-    Storage assets();
+    Storage assetsStorage();
     
-    Storage local();
+    Storage localStorage();
 
-    Storage external();
+    Storage externalStorage();
 
-    Storage relative();
+    Storage relativeStorage();
 
-    Storage absolute();
+    Storage absoluteStorage();
 
-    Storage tmp();
+    Storage tmpStorage();
     
-    default FileHandle assetsFile(String path) {
-        return assets().file(path); 
+    default FileHandle assets(String path) {
+        return assetsStorage().file(path); 
     }
-    default FileHandle localFile(String path) {
-        return local().file(path); 
+    default FileHandle local(String path) {
+        return localStorage().file(path); 
     }
-    default FileHandle externalFile(String path) {
-        return external().file(path); 
+    default FileHandle external(String path) {
+        return externalStorage().file(path); 
     }
-    default FileHandle relativeFile(String path) {
-        return relative().file(path); 
+    default FileHandle relative(String path) {
+        return relativeStorage().file(path); 
     }
-    default FileHandle absoluteFile(String path) {
-        return absolute().file(path); 
+    default FileHandle absolute(String path) {
+        return absoluteStorage().file(path); 
     }
-    default FileHandle tmpFile(String path) {
-        return tmp().file(path); 
+    default FileHandle tmp(String path) {
+        return tmpStorage().file(path); 
     }
     
     
@@ -68,17 +68,17 @@ public interface Files {
     default FileHandle file​(java.lang.String path, StorageType type) {
         switch (type) {
             case ASSETS:
-                return assets().file(path);
+                return assetsStorage().file(path);
             case LOCAL:
-                return local().file(path);
+                return localStorage().file(path);
             case EXTERNAL:
-                return external().file(path);
+                return externalStorage().file(path);
             case RELATIVE:
-                return relative().file(path);
+                return relativeStorage().file(path);
             case ABSOLUTE:
-                return absolute().file(path);
+                return absoluteStorage().file(path);
             case TMP:
-                return tmp().file(path);
+                return tmpStorage().file(path);
             default:
                 throw new StorageException("Unsupported StorageType: " + type);
         }

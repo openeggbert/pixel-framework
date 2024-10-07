@@ -19,20 +19,41 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api.graphics;
 
-import com.pixelgamelibrary.api.Disposable;
+import com.pixelgamelibrary.api.storage.FileHandle;
 
 /**
  *
  * @author robertvokac
  */
-public interface SpriteBatch extends Disposable {
+public interface BitmapFontFactory {
 
-    void begin();
+    boolean FLIP_DEFAULT = false;
 
-    void end();
+    BitmapFont create(boolean flip);
 
-    void draw(Texture texture, int x, int y, int width, int height);
+    default BitmapFont create() {
+        return create(FLIP_DEFAULT);
+    }
 
-    void draw(Texture texture, int x, int y);
+    BitmapFont create(FileHandle fontFile, TextureRegion region, boolean flip);
+
+    default BitmapFont create(FileHandle fontFile, TextureRegion region) {
+        return create(fontFile, region, FLIP_DEFAULT);
+    }
+
+    BitmapFont create(FileHandle fontFile, boolean flip);
+
+    default BitmapFont create(FileHandle fontFile) {
+        return create(fontFile, FLIP_DEFAULT);
+    }
+//            Pixel.files().assets("com/badlogic/gdx/utils/lsans-15.fnt"), Pixel.files().assets("com/badlogic/gdx/utils/lsans-15.png"),
+//			false, true
+//        );
+
+    BitmapFont create(FileHandle fontFile, FileHandle imageFile, boolean flip);
+
+    default BitmapFont create(FileHandle fontFile, FileHandle imageFile) {
+        return create(fontFile, imageFile, FLIP_DEFAULT);
+    }
 
 }

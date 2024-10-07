@@ -31,8 +31,11 @@ import com.pixelgamelibrary.api.app.Preferences;
  * @author robertvokac
  */
 public interface App {
+    String DEFAULT_TAG = "APP";
     Platform getPlatform();
-    
+      default boolean isPlatforms(Platform platform) {
+        return getPlatform() == platform;
+    }  
     default boolean isOneOfPlatforms(Platform ... platforms) {
         for(Platform p: platforms) {
             if(getPlatform() == p) {
@@ -42,10 +45,44 @@ public interface App {
         return false;
     }
     void exit();
-    void log(String msg);
-    void warn(String msg);
-    void error(String msg);
-    void debug(String msg);
+
+    void fatal(String tag, String msg);
+
+    void error(String tag, String msg);
+
+    void log(String tag, String msg);
+
+    void warn(String tag, String msg);
+
+    void debug(String tag, String msg);
+
+    void trace(String tag, String msg);
+
+    default void fatal(String msg) {
+        fatal(DEFAULT_TAG, msg);
+    }
+
+    default void error(String msg) {
+        error(DEFAULT_TAG, msg);
+    }
+
+    default void log(String msg) {
+        log(DEFAULT_TAG, msg);
+    }
+
+    default void warn(String msg) {
+        warn(DEFAULT_TAG, msg);
+    }
+
+    default void debug(String msg) {
+        debug(DEFAULT_TAG, msg);
+    }
+
+    default void trace(String msg) {
+        trace(DEFAULT_TAG, msg);
+    }
+
+    
     void setLogLevel(LogLevel logLevel);
     Preferences getPreferences(String preferencesName);
     void setAppName(String appName);

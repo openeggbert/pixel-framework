@@ -25,5 +25,5 @@ package com.pixelgamelibrary.api.app;
  * @author robertvokac
  */
 public enum LogLevel {
-     NONE, ERROR, INFO, WARN, DEBUG;
+     NONE, FATAL, ERROR, INFO, WARN, DEBUG, TRACE;
 }
