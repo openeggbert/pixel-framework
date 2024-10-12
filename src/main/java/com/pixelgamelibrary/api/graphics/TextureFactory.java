@@ -28,7 +28,7 @@ import com.pixelgamelibrary.api.files.File;
  */
 public interface TextureFactory {
      Texture create(String assetPath);
-     Texture create(File fileHandle);
+     Texture create(File file);
      Texture create(Pixmap pixmap);
      Texture create(int width, int height);
 }
