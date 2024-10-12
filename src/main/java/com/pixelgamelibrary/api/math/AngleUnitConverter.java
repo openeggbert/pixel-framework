@@ -25,7 +25,9 @@ import static com.pixelgamelibrary.api.math.AngleUnit.NORMALIZED;
 import static com.pixelgamelibrary.api.math.AngleUnit.RADIAN;
 
 /**
- *
+ * Utility class for converting between different angle units.
+ * Provides methods to convert degrees, radians, gradians, and normalized values.
+ * 
  * @author robertvokac
  */
 class AngleUnitConverter {
@@ -33,12 +35,12 @@ class AngleUnitConverter {
     public static final float _360_DEGREES = 360f;
     public static final float _180_DEGREES = 180f;
     public static final float _90_DEGREES = 90f;
-    public static final float DEGREES_PER_RADIAN = _180_DEGREES  / (float) Math.PI;
+    public static final float DEGREES_PER_RADIAN = _180_DEGREES / (float) Math.PI;
     public static final float RADIANS_PER_DEGREE = (float) Math.PI / _180_DEGREES;
     public static final float GRADIANS_PER_90_DEGREES = 100f;
 
     private AngleUnitConverter() {
-        //Not meant to be instantiated.
+        // Not meant to be instantiated.
     }
 
     public static float convertDegreesToRadians(float degrees) {
@@ -65,9 +67,18 @@ class AngleUnitConverter {
         return normalized * _360_DEGREES;
     }
 
+    /**
+     * Converts the given value from one angle unit to another.
+     *
+     * @param value the value to convert
+     * @param inputAngleUnit the unit of the input value
+     * @param outputAngleUnit the unit of the output value
+     * @return the converted value in the target angle unit
+     * @throws PixelException if the conversion is not supported
+     */
     public static float convert(float value, AngleUnit inputAngleUnit, AngleUnit outputAngleUnit) {
         if (inputAngleUnit == outputAngleUnit) {
-            //nothing to do
+            // No conversion needed
             return value;
         }
         if (inputAngleUnit == AngleUnit.DEGREE) {
@@ -95,8 +106,8 @@ class AngleUnitConverter {
                     throw new PixelException("Unsupported operation.");
             }
         }
+        // Convert to degrees as an intermediate step
         float degrees = convert(value, inputAngleUnit, AngleUnit.DEGREE);
         return convert(degrees, AngleUnit.DEGREE, outputAngleUnit);
-
     }
 }
