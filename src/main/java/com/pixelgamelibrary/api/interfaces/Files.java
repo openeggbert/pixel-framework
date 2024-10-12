@@ -19,12 +19,18 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api.interfaces;
 
-import com.pixelgamelibrary.api.files.FileHandle;
-import com.pixelgamelibrary.api.files.Storage;
-import com.pixelgamelibrary.api.files.StorageException;
-import com.pixelgamelibrary.api.files.StorageType;
-import static com.pixelgamelibrary.api.files.StorageType.ASSETS;
-import static com.pixelgamelibrary.api.files.StorageType.EXTERNAL;
+import com.pixelgamelibrary.api.files.FileException;
+import com.pixelgamelibrary.api.files.FileSystemType;
+import static com.pixelgamelibrary.api.files.FileSystemType.ASSETS;
+import static com.pixelgamelibrary.api.files.FileSystemType.EXTERNAL;
+import com.pixelgamelibrary.api.files.FileSystem;
+import com.pixelgamelibrary.api.files.File;
+import static com.pixelgamelibrary.api.files.FileSystemType.ABSOLUTE;
+import static com.pixelgamelibrary.api.files.FileSystemType.ASSETS;
+import static com.pixelgamelibrary.api.files.FileSystemType.EXTERNAL;
+import static com.pixelgamelibrary.api.files.FileSystemType.LOCAL;
+import static com.pixelgamelibrary.api.files.FileSystemType.RELATIVE;
+import static com.pixelgamelibrary.api.files.FileSystemType.TMP;
 
 /**
  *
@@ -32,56 +38,75 @@ import static com.pixelgamelibrary.api.files.StorageType.EXTERNAL;
  */
 public interface Files {
 
-    Storage assetsStorage();
+    FileSystem assetsFileSystem();
     
-    Storage localStorage();
+    FileSystem localFileSystem();
 
-    Storage externalStorage();
+    FileSystem externalFileSystem();
 
-    Storage relativeStorage();
+    FileSystem relativeFileSystem();
 
-    Storage absoluteStorage();
+    FileSystem absoluteFileSystem();
 
-    Storage tmpStorage();
+    FileSystem tmpFileSystem();
     
-    default FileHandle assets(String path) {
-        return assetsStorage().file(path); 
+    default File assets(String path) {
+        return assetsFileSystem().file(path); 
     }
-    default FileHandle local(String path) {
-        return localStorage().file(path); 
+    default File local(String path) {
+        return localFileSystem().file(path); 
     }
-    default FileHandle external(String path) {
-        return externalStorage().file(path); 
+    default File external(String path) {
+        return externalFileSystem().file(path); 
     }
-    default FileHandle relative(String path) {
-        return relativeStorage().file(path); 
+    default File relative(String path) {
+        return relativeFileSystem().file(path); 
     }
-    default FileHandle absolute(String path) {
-        return absoluteStorage().file(path); 
+    default File absolute(String path) {
+        return absoluteFileSystem().file(path); 
     }
-    default FileHandle tmp(String path) {
-        return tmpStorage().file(path); 
+    default File tmp(String path) {
+        return tmpFileSystem().file(path); 
     }
     
-    
-
-    default FileHandle file​(java.lang.String path, StorageType type) {
+    default FileSystem fileSystem​(FileSystemType type) {
         switch (type) {
             case ASSETS:
-                return assetsStorage().file(path);
+                return assetsFileSystem();
             case LOCAL:
-                return localStorage().file(path);
+                return localFileSystem();
             case EXTERNAL:
-                return externalStorage().file(path);
+                return externalFileSystem();
             case RELATIVE:
-                return relativeStorage().file(path);
+                return relativeFileSystem();
             case ABSOLUTE:
-                return absoluteStorage().file(path);
+                return absoluteFileSystem();
             case TMP:
-                return tmpStorage().file(path);
+                return tmpFileSystem();
             default:
-                throw new StorageException("Unsupported StorageType: " + type);
+                throw new FileException("Unsupported FileSystemType: " + type);
         }
+    }
+        
+    default File file​(java.lang.String path, FileSystemType type) {
+        //return fileSystem(type).file(path);
+        switch (type) {
+            case ASSETS:
+                return assetsFileSystem().file(path);
+            case LOCAL:
+                return localFileSystem().file(path);
+            case EXTERNAL:
+                return externalFileSystem().file(path);
+            case RELATIVE:
+                return relativeFileSystem().file(path);
+            case ABSOLUTE:
+                return absoluteFileSystem().file(path);
+            case TMP:
+                return tmpFileSystem().file(path);
+            default:
+                throw new FileException("Unsupported FileSystemType: " + type);
+        }
+
     }
 
     boolean isExternalStorageAvailable();

@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * An implementation of SimpleMap using a HashMap for internal storage.
+ * An implementation of SimpleMap using a HashMap for internal file system.
  * This class provides basic operations for storing and retrieving key-value pairs.
  * It implements the SimpleMap interface.
  * 
@@ -48,7 +48,7 @@ public class SimpleJavaMap implements SimpleMap {
     /**
      * Constructs a SimpleJavaMap instance with a provided map.
      * 
-     * @param mapIn Initial map to use for storage
+     * @param mapIn Initial map to use for file system
      */
     public SimpleJavaMap(Map<String, String> mapIn) {
         this.map = mapIn;

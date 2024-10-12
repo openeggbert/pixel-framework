@@ -18,20 +18,20 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-package com.pixelgamelibrary.api.files.command;
+package com.pixelgamelibrary.api.files.shell;
 
 /**
- * The StorageCommandResult class encapsulates the result of executing a storage command.
+ * The ShellCommandResult class encapsulates the result of executing a file system command.
  * It holds the output of the command and a flag indicating whether an error occurred.
  * 
  * @author robertvokac
  */
-public class StorageCommandResult {
+public class ShellCommandResult {
 
     /**
      * Default constructor that initializes an empty result.
      */
-    public StorageCommandResult() {
+    public ShellCommandResult() {
         this("");
     }
 
@@ -40,7 +40,7 @@ public class StorageCommandResult {
      * 
      * @param output the output of the command
      */
-    public StorageCommandResult(String output) {
+    public ShellCommandResult(String output) {
         this(output, false);
     }
 
@@ -50,7 +50,7 @@ public class StorageCommandResult {
      * @param output the output of the command
      * @param error true if an error occurred, false otherwise
      */
-    public StorageCommandResult(String output, boolean error) {
+    public ShellCommandResult(String output, boolean error) {
         this.output = output;
         this.error = error;
     }

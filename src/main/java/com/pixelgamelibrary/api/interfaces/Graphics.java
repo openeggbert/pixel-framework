@@ -30,7 +30,7 @@ import com.pixelgamelibrary.api.graphics.SpriteBatchFactory;
 import com.pixelgamelibrary.api.graphics.Texture;
 import com.pixelgamelibrary.api.graphics.TextureFactory;
 import com.pixelgamelibrary.api.graphics.TextureRegion;
-import com.pixelgamelibrary.api.files.FileHandle;
+import com.pixelgamelibrary.api.files.File;
 
 /**
  *
@@ -69,7 +69,7 @@ public interface Graphics {
         return getTextureFactory().create(assetPath);
     }
 
-    default Texture newTexture(FileHandle fileHandle) {
+    default Texture newTexture(File fileHandle) {
         return getTextureFactory().create(fileHandle);
     }
 
@@ -97,23 +97,23 @@ public interface Graphics {
         return newBitmapFontFactory().create(flip);
     }
 
-    default BitmapFont newBitmapFont(FileHandle fontFile, TextureRegion region) {
+    default BitmapFont newBitmapFont(File fontFile, TextureRegion region) {
         return newBitmapFontFactory().create(fontFile, region);
     }
 
-    default BitmapFont newBitmapFont(FileHandle fontFile, TextureRegion region, boolean flip) {
+    default BitmapFont newBitmapFont(File fontFile, TextureRegion region, boolean flip) {
         return newBitmapFontFactory().create(fontFile, region, flip);
     }
 
-    default BitmapFont newBitmapFont(FileHandle fontFile) {
+    default BitmapFont newBitmapFont(File fontFile) {
         return newBitmapFontFactory().create(fontFile);
     }
 
-    default BitmapFont newBitmapFont(FileHandle fontFile, boolean flip) {
+    default BitmapFont newBitmapFont(File fontFile, boolean flip) {
         return newBitmapFontFactory().create(fontFile, flip);
     }
 
-    default BitmapFont newBitmapFont(FileHandle fontFile, FileHandle imageFile, boolean flip) {
+    default BitmapFont newBitmapFont(File fontFile, File imageFile, boolean flip) {
         return newBitmapFontFactory().create(fontFile, imageFile, flip);
     }
 

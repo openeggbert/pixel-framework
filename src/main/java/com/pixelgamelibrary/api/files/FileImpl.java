@@ -27,15 +27,15 @@ import java.util.List;
  *
  * @author robertvokac
  */
-public class FileHandleImpl implements FileHandle {
+public class FileImpl implements File {
 
-    private final Storage storage;
+    private final FileSystem fs;
     private final String path;
     private String name;
 
-    public FileHandleImpl(Storage storage, String path) {
-        this.storage = storage;
-        this.path = path.equals(".") ? storage.printWorkingDirectory() : path;
+    public FileImpl(FileSystem fsIn, String path) {
+        this.fs = fsIn;
+        this.path = path.equals(".") ? fsIn.printWorkingDirectory() : path;
         {
             if (path.equals("/")) {
                 name = path;
@@ -48,7 +48,7 @@ public class FileHandleImpl implements FileHandle {
 
     @Override
     public FileType type() {
-        return storage.type(path);
+        return fs.type(path);
     }
 
     @Override
@@ -78,36 +78,36 @@ public class FileHandleImpl implements FileHandle {
     }
 
     @Override
-    public List<FileHandle> list() {
-        List<String> list = storage.list(path);
-        List<FileHandle> files = new ArrayList<>();
+    public List<File> list() {
+        List<String> list = fs.list(path);
+        List<File> files = new ArrayList<>();
         for(String s:list) {
-            files.add(new FileHandleImpl(storage, s));
+            files.add(new FileImpl(fs, s));
         }
         return files;
     }
 
     @Override
-    public FileHandle child(String name) {
-        return new FileHandleImpl(storage, path + "/" + name);
+    public File child(String name) {
+        return new FileImpl(fs, path + "/" + name);
     }
 
     @Override
-    public FileHandle sibling(String siblingName) {
+    public File sibling(String siblingName) {
         int nameLength = name.length();
         String f = path.substring(0, path.length() - nameLength - 1) + "/" + siblingName;
         
-        return new FileHandleImpl(storage, f);
+        return new FileImpl(fs, f);
     }
 
     @Override
-    public FileHandle parent() {
-        return new FileHandleImpl(storage, path.substring(0, path.length() - name.length() - 1));
+    public File parent() {
+        return new FileImpl(fs, path.substring(0, path.length() - name.length() - 1));
     }
 
     @Override
     public boolean mkdir() {
-        return storage.createDirectory(path).isEmpty();
+        return fs.createDirectory(path).isEmpty();
     }
 
     @Override
@@ -117,17 +117,17 @@ public class FileHandleImpl implements FileHandle {
 
     @Override
     public boolean exists() {
-        return storage.exists(path);
+        return fs.exists(path);
     }
 
     @Override
     public boolean delete() {
-        return storage.remove(path);
+        return fs.remove(path);
     }
 
     @Override
     public boolean deleteDirectory() {
-        return storage.removeDirectory(path);
+        return fs.removeDirectory(path);
     }
 
     @Override
@@ -136,13 +136,13 @@ public class FileHandleImpl implements FileHandle {
     }
 
     @Override
-    public boolean copyTo(FileHandle destination) {
-        return storage.copy(path, destination.path()).isEmpty();
+    public boolean copyTo(File destination) {
+        return fs.copy(path, destination.path()).isEmpty();
     }
 
     @Override
-    public boolean moveTo(FileHandle destination) {
-        return storage.move(path, destination.path()).isEmpty();
+    public boolean moveTo(File destination) {
+        return fs.move(path, destination.path()).isEmpty();
     }
 
     @Override
@@ -150,7 +150,7 @@ public class FileHandleImpl implements FileHandle {
         if(isDirectory()) {
             return 0;
         }
-        RegularFileType rft = storage.getRegularFileType(path);
+        RegularFileType rft = fs.getRegularFileType(path);
         switch(rft){
             case TEXT: return readString().length();
             case BINARY: return readBytes().length;
@@ -159,11 +159,11 @@ public class FileHandleImpl implements FileHandle {
     }
 
     @Override
-    public FileHandle tempFile(String prefix) {
+    public File tempFile(String prefix) {
         createTmpDirectoryIfDoesNotYetExist();
         String r = createRandomName();
-        storage.touch(r);
-        return new FileHandleImpl(storage, "/tmp/"+r);
+        fs.touch(r);
+        return new FileImpl(fs, "/tmp/"+r);
     }
  
     private String createRandomName() {
@@ -174,51 +174,51 @@ public class FileHandleImpl implements FileHandle {
     }
 
     private void createTmpDirectoryIfDoesNotYetExist() {
-        if(!storage.exists("/tmp")) {
-            storage.createDirectory("/tmp");
+        if(!fs.exists("/tmp")) {
+            fs.createDirectory("/tmp");
         }
     }
 
     @Override
-    public FileHandle tempDirectory(String prefix) {
+    public File tempDirectory(String prefix) {
         createTmpDirectoryIfDoesNotYetExist();
         
         String r = createRandomName();
-        storage.createDirectory(r);
-        return new FileHandleImpl(storage, "/tmp/"+r);
+        fs.createDirectory(r);
+        return new FileImpl(fs, "/tmp/"+r);
     }
 
     @Override
     public int depth() {
-        return storage.depth(path);
+        return fs.depth(path);
     }
 
     @Override
     public boolean writeString(String text) {
-        return storage.writeString(path, text).isEmpty();
+        return fs.writeString(path, text).isEmpty();
     }
 
     @Override
     public boolean appendString(String text
     ) {
         String textCurrent = readString();
-        return storage.writeString(path, textCurrent + text).isEmpty();
+        return fs.writeString(path, textCurrent + text).isEmpty();
     }
 
     @Override
     public String readString() {
-        return storage.readString(path);
+        return fs.readString(path);
     }
 
     @Override
     public boolean writeBytes(byte[] data
     ) {
-        return storage.writeBytes(path, data).isEmpty();
+        return fs.writeBytes(path, data).isEmpty();
     }
 
     @Override
     public byte[] readBytes() {
-        return storage.readBytes(path);
+        return fs.readBytes(path);
     }
 
     @Override
@@ -227,7 +227,7 @@ public class FileHandleImpl implements FileHandle {
     }
 
     @Override
-    public Storage getStorage() {
+    public FileSystem getFileSystem() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

@@ -18,9 +18,8 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-package com.pixelgamelibrary.api.files.command;
+package com.pixelgamelibrary.api.files.shell;
 
-import com.pixelgamelibrary.api.files.Storage;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,18 +28,19 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import com.pixelgamelibrary.api.files.FileSystem;
 
 /**
- * The StorageCommandLine class represents a command-line interface for interacting with storage.
- * It provides methods to execute various commands that manipulate or retrieve information from the storage.
+ * The ShellCommandLine class represents a command-line interface for interacting with file system.
+ * It provides methods to execute various commands that manipulate or retrieve information from the file system.
  * 
  * @author robertvokac
  */
-public class StorageCommandLine {
+public class ShellCommandLine {
 
     private String user; // User for the command line
     private String hostname; // Hostname for the command line
-    private Storage storage; // Storage object for interacting with files
+    private FileSystem fs; // File system object for interacting with files
     private boolean exited = false; // Indicates if the command line session has been exited
     long startNanoTime = System.nanoTime(); // Start time of the session in nanoseconds
 
@@ -50,7 +50,7 @@ public class StorageCommandLine {
      * @return the command line prompt string
      */
     public String getCommandLineStart() {
-        return user + "@" + hostname + ":" + storage.printWorkingDirectory() + "$ ";
+        return user + "@" + hostname + ":" + fs.printWorkingDirectory() + "$ ";
     }
 
     /**
@@ -72,17 +72,17 @@ public class StorageCommandLine {
     }
 
     /**
-     * Constructs a StorageCommandLine instance with the specified user, hostname, and storage.
+     * Constructs a ShellCommandLine instance with the specified user, hostname, and file system.
      * Initializes commands for the command line interface.
      * 
      * @param userIn the user for the command line
      * @param hostnameIn the hostname for the command line
-     * @param storageIn the storage object for interacting with files
+     * @param fsIn the file system object for interacting with files
      */
-    public StorageCommandLine(String userIn, String hostnameIn, Storage storageIn) {
+    public ShellCommandLine(String userIn, String hostnameIn, FileSystem fsIn) {
         this.user = userIn;
         this.hostname = hostnameIn;
-        this.storage = storageIn;
+        this.fs = fsIn;
 
         // Initialize commands
         addCommand("date", arguments -> provideOutput(result -> result.setOutput(new Date().toString())));
@@ -105,7 +105,7 @@ public class StorageCommandLine {
                 : "")
         )));
 
-        addCommand("ls", arguments -> provideOutput(result -> result.setOutput(storage
+        addCommand("ls", arguments -> provideOutput(result -> result.setOutput(fsIn
                 .list()
                 .stream()
                 .map(l -> {
@@ -114,12 +114,12 @@ public class StorageCommandLine {
                 })
                 .collect(Collectors.joining("\n")))));
 
-        addCommand("pwd", arguments -> provideOutput(result -> result.setOutput(storage.printWorkingDirectory())));
-        addCommand("depth", arguments -> provideOutput(result -> result.setOutput(storage.depth())));
+        addCommand("pwd", arguments -> provideOutput(result -> result.setOutput(fsIn.printWorkingDirectory())));
+        addCommand("depth", arguments -> provideOutput(result -> result.setOutput(fsIn.depth())));
 
         addCommand("mkdir", arguments -> provideOutput(result
                 -> {
-            String string = storage.createDirectories(extractArguments(arguments));
+            String string = fsIn.createDirectories(extractArguments(arguments));
             if (string.isEmpty()) {
                 result.setOutput("New directory was successfully created");
             } else {
@@ -127,8 +127,8 @@ public class StorageCommandLine {
             }
         }));
 
-        // Set the StorageCommandLine instance for each command
-        commands.keySet().stream().map(k -> commands.get(k)).forEach(c -> c.setStorageCommandLine(this));
+        // Set the ShellCommandLine instance for each command
+        commands.keySet().stream().map(k -> commands.get(k)).forEach(c -> c.setShellCommandLine(this));
     }
 
     /**
@@ -149,8 +149,8 @@ public class StorageCommandLine {
      * @param consumer the function to modify the result
      * @return the modified result
      */
-    private StorageCommandResult provideOutput(Consumer<StorageCommandResult> consumer) {
-        StorageCommandResult result = StorageCommand.emptyNewResult();
+    private ShellCommandResult provideOutput(Consumer<ShellCommandResult> consumer) {
+        ShellCommandResult result = ShellCommand.emptyNewResult();
         consumer.accept(result);
         return result;
     }
@@ -161,12 +161,12 @@ public class StorageCommandLine {
      * @param nameIn the name of the command
      * @param functionIn the function to execute for the command
      */
-    private void addCommand(String nameIn, Function<String, StorageCommandResult> functionIn) {
-        StorageCommand storageCommand = new BaseStorageCommand(this, nameIn, functionIn);
-        commands.put(storageCommand.getName(), storageCommand);
+    private void addCommand(String nameIn, Function<String, ShellCommandResult> functionIn) {
+        ShellCommand shellCommand = new BaseShellCommand(this, nameIn, functionIn);
+        commands.put(shellCommand.getName(), shellCommand);
     }
 
-    private final Map<String, StorageCommand> commands = new HashMap<>();
+    private final Map<String, ShellCommand> commands = new HashMap<>();
 
     public String getUser() {
         return user;
@@ -176,8 +176,8 @@ public class StorageCommandLine {
         return hostname;
     }
 
-    public Storage getStorage() {
-        return storage;
+    public FileSystem getFileSystem() {
+        return fs;
     }
 
     public boolean isExited() {
@@ -190,23 +190,23 @@ public class StorageCommandLine {
      * @param commandWithArguments the command and its arguments
      * @return the result of the command execution
      */
-    public StorageCommandResult execute(String commandWithArguments) {
+    public ShellCommandResult execute(String commandWithArguments) {
         String[] arguments = commandWithArguments.split(" ");
         String command = arguments.length == 0 ? "" : arguments[0];
 
-        StorageCommand storageCommand = commands.get(command);
-        if (storageCommand != null) {
-            return storageCommand.execute(commandWithArguments.substring(command.length()));
+        ShellCommand shellCommand = commands.get(command);
+        if (shellCommand != null) {
+            return shellCommand.execute(commandWithArguments.substring(command.length()));
         }
 
         int argumentCount = arguments.length - 1;
         Optional<String> argument1 = Optional.ofNullable(argumentCount >= 1 ? arguments[1] : null);
         Optional<String> argument2 = Optional.ofNullable(argumentCount >= 2 ? arguments[2] : null);
 
-        StorageCommandResult finalResult = new StorageCommandResult();
+        ShellCommandResult finalResult = new ShellCommandResult();
         switch (command) {
             case "touch":
-                String r = storage.touch(argument1.get());
+                String r = fs.touch(argument1.get());
                 if (r.isEmpty()) {
                     finalResult.setOutput("New file was successfully created");
                 } else {
@@ -214,7 +214,7 @@ public class StorageCommandLine {
                 }
                 break;
             case "readtext":
-                String rr = storage.readString(argument1.get());
+                String rr = fs.readString(argument1.get());
                 if (rr != null) {
                     finalResult.setOutput("Text file was successfully loaded" + "\n\n" + rr);
                 } else {
@@ -222,7 +222,7 @@ public class StorageCommandLine {
                 }
                 break;
             case "savetext":
-                String result = storage.writeString(argument1.get(), argument2.get());
+                String result = fs.writeString(argument1.get(), argument2.get());
                 if (result.isEmpty()) {
                     finalResult.setOutput("Text file was successfully saved");
                 } else {
@@ -230,7 +230,7 @@ public class StorageCommandLine {
                 }
                 break;
             case "cd":
-                String rrr = argument1.isEmpty() ? storage.changeDirectory() : storage.changeDirectory(argument1.get());
+                String rrr = argument1.isEmpty() ? fs.changeDirectory() : fs.changeDirectory(argument1.get());
                 if (rrr.isEmpty()) {
                     finalResult.setOutput("Changing working directory was successfully created");
                 } else {
@@ -238,7 +238,7 @@ public class StorageCommandLine {
                 }
                 break;
             case "debug":
-                finalResult.setOutput(storage.debug());
+                finalResult.setOutput(fs.debug());
                 break;
             case "exit":
                 exited = true;

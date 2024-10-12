@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @author robertvokac
  */
-public interface FileHandle {
+public interface File {
 
     FileType type();
 
@@ -37,7 +37,7 @@ public interface FileHandle {
 
     String nameWithoutExtension();
 
-    List<FileHandle> list();
+    List<File> list();
 
     default boolean isDirectory() {
         return type() == FileType.DIRECTORY;
@@ -47,11 +47,11 @@ public interface FileHandle {
         return type() == FileType.FILE;
     }
 
-    FileHandle child(String name);
+    File child(String name);
 
-    FileHandle sibling(String name);
+    File sibling(String name);
 
-    FileHandle parent();
+    File parent();
 
     boolean mkdir();
 
@@ -65,15 +65,15 @@ public interface FileHandle {
 
     boolean emptyDirectory();
 
-    boolean copyTo(FileHandle destination);
+    boolean copyTo(File destination);
 
-    boolean moveTo(FileHandle destination);
+    boolean moveTo(File destination);
 
     long length();
 
-    FileHandle tempFile(String prefix);
+    File tempFile(String prefix);
 
-    FileHandle tempDirectory(String prefix);
+    File tempDirectory(String prefix);
 
     int depth();
 
@@ -89,5 +89,5 @@ public interface FileHandle {
 
     void flush();
 
-    Storage getStorage();
+    FileSystem getFileSystem();
 }

@@ -23,48 +23,48 @@ import com.pixelgamelibrary.api.Pixel;
 import com.pixelgamelibrary.api.Platform;
 import com.pixelgamelibrary.api.files.FileType;
 import com.pixelgamelibrary.api.files.RegularFileType;
-import com.pixelgamelibrary.api.files.StorageException;
-import com.pixelgamelibrary.api.files.Storage;
-import com.pixelgamelibrary.api.files.StorageType;
+import com.pixelgamelibrary.api.files.FileException;
+import com.pixelgamelibrary.api.files.FileSystemType;
 import java.util.List;
 import java.util.stream.Collectors;
+import com.pixelgamelibrary.api.files.FileSystem;
 
 /**
- * Implementation of the Storage interface for managing a map-based file system.
+ * Implementation of the FileSystem interface for managing a map-based file system.
  * Provides methods to interact with files and directories stored in a map.
  *
  * @author robertvokac
  */
-public class MapStorage implements Storage {
+public class MapFileSystem implements FileSystem {
 
     private final SimpleMap map;
-    private final MapStorageCompression mapStorageCompression;
+    private final MapFileSystemCompression mapFileSystemCompression;
 
     /**
-     * Constructs a MapStorage instance with the specified map and default
+     * Constructs a MapFileSystem instance with the specified map and default
      * compression.
      *
-     * @param mapIn the map to be used for storage
+     * @param mapIn the map to be used for file system
      */
-    public MapStorage(SimpleMap mapIn) {
-        this(mapIn, MapStorageCompression.LZMA);
+    public MapFileSystem(SimpleMap mapIn) {
+        this(mapIn, MapFileSystemCompression.LZMA);
     }
 
     /**
-     * Constructs a MapStorage instance with the specified map and compression.
+     * Constructs a MapFileSystem instance with the specified map and compression.
      *
-     * @param mapIn the map to be used for storage
-     * @param mapStorageCompressionIn the compression method to be used
+     * @param mapIn the map to be used for file system
+     * @param mapFileSystemCompressionIn the compression method to be used
      */
-    public MapStorage(SimpleMap mapIn, MapStorageCompression mapStorageCompressionIn) {
+    public MapFileSystem(SimpleMap mapIn, MapFileSystemCompression mapFileSystemCompressionIn) {
         this.map = mapIn;
-        this.mapStorageCompression = mapStorageCompressionIn;
+        this.mapFileSystemCompression = mapFileSystemCompressionIn;
         if (map.contains("system.compression")) {
-            if (!map.getString("system.compression").equals(this.mapStorageCompression.name())) {
-                throw new StorageException("Fatal error, compression method passed to the constructor is different, than the compression method in the map (key system.compression).");
+            if (!map.getString("system.compression").equals(this.mapFileSystemCompression.name())) {
+                throw new FileException("Fatal error, compression method passed to the constructor is different, than the compression method in the map (key system.compression).");
             }
         } else {
-            map.putString("system.compression", mapStorageCompression.name());
+            map.putString("system.compression", mapFileSystemCompression.name());
         }
         createDirectory("/");  // Initialize the root directory
     }
@@ -141,14 +141,14 @@ public class MapStorage implements Storage {
      *
      * @param path the path to get the parent of
      * @return the parent path
-     * @throws StorageException if the path is null or empty
+     * @throws FileException if the path is null or empty
      */
     private static String getParentPath(String path) {
         if (path == null) {
-            throw new StorageException("Path is null");
+            throw new FileException("Path is null");
         }
         if (path.trim().isEmpty()) {
-            throw new StorageException("Path is empty");
+            throw new FileException("Path is empty");
         }
 
         if (path.equals("/")) {
@@ -247,10 +247,10 @@ public class MapStorage implements Storage {
      */
     private String moveOrCp(String source, String target, boolean move, boolean cp) {
         if (move && cp) {
-            throw new StorageException("move == true && cp == true");
+            throw new FileException("move == true && cp == true");
         }
         if (!move && !cp) {
-            throw new StorageException("move != true && cp != true");
+            throw new FileException("move != true && cp != true");
         }
         String absolutePathSource = convertToAbsolutePathIfNeeded(source);
         String absolutePathTarget = convertToAbsolutePathIfNeeded(target);
@@ -318,8 +318,8 @@ public class MapStorage implements Storage {
         }
         text = text.substring(BINARYFILE.length());
         byte[] data = Pixel.utils().decodeBase64AsByteArray(text);
-        if (this.mapStorageCompression != MapStorageCompression.NONE) {
-            data = Pixel.utils().decompress(data, mapStorageCompression.name());
+        if (this.mapFileSystemCompression != MapFileSystemCompression.NONE) {
+            data = Pixel.utils().decompress(data, mapFileSystemCompression.name());
         }
         return data;
     }
@@ -331,8 +331,8 @@ public class MapStorage implements Storage {
 
     @Override
     public String writeBytes(String name, byte[] data) {
-        if (this.mapStorageCompression != MapStorageCompression.NONE) {
-            data = Pixel.utils().compress(data, mapStorageCompression.name());
+        if (this.mapFileSystemCompression != MapFileSystemCompression.NONE) {
+            data = Pixel.utils().compress(data, mapFileSystemCompression.name());
         }
         return writeString(name, BINARYFILE + Pixel.utils().encodeToBase64(data));
     }
@@ -440,7 +440,7 @@ public class MapStorage implements Storage {
     }
 
     @Override
-    public StorageType getStorageType() {
+    public FileSystemType getFileSystemType() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

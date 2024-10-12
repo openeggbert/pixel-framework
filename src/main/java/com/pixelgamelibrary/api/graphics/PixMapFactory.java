@@ -20,7 +20,7 @@
 
 package com.pixelgamelibrary.api.graphics;
 
-import com.pixelgamelibrary.api.files.FileHandle;
+import com.pixelgamelibrary.api.files.File;
 
 /**
  *
@@ -28,6 +28,6 @@ import com.pixelgamelibrary.api.files.FileHandle;
  */
 public interface PixMapFactory {
     Pixmap create(int width, int height);
-    Pixmap create(FileHandle fileHandle);
+    Pixmap create(File fileHandle);
     
 }

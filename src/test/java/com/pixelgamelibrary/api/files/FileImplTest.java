@@ -1,10 +1,8 @@
 package com.pixelgamelibrary.api.files;
 
-import com.pixelgamelibrary.api.files.Storage;
-import com.pixelgamelibrary.api.files.FileHandleImpl;
+import com.pixelgamelibrary.api.files.FileImpl;
 import com.pixelgamelibrary.api.files.RegularFileType;
 import com.pixelgamelibrary.api.files.FileType;
-import com.pixelgamelibrary.api.files.FileHandle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -13,22 +11,24 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import com.pixelgamelibrary.api.files.FileSystem;
+import com.pixelgamelibrary.api.files.File;
 
-public class FileHandleImplTest {
+public class FileImplTest {
 
-    private Storage mockStorage;
-    private FileHandleImpl fileHandle;
+    private FileSystem mockFileSystem;
+    private FileImpl fileHandle;
 
     @BeforeEach
     public void setUp() {
-        mockStorage = mock(Storage.class);
-        fileHandle = new FileHandleImpl(mockStorage, "/example/path/file.txt");
+        mockFileSystem = mock(FileSystem.class);
+        fileHandle = new FileImpl(mockFileSystem, "/example/path/file.txt");
     }
 
     @Test
     public void testType() {
         // Arrange
-        when(mockStorage.type("/example/path/file.txt")).thenReturn(FileType.FILE);
+        when(mockFileSystem.type("/example/path/file.txt")).thenReturn(FileType.FILE);
 
         // Act
         FileType result = fileHandle.type();
@@ -60,10 +60,10 @@ public class FileHandleImplTest {
     @Test
     public void testList() {
         // Arrange
-        when(mockStorage.list("/example/path/file.txt")).thenReturn(Arrays.asList("child1", "child2"));
+        when(mockFileSystem.list("/example/path/file.txt")).thenReturn(Arrays.asList("child1", "child2"));
 
         // Act
-        List<FileHandle> files = fileHandle.list();
+        List<File> files = fileHandle.list();
 
         // Assert
         assertEquals(2, files.size());
@@ -74,7 +74,7 @@ public class FileHandleImplTest {
     @Test
     public void testChild() {
         // Act
-        FileHandle child = fileHandle.child("child.txt");
+        File child = fileHandle.child("child.txt");
 
         // Assert
         assertEquals("/example/path/file.txt/child.txt", child.path());
@@ -83,7 +83,7 @@ public class FileHandleImplTest {
     @Test
     public void testSibling() {
         // Act
-        FileHandle sibling = fileHandle.sibling("sibling.txt");
+        File sibling = fileHandle.sibling("sibling.txt");
 
         // Assert
         assertEquals("/example/path/sibling.txt", sibling.path());
@@ -92,7 +92,7 @@ public class FileHandleImplTest {
     @Test
     public void testParent() {
         // Act
-        FileHandle parent = fileHandle.parent();
+        File parent = fileHandle.parent();
 
         // Assert
         assertEquals("/example/path", parent.path());
@@ -101,7 +101,7 @@ public class FileHandleImplTest {
     @Test
     public void testMkdir() {
         // Arrange
-        when(mockStorage.createDirectory("/example/path/file.txt")).thenReturn("");
+        when(mockFileSystem.createDirectory("/example/path/file.txt")).thenReturn("");
 
         // Act
         boolean result = fileHandle.mkdir();
@@ -113,7 +113,7 @@ public class FileHandleImplTest {
     @Test
     public void testExists() {
         // Arrange
-        when(mockStorage.exists("/example/path/file.txt")).thenReturn(true);
+        when(mockFileSystem.exists("/example/path/file.txt")).thenReturn(true);
 
         // Act
         boolean result = fileHandle.exists();
@@ -125,7 +125,7 @@ public class FileHandleImplTest {
     @Test
     public void testDelete() {
         // Arrange
-        when(mockStorage.remove("/example/path/file.txt")).thenReturn(true);
+        when(mockFileSystem.remove("/example/path/file.txt")).thenReturn(true);
 
         // Act
         boolean result = fileHandle.delete();
@@ -137,8 +137,8 @@ public class FileHandleImplTest {
     @Test
     public void testCopyTo() {
         // Arrange
-        FileHandleImpl destination = new FileHandleImpl(mockStorage, "/destination/path");
-        when(mockStorage.copy("/example/path/file.txt", "/destination/path")).thenReturn("");
+        FileImpl destination = new FileImpl(mockFileSystem, "/destination/path");
+        when(mockFileSystem.copy("/example/path/file.txt", "/destination/path")).thenReturn("");
 
         // Act
         boolean result = fileHandle.copyTo(destination);
@@ -150,8 +150,8 @@ public class FileHandleImplTest {
     @Test
     public void testMoveTo() {
         // Arrange
-        FileHandleImpl destination = new FileHandleImpl(mockStorage, "/destination/path");
-        when(mockStorage.move("/example/path/file.txt", "/destination/path")).thenReturn("");
+        FileImpl destination = new FileImpl(mockFileSystem, "/destination/path");
+        when(mockFileSystem.move("/example/path/file.txt", "/destination/path")).thenReturn("");
 
         // Act
         boolean result = fileHandle.moveTo(destination);
@@ -163,8 +163,8 @@ public class FileHandleImplTest {
     @Test
     public void testLength() {
         // Arrange
-        when(mockStorage.getRegularFileType("/example/path/file.txt")).thenReturn(RegularFileType.TEXT);
-        when(mockStorage.readString("/example/path/file.txt")).thenReturn("Hello, World!");
+        when(mockFileSystem.getRegularFileType("/example/path/file.txt")).thenReturn(RegularFileType.TEXT);
+        when(mockFileSystem.readString("/example/path/file.txt")).thenReturn("Hello, World!");
 
         // Act
         long length = fileHandle.length();

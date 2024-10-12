@@ -19,7 +19,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api.graphics;
 
-import com.pixelgamelibrary.api.files.FileHandle;
+import com.pixelgamelibrary.api.files.File;
 
 /**
  *
@@ -35,24 +35,24 @@ public interface BitmapFontFactory {
         return create(FLIP_DEFAULT);
     }
 
-    BitmapFont create(FileHandle fontFile, TextureRegion region, boolean flip);
+    BitmapFont create(File fontFile, TextureRegion region, boolean flip);
 
-    default BitmapFont create(FileHandle fontFile, TextureRegion region) {
+    default BitmapFont create(File fontFile, TextureRegion region) {
         return create(fontFile, region, FLIP_DEFAULT);
     }
 
-    BitmapFont create(FileHandle fontFile, boolean flip);
+    BitmapFont create(File fontFile, boolean flip);
 
-    default BitmapFont create(FileHandle fontFile) {
+    default BitmapFont create(File fontFile) {
         return create(fontFile, FLIP_DEFAULT);
     }
 //            Pixel.files().assets("com/badlogic/gdx/utils/lsans-15.fnt"), Pixel.files().assets("com/badlogic/gdx/utils/lsans-15.png"),
 //			false, true
 //        );
 
-    BitmapFont create(FileHandle fontFile, FileHandle imageFile, boolean flip);
+    BitmapFont create(File fontFile, File imageFile, boolean flip);
 
-    default BitmapFont create(FileHandle fontFile, FileHandle imageFile) {
+    default BitmapFont create(File fontFile, File imageFile) {
         return create(fontFile, imageFile, FLIP_DEFAULT);
     }
 

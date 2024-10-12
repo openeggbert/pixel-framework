@@ -13,22 +13,25 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program. If not, see
+// along with this program. If not, see 
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api.files;
+package com.pixelgamelibrary.api.files.shell;
 
 /**
- *
+ * The {@code CommandLineScanner} interface defines a contract for scanning input from a command line.
+ * It provides methods to read input lines from the command line.
+ * 
  * @author robertvokac
  */
-public enum StorageType {
-    ASSETS,
-    LOCAL,
-    EXTERNAL,
-    RELATIVE,
-    ABSOLUTE,
-    TMP,
-    UNDEFINED;
+public interface ShellScanner {
+
+    /**
+     * Reads the next line of input from the command line.
+     * 
+     * @return the next line of input as a {@code String}.
+     */
+    String nextLine();
+    
 }

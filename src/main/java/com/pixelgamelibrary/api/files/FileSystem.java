@@ -23,18 +23,18 @@ import com.pixelgamelibrary.api.Platform;
 import java.util.List;
 
 /**
- * This interface provides the methods to interact with the underlying storage
+ * This interface provides the methods to interact with the underlying file system
  * system. It supports basic file system operations such as navigating
  * directories, creating files and directories, and reading/writing data.
  *
  * @author robertvokac
  */
-public interface Storage {
+public interface FileSystem {
 
     public String SLASH = "/";
 
     /**
-     * Returns the platform associated with this storage.
+     * Returns the platform associated with this file system.
      *
      * @return the platform object.
      */
@@ -55,11 +55,11 @@ public interface Storage {
      * @return a result message or an empty string if successful.
      */
     default String changeDirectory() {
-        Storage.this.changeDirectory("/");
+        FileSystem.this.changeDirectory("/");
         createDirectory("home");
-        Storage.this.changeDirectory("home");
+        FileSystem.this.changeDirectory("home");
         createDirectory(getUserName());
-        Storage.this.changeDirectory(getUserName());
+        FileSystem.this.changeDirectory(getUserName());
         return "";
     }
 
@@ -242,19 +242,19 @@ public interface Storage {
 
     /**
      * Returns a debug string with information about the current state of the
-     * storage.
+     * file system.
      *
      * @return a debug string.
      */
     public String debug();
 
     /**
-     * Flushes any pending writes to the storage.
+     * Flushes any pending writes to the file system.
      */
     public void flush();
 
     /**
-     * Returns the username associated with this storage.
+     * Returns the username associated with this file system.
      *
      * @return the username.
      */
@@ -263,7 +263,7 @@ public interface Storage {
     }
 
     /**
-     * If the size of this storage is limited, returns the number of bytes it is
+     * If the size of this file system is limited, returns the number of bytes it is
      * limited to. Otherwise, returns 0.
      *
      * @return the size limit in bytes, or 0 if there is no limit.
@@ -273,16 +273,16 @@ public interface Storage {
     }
 
     /**
-     * The default username for the storage.
+     * The default username for the file system.
      */
     static final String USER = "user";
 
-    default FileHandle file(String path) {
+    default File file(String path) {
         path = convertToAbsolutePathIfNeeded(path);
-        return new FileHandleImpl(this, path);
+        return new FileImpl(this, path);
     }
 
-    default FileHandle file() {
+    default File file() {
         return file(printWorkingDirectory());
     }
 
@@ -322,7 +322,7 @@ public interface Storage {
     }
 
     /**
-     * Saves and returns the current state of the storage.
+     * Saves and returns the current state of the file system.
      *
      * @param methodName
      * @return
@@ -330,7 +330,7 @@ public interface Storage {
     byte[] backup(String methodName);
 
     /**
-     * Replaces the current content of the storage.
+     * Replaces the current content of the file system.
      * @param methodName
      * @param data
      */
@@ -339,12 +339,12 @@ public interface Storage {
     boolean isReadonly();
 
     /**
-     * Returns the maximum size in count of bytes of the storage. If the maximum
-     * size is not defined for this storage, then 0 is returned. default long
+     * Returns the maximum size in count of bytes of the file system. If the maximum
+     * size is not defined for this file system, then 0 is returned. default long
      * getMaxSize() { return 0; }
      *
      * /**
-     * Deletes all the content in the storage.
+     * Deletes all the content in the file system.
      */
     void clear();
 
@@ -352,5 +352,5 @@ public interface Storage {
 
     long size();
     
-    StorageType getStorageType();
+    FileSystemType getFileSystemType();
 }

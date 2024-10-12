@@ -20,7 +20,7 @@
 package com.pixelgamelibrary.api.utils;
 
 import com.pixelgamelibrary.api.Pixel;
-import com.pixelgamelibrary.api.files.StorageException;
+import com.pixelgamelibrary.api.files.FileException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -106,7 +106,7 @@ public class AssetsTxt {
     public List<String> list(String pathToDirectory, boolean directoryType, boolean fileType) {
 //        System.out.println("Calling: AssetsTxt.list( " + pathToDirectory + " ...)");
         if (!directoryType && !fileType) {
-            throw new StorageException("Invalid arguments, both arguments are false: directoryType, fileType");
+            throw new FileException("Invalid arguments, both arguments are false: directoryType, fileType");
         }
 
         if (pathToDirectory.equals(".")) {
@@ -126,7 +126,7 @@ public class AssetsTxt {
             return result;
         }
         if (!directoriesSet.contains(pathToDirectory)) {
-            throw new StorageException("There is no such directory in assets: " + pathToDirectory);
+            throw new FileException("There is no such directory in assets: " + pathToDirectory);
         }
 
         var directoryArray = pathToDirectory.split("/");

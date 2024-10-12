@@ -21,7 +21,7 @@
 package com.pixelgamelibrary.api.files.map;
 
 import com.pixelgamelibrary.api.files.FileType;
-import com.pixelgamelibrary.api.files.StorageException;
+import com.pixelgamelibrary.api.files.FileException;
 import static com.pixelgamelibrary.api.files.FileType.DIRECTORY;
 import static com.pixelgamelibrary.api.files.FileType.FILE;
 
@@ -36,22 +36,22 @@ public class MapFileType {
 
     /**
      * Determines the MapFileType based on the value associated with the specified key in the map.
-     * Throws a StorageException if the key is not found or if the value does not match any known type.
+     * Throws a FileException if the key is not found or if the value does not match any known type.
      * 
      * @param key the key whose associated value determines the file type
      * @param map the map from which to retrieve the value
      * @return the MapFileType corresponding to the value in the map
-     * @throws StorageException if the key is not present in the map or if the value does not match FILE or DIRECTORY
+     * @throws FileException if the key is not present in the map or if the value does not match FILE or DIRECTORY
      */
     public static FileType ofKey(String key, SimpleMap map) {
         // Check if the map contains the specified key
         if (!map.contains(key)) {
-            throw new StorageException("Map does not contain key: " + key);
+            throw new FileException("Map does not contain key: " + key);
         }
         // Retrieve the value associated with the key
         String value = map.getString(key);
         if(value == null) {
-            throw new StorageException("Value is null for key: " + key);
+            throw new FileException("Value is null for key: " + key);
         }
         // Determine the MapFileType based on the value
         if (value.startsWith(FILE.name())) {
@@ -61,6 +61,6 @@ public class MapFileType {
             return DIRECTORY;
         }
         // Throw an exception if the value does not match known types
-        throw new StorageException("Unsupported MapFileType for key in the map: " + key);
+        throw new FileException("Unsupported MapFileType for key in the map: " + key);
     }
 }

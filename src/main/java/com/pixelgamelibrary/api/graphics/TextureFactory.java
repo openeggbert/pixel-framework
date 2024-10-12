@@ -20,7 +20,7 @@
 
 package com.pixelgamelibrary.api.graphics;
 
-import com.pixelgamelibrary.api.files.FileHandle;
+import com.pixelgamelibrary.api.files.File;
 
 /**
  *
@@ -28,7 +28,7 @@ import com.pixelgamelibrary.api.files.FileHandle;
  */
 public interface TextureFactory {
      Texture create(String assetPath);
-     Texture create(FileHandle fileHandle);
+     Texture create(File fileHandle);
      Texture create(Pixmap pixmap);
      Texture create(int width, int height);
 }

@@ -1,15 +1,15 @@
-package com.pixelgamelibrary.api.files.command;
+package com.pixelgamelibrary.api.files.shell;
 
-import com.pixelgamelibrary.api.files.command.StorageCommandResult;
+import com.pixelgamelibrary.api.files.shell.ShellCommandResult;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class StorageCommandResultTest {
+class ShellCommandResultTest {
 
     @Test
     void testDefaultConstructor() {
         // Test default constructor which initializes an empty result
-        StorageCommandResult result = new StorageCommandResult();
+        ShellCommandResult result = new ShellCommandResult();
 
         assertNotNull(result.getOutput(), "Output should not be null");
         assertEquals("", result.getOutput(), "Default output should be empty");
@@ -20,7 +20,7 @@ class StorageCommandResultTest {
     void testConstructorWithOutput() {
         // Test constructor that initializes with an output string
         String expectedOutput = "Test Output";
-        StorageCommandResult result = new StorageCommandResult(expectedOutput);
+        ShellCommandResult result = new ShellCommandResult(expectedOutput);
 
         assertEquals(expectedOutput, result.getOutput(), "Output should match the provided string");
         assertFalse(result.isError(), "Result should not indicate an error by default");
@@ -30,7 +30,7 @@ class StorageCommandResultTest {
     void testConstructorWithOutputAndErrorFlag() {
         // Test constructor that initializes with output and error flag
         String expectedOutput = "Error Output";
-        StorageCommandResult result = new StorageCommandResult(expectedOutput, true);
+        ShellCommandResult result = new ShellCommandResult(expectedOutput, true);
 
         assertEquals(expectedOutput, result.getOutput(), "Output should match the provided string");
         assertTrue(result.isError(), "Error flag should be set to true");
@@ -39,7 +39,7 @@ class StorageCommandResultTest {
     @Test
     void testSetOutputString() {
         // Test setting the output using a string
-        StorageCommandResult result = new StorageCommandResult();
+        ShellCommandResult result = new ShellCommandResult();
         String expectedOutput = "New Output";
         result.setOutput(expectedOutput);
 
@@ -49,7 +49,7 @@ class StorageCommandResultTest {
     @Test
     void testSetOutputInt() {
         // Test setting the output using an integer
-        StorageCommandResult result = new StorageCommandResult();
+        ShellCommandResult result = new ShellCommandResult();
         int expectedOutput = 12345;
         result.setOutput(expectedOutput);
 
@@ -59,7 +59,7 @@ class StorageCommandResultTest {
     @Test
     void testSetErrorOutput() {
         // Test setting an error output and marking the result as an error
-        StorageCommandResult result = new StorageCommandResult();
+        ShellCommandResult result = new ShellCommandResult();
         String errorOutput = "Error occurred";
         result.setErrorOutput(errorOutput);
 
@@ -70,7 +70,7 @@ class StorageCommandResultTest {
     @Test
     void testSetErrorFlag() {
         // Test setting the error flag directly
-        StorageCommandResult result = new StorageCommandResult();
+        ShellCommandResult result = new ShellCommandResult();
         result.setError(true);
 
         assertTrue(result.isError(), "Error flag should be set to true");

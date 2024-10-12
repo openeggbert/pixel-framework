@@ -17,23 +17,23 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api.files.command;
+package com.pixelgamelibrary.api.files.shell;
 
 import java.util.function.Function;
 
 /**
- * The {@code BaseStorageCommand} class provides a basic implementation of the {@link StorageCommand} interface.
- * It defines a command that can be executed within a storage command-line context using a function
+ * The {@code BaseShellCommand} class provides a basic implementation of the {@link ShellCommand} interface.
+ * It defines a command that can be executed within a file system command-line context using a function
  * that processes the command and its arguments.
  * 
  * @author robertvokac
  */
-public class BaseStorageCommand implements StorageCommand {
+public class BaseShellCommand implements ShellCommand {
 
     /**
      * The command-line interface this command is associated with.
      */
-    private StorageCommandLine storageCommandLine = null;
+    private ShellCommandLine shellCommandLine = null;
 
     /**
      * The name of the command.
@@ -43,41 +43,41 @@ public class BaseStorageCommand implements StorageCommand {
     /**
      * The function that will be applied to execute the command with its arguments.
      */
-    private final Function<String, StorageCommandResult> function;
+    private final Function<String, ShellCommandResult> function;
 
     /**
-     * Constructs a new {@code BaseStorageCommand} with the specified command-line interface, name, and execution function.
+     * Constructs a new {@code BaseShellCommand} with the specified command-line interface, name, and execution function.
      * 
-     * @param storageCommandLineIn the command-line interface associated with this command.
+     * @param shellCommandLineIn the command-line interface associated with this command.
      * @param nameIn the name of the command.
      * @param functionIn the function that defines the command's behavior when executed.
      */
-    public BaseStorageCommand(
-            StorageCommandLine storageCommandLineIn, String nameIn, Function<String, StorageCommandResult> functionIn
+    public BaseShellCommand(
+            ShellCommandLine shellCommandLineIn, String nameIn, Function<String, ShellCommandResult> functionIn
     ) {
-        setStorageCommandLine(storageCommandLineIn);
+        setShellCommandLine(shellCommandLineIn);
         this.name = nameIn;
         this.function = functionIn;
     }
 
     /**
-     * Sets the {@link StorageCommandLine} for this command.
+     * Sets the {@link ShellCommandLine} for this command.
      * 
-     * @param storageCommandLineIn the command-line interface to set.
+     * @param shellCommandLineIn the command-line interface to set.
      */
     @Override
-    public final void setStorageCommandLine(StorageCommandLine storageCommandLineIn) {
-        storageCommandLine = storageCommandLineIn;
+    public final void setShellCommandLine(ShellCommandLine shellCommandLineIn) {
+        shellCommandLine = shellCommandLineIn;
     }
 
     /**
-     * Returns the {@link StorageCommandLine} associated with this command.
+     * Returns the {@link ShellCommandLine} associated with this command.
      * 
      * @return the command-line interface.
      */
     @Override
-    public final StorageCommandLine getStorageCommandLine() {
-        return storageCommandLine;
+    public final ShellCommandLine getShellCommandLine() {
+        return shellCommandLine;
     }
 
     /**
@@ -97,7 +97,7 @@ public class BaseStorageCommand implements StorageCommand {
      * @return the result of executing the command.
      */
     @Override
-    public StorageCommandResult execute(String commandWithArguments) {
+    public ShellCommandResult execute(String commandWithArguments) {
         return function.apply(commandWithArguments);
     }
 

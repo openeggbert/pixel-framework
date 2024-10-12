@@ -23,6 +23,6 @@ package com.pixelgamelibrary.api.files.map;
  *
  * @author robertvokac
  */
-public enum MapStorageCompression {
+public enum MapFileSystemCompression {
     NONE, LZMA;
 }

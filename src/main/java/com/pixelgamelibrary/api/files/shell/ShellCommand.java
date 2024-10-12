@@ -17,16 +17,16 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api.files.command;
+package com.pixelgamelibrary.api.files.shell;
 
 /**
- * The {@code StorageCommand} interface defines the contract for commands that can be executed within
- * a storage command-line environment. It provides methods for getting the command's name, executing
+ * The {@code ShellCommand} interface defines the contract for commands that can be executed within
+ * a file system command-line environment. It provides methods for getting the command's name, executing
  * the command with arguments, and managing the command-line context.
  * 
  * @author robertvokac
  */
-public interface StorageCommand {
+public interface ShellCommand {
 
     /**
      * Returns the name of the command.
@@ -39,30 +39,30 @@ public interface StorageCommand {
      * Executes the command with the specified arguments and returns the result.
      * 
      * @param arguments the arguments to be passed to the command.
-     * @return the result of executing the command as a {@link StorageCommandResult}.
+     * @return the result of executing the command as a {@link ShellCommandResult}.
      */
-    StorageCommandResult execute(String arguments);
+    ShellCommandResult execute(String arguments);
 
     /**
-     * Returns the {@link StorageCommandLine} associated with this command.
+     * Returns the {@link ShellCommandLine} associated with this command.
      * 
      * @return the command-line interface associated with this command.
      */
-    StorageCommandLine getStorageCommandLine();
+    ShellCommandLine getShellCommandLine();
 
     /**
-     * Sets the {@link StorageCommandLine} for this command.
+     * Sets the {@link ShellCommandLine} for this command.
      * 
-     * @param storageCommandLine the command-line interface to set.
+     * @param shellCommandLine the command-line interface to set.
      */
-    void setStorageCommandLine(StorageCommandLine storageCommandLine);
+    void setShellCommandLine(ShellCommandLine shellCommandLine);
 
     /**
-     * Creates and returns a new, empty {@link StorageCommandResult}.
+     * Creates and returns a new, empty {@link ShellCommandResult}.
      * 
-     * @return a new {@link StorageCommandResult} instance.
+     * @return a new {@link ShellCommandResult} instance.
      */
-    static StorageCommandResult emptyNewResult() {
-        return new StorageCommandResult();
+    static ShellCommandResult emptyNewResult() {
+        return new ShellCommandResult();
     }
 }

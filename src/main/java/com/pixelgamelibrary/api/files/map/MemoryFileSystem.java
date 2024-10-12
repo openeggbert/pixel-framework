@@ -13,25 +13,37 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program. If not, see 
+// along with this program. If not, see
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api.files.command;
+
+package com.pixelgamelibrary.api.files.map;
+
+import com.pixelgamelibrary.api.Platform;
 
 /**
- * The {@code CommandLineScanner} interface defines a contract for scanning input from a command line.
- * It provides methods to read input lines from the command line.
+ * Implementation of FileSystem that uses an in-memory map for storing data.
+ * Extends the MapFileSystem class to utilize a SimpleJavaMap for internal file system.
+ * 
+ * This class is used when you need a temporary file system solution that
+ * does not persist data beyond the runtime of the application.
  * 
  * @author robertvokac
  */
-public interface CommandLineScanner {
+public class MemoryFileSystem extends MapFileSystem {
 
     /**
-     * Reads the next line of input from the command line.
-     * 
-     * @return the next line of input as a {@code String}.
+     * Constructs a MemoryFileSystem instance using a SimpleJavaMap.
+     * Initializes the parent MapFileSystem with an in-memory map implementation.
      */
-    String nextLine();
-    
+    public MemoryFileSystem() {
+        super(new SimpleJavaMap());
+    }
+
+    @Override
+    public Platform getPlatform() {
+        // Returns null as this implementation does not specify a platform
+        return null;
+    }
 }

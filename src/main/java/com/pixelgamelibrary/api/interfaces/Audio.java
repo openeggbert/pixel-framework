@@ -21,7 +21,7 @@ package com.pixelgamelibrary.api.interfaces;
 
 import com.pixelgamelibrary.api.audio.Music;
 import com.pixelgamelibrary.api.audio.Sound;
-import com.pixelgamelibrary.api.files.FileHandle;
+import com.pixelgamelibrary.api.files.File;
 
 /**
  *
@@ -29,6 +29,6 @@ import com.pixelgamelibrary.api.files.FileHandle;
  */
 public interface Audio {
     //Add MIDI support - todo
-    Sound newSound(FileHandle fileHandle);
-    Music newMusic(FileHandle fileHandle);
+    Sound newSound(File fileHandle);
+    Music newMusic(File fileHandle);
 }

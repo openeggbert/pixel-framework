@@ -18,34 +18,34 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-package com.pixelgamelibrary.api.files.command;
+package com.pixelgamelibrary.api.files.shell;
 
 /**
- * The StorageCommandLineScanner class provides a command-line interface for interacting with
- * the StorageCommandLine instance. It reads user input and executes commands in a loop until
+ * The ShellCommandLineScanner class provides a command-line interface for interacting with
+ * the ShellCommandLine instance. It reads user input and executes commands in a loop until
  * the exit command is issued.
  * 
  * @author robertvokac
  */
-public class StorageCommandLineScanner {
+public class ShellCommandLineScanner {
 
     /**
-     * Constructs a StorageCommandLineScanner instance that continuously reads input from the
+     * Constructs a ShellCommandLineScanner instance that continuously reads input from the
      * user and executes commands until the exit command is issued.
      * 
-     * @param storageCommandLine the StorageCommandLine instance to interact with
+     * @param shellCommandLine the ShellCommandLine instance to interact with
      * @param scanner the Scanner object for reading user input
      */
-    public StorageCommandLineScanner(StorageCommandLine storageCommandLine, CommandLineScanner scanner) {
+    public ShellCommandLineScanner(ShellCommandLine shellCommandLine, ShellScanner scanner) {
 
         while (true) {
             // Print the command line prompt
-            System.out.print(storageCommandLine.getCommandLineStart());
+            System.out.print(shellCommandLine.getCommandLineStart());
             // Read user input
             String argument = scanner.nextLine();
 
             // Execute the command and get the result
-            StorageCommandResult result = storageCommandLine.execute(argument);
+            ShellCommandResult result = shellCommandLine.execute(argument);
             // Print error or output based on the result
             if (result.isError()) {
                 printError(result.getOutput());
@@ -53,7 +53,7 @@ public class StorageCommandLineScanner {
                 print(result.getOutput());
             }
             // Exit if the command line session is marked as exited
-            if (storageCommandLine.isExited()) {
+            if (shellCommandLine.isExited()) {
                 break;
             }
         }
