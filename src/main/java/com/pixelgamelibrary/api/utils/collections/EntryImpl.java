@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// Pixel: Game library.
+// Pixel: LibGDX Backend.
 // Copyright (C) 2024 the original author or authors.
 //
 // This program is free software: you can redistribute it and/or
@@ -17,20 +17,39 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
+package com.pixelgamelibrary.api.utils.collections;
 
-package com.pixelgamelibrary.api.utils;
-
-import com.pixelgamelibrary.api.utils.collections.List;
-import com.pixelgamelibrary.api.utils.collections.Map;
-import com.pixelgamelibrary.api.utils.collections.Set;
+import java.util.Map.Entry;
 
 /**
  *
  * @author robertvokac
  */
-public interface CollectionUtils {
-    <K, V> Map<K, V> objectMap();
-    <T> Set<T> objectSet();
-    <T> List<T> list();
+public class EntryImpl<K, V> implements Entry<K, V> {
+
+    private K key;
+    private V value;
+
+    public EntryImpl(K keyIn, V valueIn) {
+        this.key = keyIn;
+        this.value = valueIn;
+    }
+
+    @Override
+    public K getKey() {
+        return key;
+    }
+
+    @Override
+    public V getValue() {
+        return value;
+    }
+
+    @Override
+    public V setValue(V valueIn) {
+        this.value = valueIn;
+        return this.value;
+    }
+
 
 }

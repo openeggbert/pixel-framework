@@ -17,20 +17,13 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
-package com.pixelgamelibrary.api.utils;
-
-import com.pixelgamelibrary.api.utils.collections.List;
-import com.pixelgamelibrary.api.utils.collections.Map;
-import com.pixelgamelibrary.api.utils.collections.Set;
+package com.pixelgamelibrary.api.utils.collections;
 
 /**
  *
  * @author robertvokac
+ * @param <T> item
  */
-public interface CollectionUtils {
-    <K, V> Map<K, V> objectMap();
-    <T> Set<T> objectSet();
-    <T> List<T> list();
-
+public interface Set<T> extends java.util.Set<T> {
+    
 }
