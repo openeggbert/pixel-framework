@@ -81,40 +81,40 @@ public interface Graphics {
         return getTextureFactory().create(width, height);
     }
 
-    SpriteBatchFactory newSpriteBatchFactory();
+    SpriteBatchFactory getSpriteBatchFactory();
 
     default SpriteBatch newSpriteBatch() {
-        return newSpriteBatchFactory().create();
+        return getSpriteBatchFactory().create();
     }
 
-    BitmapFontFactory newBitmapFontFactory();
+    BitmapFontFactory getBitmapFontFactory();
 
     default BitmapFont newBitmapFont() {
-        return newBitmapFontFactory().create();
+        return getBitmapFontFactory().create();
     }
 
     default BitmapFont newBitmapFont(boolean flip) {
-        return newBitmapFontFactory().create(flip);
+        return getBitmapFontFactory().create(flip);
     }
 
     default BitmapFont newBitmapFont(File fontFile, TextureRegion region) {
-        return newBitmapFontFactory().create(fontFile, region);
+        return getBitmapFontFactory().create(fontFile, region);
     }
 
     default BitmapFont newBitmapFont(File fontFile, TextureRegion region, boolean flip) {
-        return newBitmapFontFactory().create(fontFile, region, flip);
+        return getBitmapFontFactory().create(fontFile, region, flip);
     }
 
     default BitmapFont newBitmapFont(File fontFile) {
-        return newBitmapFontFactory().create(fontFile);
+        return getBitmapFontFactory().create(fontFile);
     }
 
     default BitmapFont newBitmapFont(File fontFile, boolean flip) {
-        return newBitmapFontFactory().create(fontFile, flip);
+        return getBitmapFontFactory().create(fontFile, flip);
     }
 
     default BitmapFont newBitmapFont(File fontFile, File imageFile, boolean flip) {
-        return newBitmapFontFactory().create(fontFile, imageFile, flip);
+        return getBitmapFontFactory().create(fontFile, imageFile, flip);
     }
 
 }

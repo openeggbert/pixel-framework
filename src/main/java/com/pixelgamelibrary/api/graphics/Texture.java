@@ -36,5 +36,6 @@ public interface Texture extends Disposable {
      void makeColorTransparent(int r, int g, int b);
      void scale(double d);
      void setColorMode(ColorMode colorMode, int bitCount);
+     void clear();
 
 }

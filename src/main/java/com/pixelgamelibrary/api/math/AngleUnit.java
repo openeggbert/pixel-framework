@@ -26,7 +26,7 @@ package com.pixelgamelibrary.api.math;
 public enum AngleUnit {
     
     DEGREE, NORMALIZED, RADIAN, GRADIAN;
-    public float convert(float value, AngleUnit inputAngleUnit, AngleUnit outputAngleUnit) {
+    public static float convert(float value, AngleUnit inputAngleUnit, AngleUnit outputAngleUnit) {
         return AngleUnitConverter.convert(value, inputAngleUnit, outputAngleUnit);
     }
 }

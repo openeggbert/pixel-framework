@@ -21,7 +21,7 @@ package com.pixelgamelibrary.api.graphics;
 
 import com.pixelgamelibrary.api.Disposable;
 import com.pixelgamelibrary.api.math.Rectangle;
-import com.pixelgamelibrary.api.math.Rotation;
+import com.pixelgamelibrary.api.math.Angle;
 
 /**
  *
@@ -41,10 +41,14 @@ public interface ShapeRenderer extends Disposable {
 
     Color getColor();
 
-    void filledRectangle(float x, float y, float width, float height, float rotation, Color color);
+    void filledRectangle(float x, float y, float width, float height, Angle rotation, Color color);
+    
+    default void filledRectangle(float x, float y, float width, float height, float rotation, Color color) {
+        filledRectangle(x, y, width, height, Angle.ofDegrees(rotation), color);
+    }
 
     default void filledRectangle(float x, float y, float width, float height, Color color) {
-        filledRectangle(x, y, width, height, Rotation.DEFAULT_ROTATION_IN_ANGLES, color);
+        filledRectangle(x, y, width, height, Angle.DEFAULT_ROTATION_IN_ANGLES, color);
     }
 
     default void filledRectangle(float x, float y, float width, float height, float rotation) {
@@ -52,7 +56,7 @@ public interface ShapeRenderer extends Disposable {
     }
 
     default void filledRectangle(float x, float y, float width, float height) {
-        filledRectangle(x, y, width, height, Rotation.DEFAULT_ROTATION_IN_ANGLES, getColor());
+        filledRectangle(x, y, width, height, Angle.DEFAULT_ROTATION_IN_ANGLES, getColor());
     }
 
     default void filledRectangle(Rectangle rectangle, Color color) {
@@ -66,6 +70,9 @@ public interface ShapeRenderer extends Disposable {
     default void filledRectangle(Rectangle rectangle) {
         filledRectangle(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
     }
-
+    void setTextureRegion(TextureRegion textureRegion);
+    TextureRegion getTextureRegion();
+    
+    void setTexture(Texture texture);
 
 }

@@ -31,4 +31,6 @@ public interface TextureFactory {
      Texture create(File file);
      Texture create(Pixmap pixmap);
      Texture create(int width, int height);
+     Texture createTransparent(int width, int height);
+     
 }

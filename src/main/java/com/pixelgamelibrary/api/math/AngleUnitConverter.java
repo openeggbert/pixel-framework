@@ -101,7 +101,7 @@ class AngleUnitConverter {
      * @return the angle converted to degrees
      */
     public static float convertGradiansToDegrees(float gradians) {
-        return gradians / GRADIANS_PER_90_DEGREES * 90f;
+        return gradians / GRADIANS_PER_90_DEGREES * _90_DEGREES;
     }
 
     /**
@@ -131,6 +131,13 @@ class AngleUnitConverter {
         if (inputAngleUnit == outputAngleUnit) {
             // No conversion needed if the units are the same
             return value;
+        }
+        if(inputAngleUnit == null) {
+            throw new PixelException("inputAngleUnit is null");
+        }
+        
+        if(outputAngleUnit == null) {
+            throw new PixelException("outputAngleUnit is null");
         }
         if (inputAngleUnit == AngleUnit.DEGREE) {
             // Convert from degrees to the specified output unit
@@ -163,5 +170,12 @@ class AngleUnitConverter {
         // If neither the input nor output is in degrees, convert via degrees as an intermediate step
         float degrees = convert(value, inputAngleUnit, AngleUnit.DEGREE);
         return convert(degrees, AngleUnit.DEGREE, outputAngleUnit);
+    }
+    
+    public static float normalizeAnticlockwiseDegrees(float degrees, boolean enabled) {
+        return enabled ? _360_DEGREES - degrees : degrees;
+    }
+    public static float normalizeAnticlockwiseDegrees(float degrees) {
+        return normalizeAnticlockwiseDegrees(degrees, true);
     }
 }
