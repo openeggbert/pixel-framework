@@ -17,13 +17,55 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
 package com.pixelgamelibrary.api.graphics;
+
+import com.pixelgamelibrary.api.Disposable;
+import com.pixelgamelibrary.api.math.Rectangle;
+import com.pixelgamelibrary.api.math.Rotation;
 
 /**
  *
  * @author robertvokac
  */
-public interface ShapeRenderer {
-    
+public interface ShapeRenderer extends Disposable {
+
+    void setColor(Color color);
+
+    default void setColor(float r, float g, float b) {
+        setColor(new Color(r, g, b));
+    }
+
+    default void setColor(float r, float g, float b, float a) {
+        setColor(new Color(r, g, b, a));
+    }
+
+    Color getColor();
+
+    void filledRectangle(float x, float y, float width, float height, float rotation, Color color);
+
+    default void filledRectangle(float x, float y, float width, float height, Color color) {
+        filledRectangle(x, y, width, height, Rotation.DEFAULT_ROTATION_IN_ANGLES, color);
+    }
+
+    default void filledRectangle(float x, float y, float width, float height, float rotation) {
+        filledRectangle(x, y, width, height, rotation, getColor());
+    }
+
+    default void filledRectangle(float x, float y, float width, float height) {
+        filledRectangle(x, y, width, height, Rotation.DEFAULT_ROTATION_IN_ANGLES, getColor());
+    }
+
+    default void filledRectangle(Rectangle rectangle, Color color) {
+        filledRectangle(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight(), color);
+    }
+
+    default void filledRectangle(Rectangle rectangle, float rotation) {
+        filledRectangle(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight(), rotation);
+    }
+
+    default void filledRectangle(Rectangle rectangle) {
+        filledRectangle(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+    }
+
+
 }

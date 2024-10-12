@@ -17,24 +17,16 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api.graphics;
-
-import com.pixelgamelibrary.api.Disposable;
+package com.pixelgamelibrary.api.math;
 
 /**
  *
  * @author robertvokac
  */
-public interface SpriteBatch extends Disposable {
-
-    void begin();
-
-    void end();
-
-    void draw(Texture texture, int x, int y, int width, int height);
-
-    void draw(Texture texture, int x, int y);
+public enum AngleUnit {
     
-    ShapeRenderer drawShape();
-
+    DEGREE, NORMALIZED, RADIAN, GRADIAN;
+    public float convert(float value, AngleUnit inputAngleUnit, AngleUnit outputAngleUnit) {
+        return AngleUnitConverter.convert(value, inputAngleUnit, outputAngleUnit);
+    }
 }

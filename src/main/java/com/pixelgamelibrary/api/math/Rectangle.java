@@ -17,24 +17,17 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api.graphics;
+package com.pixelgamelibrary.api.math;
 
-import com.pixelgamelibrary.api.Disposable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
  * @author robertvokac
  */
-public interface SpriteBatch extends Disposable {
-
-    void begin();
-
-    void end();
-
-    void draw(Texture texture, int x, int y, int width, int height);
-
-    void draw(Texture texture, int x, int y);
-    
-    ShapeRenderer drawShape();
-
+@AllArgsConstructor @Getter @Setter
+public class Rectangle {
+    private float x, y, width, height;
 }

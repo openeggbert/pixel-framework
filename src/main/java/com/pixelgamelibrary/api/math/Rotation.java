@@ -17,24 +17,29 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api.graphics;
-
-import com.pixelgamelibrary.api.Disposable;
+package com.pixelgamelibrary.api.math;
 
 /**
  *
  * @author robertvokac
  */
-public interface SpriteBatch extends Disposable {
-
-    void begin();
-
-    void end();
-
-    void draw(Texture texture, int x, int y, int width, int height);
-
-    void draw(Texture texture, int x, int y);
+public class Rotation {
     
-    ShapeRenderer drawShape();
+    public static final float DEFAULT_ROTATION_IN_ANGLES = 0f;
+    
+    private float rotatioInAngles;
+    public static Rotation ofAngles(float angles) {
+        return new Rotation(angles);
+    }
+    
+    public static Rotation ofRadians(float radians) {
+        return new Rotation(convertRadiansToAngles(radians));
+    }
 
+    private Rotation(float rotatioInAnglesIn) {
+        this.rotatioInAngles = rotatioInAnglesIn;
+    }
+    public float getAsRadians() {
+        return convertAnglesToRadians(rotatioInAngles);
+    }
 }
