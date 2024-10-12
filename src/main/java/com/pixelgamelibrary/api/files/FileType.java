@@ -18,17 +18,15 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-package com.pixelgamelibrary.api.graphics;
+package com.pixelgamelibrary.api.files;
 
-import com.pixelgamelibrary.api.files.FileHandle;
 
 /**
- *
+ * Enum representing the types of files or directories in the map.
+ * It can either be a FILE or a DIRECTORY.
+ * 
  * @author robertvokac
  */
-public interface TextureFactory {
-     Texture create(String assetPath);
-     Texture create(FileHandle fileHandle);
-     Texture create(Pixmap pixmap);
-     Texture create(int width, int height);
+public enum FileType {
+    FILE, DIRECTORY;
 }

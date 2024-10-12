@@ -18,17 +18,32 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-package com.pixelgamelibrary.api.graphics;
+package com.pixelgamelibrary.api.files.map;
 
-import com.pixelgamelibrary.api.files.FileHandle;
+import com.pixelgamelibrary.api.Platform;
 
 /**
- *
+ * Implementation of Storage that uses an in-memory map for storing data.
+ * Extends the MapStorage class to utilize a SimpleJavaMap for internal storage.
+ * 
+ * This class is used when you need a temporary storage solution that
+ * does not persist data beyond the runtime of the application.
+ * 
  * @author robertvokac
  */
-public interface TextureFactory {
-     Texture create(String assetPath);
-     Texture create(FileHandle fileHandle);
-     Texture create(Pixmap pixmap);
-     Texture create(int width, int height);
+public class MemoryStorage extends MapStorage {
+
+    /**
+     * Constructs a MemoryStorage instance using a SimpleJavaMap.
+     * Initializes the parent MapStorage with an in-memory map implementation.
+     */
+    public MemoryStorage() {
+        super(new SimpleJavaMap());
+    }
+
+    @Override
+    public Platform getPlatform() {
+        // Returns null as this implementation does not specify a platform
+        return null;
+    }
 }

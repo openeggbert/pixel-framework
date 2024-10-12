@@ -21,7 +21,7 @@ package com.pixelgamelibrary.api.interfaces;
 
 import com.pixelgamelibrary.api.audio.Music;
 import com.pixelgamelibrary.api.audio.Sound;
-import com.pixelgamelibrary.api.storage.FileHandle;
+import com.pixelgamelibrary.api.files.FileHandle;
 
 /**
  *

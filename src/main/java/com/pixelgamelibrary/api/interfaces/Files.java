@@ -19,12 +19,12 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 package com.pixelgamelibrary.api.interfaces;
 
-import com.pixelgamelibrary.api.storage.FileHandle;
-import com.pixelgamelibrary.api.storage.Storage;
-import com.pixelgamelibrary.api.storage.StorageException;
-import com.pixelgamelibrary.api.storage.StorageType;
-import static com.pixelgamelibrary.api.storage.StorageType.ASSETS;
-import static com.pixelgamelibrary.api.storage.StorageType.EXTERNAL;
+import com.pixelgamelibrary.api.files.FileHandle;
+import com.pixelgamelibrary.api.files.Storage;
+import com.pixelgamelibrary.api.files.StorageException;
+import com.pixelgamelibrary.api.files.StorageType;
+import static com.pixelgamelibrary.api.files.StorageType.ASSETS;
+import static com.pixelgamelibrary.api.files.StorageType.EXTERNAL;
 
 /**
  *

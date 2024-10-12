@@ -30,7 +30,7 @@ import com.pixelgamelibrary.api.graphics.SpriteBatchFactory;
 import com.pixelgamelibrary.api.graphics.Texture;
 import com.pixelgamelibrary.api.graphics.TextureFactory;
 import com.pixelgamelibrary.api.graphics.TextureRegion;
-import com.pixelgamelibrary.api.storage.FileHandle;
+import com.pixelgamelibrary.api.files.FileHandle;
 
 /**
  *

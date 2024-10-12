@@ -20,7 +20,7 @@
 
 package com.pixelgamelibrary.api.app;
 
-import com.pixelgamelibrary.api.storage.map.SimpleMap;
+import com.pixelgamelibrary.api.files.map.SimpleMap;
 
 /**
  *

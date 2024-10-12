@@ -17,43 +17,77 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
-package com.pixelgamelibrary.api.graphics;
+package com.pixelgamelibrary.api.files;
 
-import com.pixelgamelibrary.api.files.FileHandle;
+import java.util.List;
 
 /**
  *
  * @author robertvokac
  */
-public interface BitmapFontFactory {
+public interface FileHandle {
 
-    boolean FLIP_DEFAULT = false;
+    FileType type();
 
-    BitmapFont create(boolean flip);
+    String path();
 
-    default BitmapFont create() {
-        return create(FLIP_DEFAULT);
+    String name();
+
+    String extension();
+
+    String nameWithoutExtension();
+
+    List<FileHandle> list();
+
+    default boolean isDirectory() {
+        return type() == FileType.DIRECTORY;
     }
 
-    BitmapFont create(FileHandle fontFile, TextureRegion region, boolean flip);
-
-    default BitmapFont create(FileHandle fontFile, TextureRegion region) {
-        return create(fontFile, region, FLIP_DEFAULT);
+    default boolean isRegularFile() {
+        return type() == FileType.FILE;
     }
 
-    BitmapFont create(FileHandle fontFile, boolean flip);
+    FileHandle child(String name);
 
-    default BitmapFont create(FileHandle fontFile) {
-        return create(fontFile, FLIP_DEFAULT);
-    }
-//            Pixel.files().assets("com/badlogic/gdx/utils/lsans-15.fnt"), Pixel.files().assets("com/badlogic/gdx/utils/lsans-15.png"),
-//			false, true
-//        );
+    FileHandle sibling(String name);
 
-    BitmapFont create(FileHandle fontFile, FileHandle imageFile, boolean flip);
+    FileHandle parent();
 
-    default BitmapFont create(FileHandle fontFile, FileHandle imageFile) {
-        return create(fontFile, imageFile, FLIP_DEFAULT);
-    }
+    boolean mkdir();
 
+    boolean mkdirs();
+
+    boolean exists();
+
+    boolean delete();
+
+    boolean deleteDirectory();
+
+    boolean emptyDirectory();
+
+    boolean copyTo(FileHandle destination);
+
+    boolean moveTo(FileHandle destination);
+
+    long length();
+
+    FileHandle tempFile(String prefix);
+
+    FileHandle tempDirectory(String prefix);
+
+    int depth();
+
+    boolean writeString(String text);
+
+    boolean appendString(String text);
+
+    String readString();
+
+    boolean writeBytes(byte[] data);
+
+    byte[] readBytes();
+
+    void flush();
+
+    Storage getStorage();
 }

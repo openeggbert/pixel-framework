@@ -17,18 +17,25 @@
 // <https://www.gnu.org/licenses/> or write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ///////////////////////////////////////////////////////////////////////////////////////////////
+package com.pixelgamelibrary.api.files;
 
-package com.pixelgamelibrary.api.graphics;
-
-import com.pixelgamelibrary.api.files.FileHandle;
+import com.pixelgamelibrary.api.PixelException;
 
 /**
- *
+ * StorageException is a custom exception class that extends {@link PixelException}.
+ * It represents exceptions that occur within the storage system of the Pixel Game Library.
+ * 
  * @author robertvokac
  */
-public interface TextureFactory {
-     Texture create(String assetPath);
-     Texture create(FileHandle fileHandle);
-     Texture create(Pixmap pixmap);
-     Texture create(int width, int height);
+public class StorageException extends PixelException {
+
+    /**
+     * Constructs a new StorageException with the specified detail message.
+     * 
+     * @param string the detail message for this exception.
+     */
+    public StorageException(String string) {
+        super(string);
+    }
+    
 }

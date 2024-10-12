@@ -20,7 +20,7 @@
 
 package com.pixelgamelibrary.api.graphics;
 
-import com.pixelgamelibrary.api.storage.FileHandle;
+import com.pixelgamelibrary.api.files.FileHandle;
 
 /**
  *

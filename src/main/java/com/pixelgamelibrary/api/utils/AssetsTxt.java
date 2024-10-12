@@ -20,7 +20,7 @@
 package com.pixelgamelibrary.api.utils;
 
 import com.pixelgamelibrary.api.Pixel;
-import com.pixelgamelibrary.api.storage.StorageException;
+import com.pixelgamelibrary.api.files.StorageException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
