@@ -1,1 +1,1 @@
-# Pixel Game Library
+# Pixel Game Framework

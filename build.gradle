@@ -5,7 +5,7 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'com.pixelgamelibrary'
+group = 'com.openeggbert.pixel'
 version = '0.0.0-SNAPSHOT'
 
 repositories {
@@ -47,7 +47,7 @@ test {
 
 eclipse {
     project {
-        name = 'pixel'
+        name = 'pixel-framework'
     }
 }
 
@@ -61,10 +61,10 @@ idea {
     }
 }
 
-// Include Pixel.gwt.xml in the JAR without moving it
+// Include pixelframework.gwt.xml in the JAR without moving it
 jar {
     from(sourceSets.main.allSource) {
-        include 'com/pixelgamelibrary/pixelapi.gwt.xml'
+        include 'com/openeggbert/pixel/pixelframework.gwt.xml'
     }
 }
 
@@ -87,8 +87,8 @@ task javadocJar(type: Jar) {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifactId 'pixel'
-            groupId 'com.pixelgamelibrary'
+            artifactId 'pixel-framework'
+            groupId 'com.openeggbert.pixel'
             from components.java
 
             artifact sourceJar
